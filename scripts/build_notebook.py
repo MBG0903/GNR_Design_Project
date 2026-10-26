@@ -284,3 +284,41 @@ display(render(GLOBAL_LABELS>0),render(GLOBAL_RESULT>0))
 insert_at=next(i for i,c in enumerate(colab_notebook['cells']) if c['cell_type']=='markdown' and ''.join(c['source']).startswith('## Pixel hierarchy:'))
 colab_notebook['cells'][insert_at:insert_at]=whole_cells
 (root/'notebooks/GenAI_Textile_Colab.ipynb').write_text(json.dumps(colab_notebook,indent=1))
+# Separate reference-assisted lab: never silently use held-out targets for inference.
+reference_cells=[md('''## Optional: reference-assisted contour fitting for a paired example
+This is a separately labelled reconstruction experiment. It REQUIRES the matching designer Step 3 and uses it as
+an optimization objective. It is not available for a new sketch without a target, and its scores cannot be
+reported as independent model accuracy. Existing unresolved semantic rules still require review.
+
+The code fits short existing straight contour strips, with at least 80% target support, within a two-pixel envelope.
+It protects existing passing hierarchy traces and labelled two-pixel separation, red connectivity and white-region counts.
+Do not substitute an unrelated reference or change the canvas size. Use an explicit target path below.
+'''),code('''RUN_REFERENCE_ASSISTED_REPAIR=False
+DESIGNER_STEP3_PATH=''  # Explicit matching approved target, NOT inferred from test-set labels.
+if not RUN_REFERENCE_ASSISTED_REPAIR:
+    print('Reference-assisted fitting SKIPPED. Standard generation does not require a target.')
+else:
+    if not DESIGNER_STEP3_PATH or not pathlib.Path(DESIGNER_STEP3_PATH).is_file():
+        raise ValueError('Provide the matching designer Step 3 file for this paired-example experiment.')
+    from textile.reference_repair import fit_reference
+    from textile.comparison import compare
+    before=render(GLOBAL_RESULT>0)
+    with Image.open(DESIGNER_STEP3_PATH) as opened:
+        approved=rgb(opened)
+    baseline_metrics,_=compare(approved,before)  # Rejects size/palette mismatches.
+    approved_mask=np.all(np.asarray(approved)==[255,0,0],axis=2)
+    REFERENCE_RESULT,REFERENCE_AUDIT=fit_reference(GLOBAL_RESULT,approved_mask)
+    after=render(REFERENCE_RESULT>0)
+    assisted_metrics,diff=compare(approved,after)
+    REFERENCE_OUT=RUN/'reference_assisted_repair'
+    REFERENCE_OUT.mkdir(exist_ok=True)
+    after.save(REFERENCE_OUT/'reference_repaired.png')
+    after.save(REFERENCE_OUT/'reference_repaired.bmp')
+    np.save(REFERENCE_OUT/'piece_labels.npy',REFERENCE_RESULT)
+    (REFERENCE_OUT/'audit.json').write_text(json.dumps(REFERENCE_AUDIT,indent=2))
+    print('REFERENCE-ASSISTED metrics; not independent accuracy:',assisted_metrics)
+    display(before,after,approved,diff)
+    # CURRENT=str(REFERENCE_OUT/'reference_repaired.png') only after designer review.
+''')]
+colab_notebook['cells']=colab_notebook['cells'][:-2]+reference_cells+colab_notebook['cells'][-2:]
+(root/'notebooks/GenAI_Textile_Colab.ipynb').write_text(json.dumps(colab_notebook,indent=1))
