@@ -1,3 +1,7 @@
+# REJECTED — do not use this output
+
+The designer rejected this version for spoiling contour geometry and pixel hierarchy. Its higher similarity score is not evidence of quality. Reference-assisted strip fitting is disabled. Current review baseline: `examples/current_step3/`. The files below are retained only as failure evidence.
+
 # Reference-assisted whole-image repair
 
 This experiment uses the approved designer target to fit local boundary strips. It is not a learned conversion or an independent accuracy test. No GenAI model was retrained or evaluated on unseen sketches.

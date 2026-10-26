@@ -1,5 +1,5 @@
 {
-  "status": "reference_assisted_contour_fitting_experiment",
+  "status": "rejected_by_designer_visual_regression",
   "uses_designer_target": true,
   "unseen_inference_accuracy_claim": false,
   "source_mismatches": 17194,
@@ -136,5 +136,8 @@
     "interpretation": "Pixel similarity does not establish semantic hierarchy, separation or production readiness."
   },
   "input": "examples/whole_image_hierarchy_fallback_pass/piece_labels.npy",
-  "designer_target": "examples/step_3_reference.bmp"
+  "designer_target": "examples/step_3_reference.bmp",
+  "rejected": true,
+  "rejection_reason": "Boundary-strip fitting improved target similarity while introducing malformed contour geometry and hierarchy. Protecting recognized passing arcs did not validate full affected contours.",
+  "current_review_baseline": "examples/current_step3/step_3_current.png"
 }

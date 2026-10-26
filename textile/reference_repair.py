@@ -1,4 +1,4 @@
-"""Reference-assisted local contour fitting for a paired-example experiment.
+"""REJECTED reference-assisted experiment: public application is disabled.
 
 This uses the designer TARGET as an optimization objective. It is not an
 inference model and cannot run on unseen sketches without an approved target.
@@ -13,6 +13,15 @@ from .separation import conflicts
 
 
 def fit_reference(labels,target,max_sweeps=3):
+    """Blocked after designer-confirmed contour/hierarchy regression.
+
+    Recognized passing traces did not cover the complete modified curves.
+    Reference similarity must not authorize boundary-strip raster edits.
+    """
+    raise RuntimeError('Reference strip fitting is disabled after designer rejection: it can spoil full-curve pixel hierarchy. Restore examples/current_step3 and review complete semantic contours.')
+
+
+def _fit_reference_rejected_experiment(labels,target,max_sweeps=3):
     a=np.asarray(labels)
     target=np.asarray(target)
     if a.ndim!=2 or a.dtype.kind not in 'iu' or target.shape!=a.shape or target.dtype!=bool:

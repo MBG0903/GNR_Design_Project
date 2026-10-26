@@ -1,0 +1,11 @@
+{
+  "status": "restored_pre_repair_review_baseline",
+  "source": "examples/whole_image_hierarchy_fallback_pass",
+  "files_sha256": {
+    "step_3_current.png": "b969a885dec127b85b529e0d0280698331902842c1de31f644ea3b0765630258",
+    "step_3_current.bmp": "0e67b36d17d76a756e61608c5e479b87da82f22676372ff5bf28d0a8adbad79a"
+  },
+  "reason": "Designer rejected reference-assisted boundary-strip fitting for spoiling contour hierarchy.",
+  "production_approved": false,
+  "known_limitations": "Previous semantic joins and incomplete hierarchy compliance remain unresolved; restoration does not certify them."
+}

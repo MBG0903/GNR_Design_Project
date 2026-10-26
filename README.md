@@ -1,5 +1,7 @@
 # GNR Design Project
 
+**Current review baseline:** [PNG](examples/current_step3/step_3_current.png) / [BMP](examples/current_step3/step_3_current.bmp). The later reference-assisted strip-fitting version was rejected by the designer and is disabled.
+
 ## Current primary workflow: Sunburst + Astra + Colab pixel corrections
 
 Use `notebooks/GenAI_Textile_Colab.ipynb`. Photoshop is optional. The image model defaults to the documented API ID `gpt-image-2.5-sunburst`; enter the exact Astra API model ID available in your account for reasoning/review. Account-facing subscription names do not establish API model access or billing.
@@ -124,12 +126,12 @@ Of 17,194 current mismatches, 14,660 (85.3%) persist from the GenAI draft and 2,
 
 The next repair loop should classify a crop semantically, propose local shape/edge corrections, validate native dimensions/palette, labelled two-pixel gaps, intentional white and protected hierarchy, then accept/reject and measure the result. Audit the designer reference against the same requested rules: reference similarity and rule compliance can disagree. Do not copy target error masks into the prediction and report that as improved inference. Future sketches will not have their target Step 3; semantic error detection must use the sketch/rules, and accuracy must be measured on held-out designs.
 
-## Reference-assisted whole-image contour fitting
+## Rejected strip-fitting experiment and restored baseline
 
-The requested local repair is now applied across the sample image in `examples/reference_assisted_repair/`. It starts from the whole-image hierarchy result and fits short existing boundary runs by growing/trimming a one-pixel strip. A candidate needs at least 80% support from the approved target and a strictly positive net reduction in mismatch. It does not overwrite the raster with the target or move/replace whole motifs. The accepted strips are constrained to a two-pixel envelope around the original boundaries. Compact shapes are not automatically edited.
+The designer rejected `examples/reference_assisted_repair/`: straight boundary grow/trim strips introduced malformed steps and tips. Pixel agreement increased to 89.56%, but the business-rule result was worse. Preserving selected passing traces, connectivity, white-region counts and two-pixel separation was **insufficient** to validate entire affected curves. The experiment and its measured scores are retained only as failure evidence.
 
-The pass applies **972 strip corrections across 98 regions**, changing **3,023 final pixels** and reducing mismatch by **2,955 pixels** (17,194 → 14,239). Exact agreement improves **87.39% → 89.56%** and red IoU **77.73% → 81.21%**. All PNG/BMP exports remain **401 × 340** and pure red/white. Existing verified staircase traces and passing geometric anchor comparisons are protected; piece connectivity, internal white-region counts and labelled two-pixel clearance are checked. Original results are retained.
+The public `fit_reference` and `scripts.run_reference_repair` now fail before applying changes. The Colab reference-fitting stage is removed and replaced with a rejection notice. Private historical code remains solely to reproduce/characterize the failure; its unit tests must not be interpreted as full business-rule validation.
 
-**This stage requires the matching designer target.** It is supervised/reference-assisted reconstruction of this example, not a learned model or a claim of unseen-sketch inference accuracy. Previously unresolved semantic joins, anchor comparisons and hierarchy conflicts remain unresolved; full semantic rule compliance is false. Future sketches without targets need semantic review/proposals from the sketch and rules, with held-out target images used only for evaluation.
+**Current review files:** `examples/current_step3/step_3_current.png` and `.bmp`, restored byte-for-byte from the pre-repair whole-image hierarchy/fallback draft. Both remain 401 × 340, pure red/white. The previous known semantic joins, incomplete hierarchy and anchor issues remain; this rollback is not production certification.
 
-Reproduce with `.venv/bin/python -m scripts.run_reference_repair`. `audit.json` records before/after comparison and safeguards; the compressed operations file records the accepted boundary strips. The Colab notebook includes this as a separately labelled, opt-in reference-assisted stage requiring an explicit target path.
+The next repair method must work on whole semantically identified contours: paired inner/front and outer/back anchors, both tips and all transitions, preserving composition and gaps. A complete-curve hierarchy check must pass before a changed motif can be accepted. Reference similarity is a secondary diagnostic, never an acceptance gate by itself.
