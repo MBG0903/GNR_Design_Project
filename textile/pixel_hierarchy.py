@@ -56,7 +56,7 @@ def trace_on_boundary(mask, points):
     return True
 
 
-def check_runs(runs):
+def check_runs(runs, allow_21=False):
     if not isinstance(runs,list) or len(runs)<2 or any(type(n) is not int or n<1 for n in runs):
         raise ValueError('Supply an anchor followed by positive integer run lengths.')
     anchor,tail=runs[0],runs[1:]
@@ -64,14 +64,20 @@ def check_runs(runs):
     order=all(n in (3,2,1) for n in tail) and tail==sorted(tail,reverse=True)
     all_levels=all(counts[str(n)]>0 for n in (3,2,1))
     dominance=counts['3']<counts['2']<counts['1']
+    strict_pass=order and all_levels and dominance
+    fallback_pass=(allow_21 and all(n in (2,1) for n in tail)
+                   and tail==sorted(tail,reverse=True) and 0<counts['2']<counts['1'])
     return dict(anchor_length=anchor,tail=tail,counts=counts,
                 order_3_then_2_then_1=order,all_levels_present=all_levels,
-                increasing_step_counts=dominance,passed=order and all_levels and dominance)
+                increasing_step_counts=dominance,
+                mode='3-2-1' if strict_pass else '2-1' if fallback_pass else None,
+                passed=bool(strict_pass or fallback_pass))
 
 
-def check_pair(front_points, back_points, axis, mask=None):
-    front=check_runs(contour_runs(front_points,axis))
-    back=check_runs(contour_runs(back_points,axis))
+
+def check_pair(front_points, back_points, axis, mask=None, allow_21=False):
+    front=check_runs(contour_runs(front_points,axis),allow_21=allow_21)
+    back=check_runs(contour_runs(back_points,axis),allow_21=allow_21)
     comparison=front['anchor_length']<back['anchor_length']
     on_boundary=None if mask is None else all(trace_on_boundary(mask,p) for p in [front_points,back_points])
     return dict(front=front,back=back,front_anchor_shorter_than_back=comparison,
@@ -99,7 +105,15 @@ def plan_counts(span, steps):
     return plans
 
 
-def replace_trace(labels, piece_id, old_points, new_points, axis):
+def plan_counts_21(span, steps):
+    """Fallback two-level counts, with strictly more 1-pixel than 2-pixel runs."""
+    if type(span) is not int or type(steps) is not int or span<1 or steps<1:
+        raise ValueError('span and steps must be positive integers.')
+    n2=span-steps; n1=steps-n2
+    return [dict(n3=0,n2=n2,n1=n1,runs=[2]*n2+[1]*n1)] if 0<n2<n1 else []
+
+
+def replace_trace(labels, piece_id, old_points, new_points, axis, preserve_anchor=True, allow_21=False):
     """Replace one annotated contour, preserving endpoints, labels and clearance.
 
     Both traces are grid-edge vertices. Fill their symmetric-difference polygon
@@ -113,10 +127,10 @@ def replace_trace(labels, piece_id, old_points, new_points, axis):
     if old_points[0]!=new_points[0] or old_points[-1]!=new_points[-1]:
         raise ValueError('Correction must preserve both contour endpoints.')
     old_runs=contour_runs(old_points,axis);new_runs=contour_runs(new_points,axis)
-    if old_runs[0]!=new_runs[0] or old_points[1]!=new_points[1]:
+    if preserve_anchor and (old_runs[0]!=new_runs[0] or old_points[1]!=new_points[1]):
         raise ValueError('This correction must preserve the long anchor.')
-    hierarchy=check_runs(new_runs)
-    if not hierarchy['passed']:raise ValueError('Proposed contour fails 3/2/1 hierarchy.')
+    hierarchy=check_runs(new_runs,allow_21=allow_21)
+    if not hierarchy['passed']:raise ValueError('Proposed contour fails the allowed hierarchy.')
     piece=a==piece_id
     if not piece.any() or not trace_on_boundary(piece,old_points):
         raise ValueError('Original trace does not match the selected piece.')
@@ -142,4 +156,5 @@ def replace_trace(labels, piece_id, old_points, new_points, axis):
         raise ValueError('Rasterized correction does not match the proposed contour.')
     return result,dict(before_runs=old_runs,after_runs=new_runs,hierarchy=hierarchy,
                        changed_pixels=int(toggle.sum()),endpoints_preserved=True,
+                       anchor_before=old_runs[0],anchor_after=new_runs[0],
                        two_pixel_clearance_preserved=True,image_wide_approval=False)

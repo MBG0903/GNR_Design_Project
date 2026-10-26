@@ -25,8 +25,10 @@ Maintain crisp pixel edges. On tapering contour staircases, the inner/concave
 front long straight run must be shorter than the outer/convex back long run.
 After each long anchor toward a tip/turn, use 3-pixel contour runs, then 2-pixel
 runs, then 1-pixel runs, with counts n3 < n2 < n1. These are edge staircase
-lengths and numbers of steps, not stroke widths. Apply in all orientations;
-flag short or ambiguous curves that cannot satisfy the rule without distortion.
+lengths and numbers of steps, not stroke widths. Prefer 3/2/1, but where a
+component's size/shape cannot accommodate it, use 2-pixel then 1-pixel runs
+with n2 < n1. Do not force 3-pixel steps by distorting a motif. Apply in all
+orientations; flag curves that cannot fit either hierarchy without distortion.
 Keep
 consistent equivalent motifs and continuous legitimate branches. Add or relocate nothing.
 The full business rules are:\n''' + '\n'.join(RULES)

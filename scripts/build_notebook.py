@@ -234,7 +234,7 @@ colab_notebook['cells']=colab_cells[:14]+rule_cells+colab_cells[14:]
 (root/'notebooks/GenAI_Textile_Colab.ipynb').write_text(json.dumps(colab_notebook,indent=1))
 # Explicit contour annotations are necessary; an unrun check is never a pass.
 contour_cells=[md('''## Pixel hierarchy: contour runs (not stroke thickness)
-Front = inner/concave; back = outer/convex. Front long anchor must be shorter.
+Front = inner/concave; back = outer/convex. Front long anchor must be shorter. When size/shape prevents 3/2/1, the approved fallback is 2/1 with n2 < n1.
 After each anchor, follow 3-pixel runs, then 2-pixel runs, then 1-pixel runs, with n3 < n2 < n1.
 Select pixel-grid boundary traces from anchor toward tip/turn; split at direction reversals.
 A trace is a list of integer [x,y] grid-edge vertices. These must match the actual red/white raster boundary.
@@ -251,8 +251,36 @@ if not FRONT_TRACE or not BACK_TRACE:
 else:
     with Image.open(CURRENT) as opened:
         red_mask=np.all(np.asarray(rgb(opened))==[255,0,0],axis=2)
-    hierarchy=check_pair(FRONT_TRACE,BACK_TRACE,LONG_AXIS,mask=red_mask)
+    hierarchy=check_pair(FRONT_TRACE,BACK_TRACE,LONG_AXIS,mask=red_mask,allow_21=True)
     print(json.dumps(hierarchy,indent=2))
 ''')]
 colab_notebook['cells']=colab_notebook['cells'][:-2]+contour_cells+colab_notebook['cells'][-2:]
+(root/'notebooks/GenAI_Textile_Colab.ipynb').write_text(json.dumps(colab_notebook,indent=1))
+# Whole-raster experiment follows the R2 stage and retains its instance labels.
+whole_cells=[md('''## Whole-image pixel hierarchy experiment
+This scans all outer/inner boundaries and both orientations, not just the annotated example.
+It uses the labelled raster from the two-pixel separation stage. If you edited the image afterward,
+update/review those labels first. Geometric concavity pairing and compact-shape exclusions need semantic review.
+
+The pass applies feasible 3/2/1 reorderings within two native pixels, preserves arc endpoints and checks
+piece connectivity, internal white-region count and two-pixel separation. Already accepted traces are protected.
+It tries 3/2/1 across the image first, then uses 2/1 with n2 < n1 where size/shape or geometric constraints prevent 3/2/1. It flags cases that cannot fit either hierarchy instead of declaring the whole image compliant.
+Larger images and many contour arcs can take substantially longer than the supplied 401×340 example.
+'''),code('''from textile.global_hierarchy import run_global
+GLOBAL_LABELS=separated  # Output labels from the R2 stage, not a resized preview.
+GLOBAL_RESULT,GLOBAL_AUDIT=run_global(GLOBAL_LABELS,max_displacement=2,allow_21=True)
+GLOBAL_OUT=RUN/'whole_image_hierarchy'
+GLOBAL_OUT.mkdir(exist_ok=True)
+render(GLOBAL_RESULT>0).save(GLOBAL_OUT/'step_3_whole_image_hierarchy.png')
+render(GLOBAL_RESULT>0).save(GLOBAL_OUT/'step_3_whole_image_hierarchy.bmp')
+np.save(GLOBAL_OUT/'piece_labels.npy',GLOBAL_RESULT)
+import gzip
+(GLOBAL_OUT/'contour_audit.json.gz').write_bytes(gzip.compress(json.dumps(GLOBAL_AUDIT,indent=2).encode()))
+print(json.dumps({k:v for k,v in GLOBAL_AUDIT.items() if k not in ['arcs','pieces']},indent=2))
+display(render(GLOBAL_LABELS>0),render(GLOBAL_RESULT>0))
+# Inspect unresolved outcomes; image-wide approval remains false.
+# CURRENT=str(GLOBAL_OUT/'step_3_whole_image_hierarchy.png') after visual review.
+''')]
+insert_at=next(i for i,c in enumerate(colab_notebook['cells']) if c['cell_type']=='markdown' and ''.join(c['source']).startswith('## Pixel hierarchy:'))
+colab_notebook['cells'][insert_at:insert_at]=whole_cells
 (root/'notebooks/GenAI_Textile_Colab.ipynb').write_text(json.dumps(colab_notebook,indent=1))

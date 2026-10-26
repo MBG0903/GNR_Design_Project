@@ -72,3 +72,17 @@ class NativeCorrectionTests(unittest.TestCase):
         self.assertEqual(report['after_runs'],[9,3,2,2,1,1,1])
         self.assertTrue(report['two_pixel_clearance_preserved'])
         self.assertFalse(report['image_wide_approval'])
+
+class FallbackTests(unittest.TestCase):
+    def test_two_level_counts_order_and_explicit_opt_in(self):
+        self.assertFalse(check_runs([8,2,1,1])['passed'])
+        self.assertEqual(check_runs([8,2,1,1],allow_21=True)['mode'],'2-1')
+        for runs in [[8,2,1],[8,2,2,1,1],[8,1,2,1],[8,1,1,1],[8,3,1,1,1]]:
+            self.assertFalse(check_runs(runs,allow_21=True)['passed'])
+        self.assertEqual(check_runs([8,3,2,2,1,1,1],allow_21=True)['mode'],'3-2-1')
+
+    def test_fallback_preserves_required_span_and_count(self):
+        from textile.pixel_hierarchy import plan_counts_21
+        plan=plan_counts_21(4,3)[0]
+        self.assertEqual(plan['runs'],[2,1,1])
+        self.assertEqual(plan_counts_21(6,4),[])

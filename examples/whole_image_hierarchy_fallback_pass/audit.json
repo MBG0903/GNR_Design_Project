@@ -1,0 +1,1194 @@
+{
+  "status": "whole_image_best_effort_experiment",
+  "width": 401,
+  "height": 340,
+  "scanned_regions": 150,
+  "boundary_loops": 206,
+  "discovered_arcs": 3191,
+  "arc_outcomes": {
+    "already_ordered": 20,
+    "already_ordered_fallback_21": 150,
+    "compact_shape_requires_semantic_exemption_review": 234,
+    "corrected": 359,
+    "frame_boundary_review": 7,
+    "geometry_or_clearance_conflict": 135,
+    "no_endpoint_preserving_plan_within_envelope": 609,
+    "overlap_with_previous_edit": 487,
+    "too_short_for_allowed_counts": 1190
+  },
+  "corrected_arcs": 359,
+  "fallback_21_enabled": true,
+  "mode_priority": "3-2-1 whole-image phase, then 2-1 fallback phase",
+  "corrected_arcs_by_mode": {
+    "3-2-1": 155,
+    "2-1": 204
+  },
+  "retained_fallback_21_arcs": 150,
+  "final_geometric_passing_modes": {
+    "3-2-1": 260,
+    "2-1": 533
+  },
+  "regions_edited": 86,
+  "changed_pixels": 1284,
+  "max_boundary_displacement": 2,
+  "final_geometric_complete_arcs": 1783,
+  "final_geometric_hierarchy_violations": 990,
+  "two_pixel_clearance_passed": true,
+  "all_corrected_traces_reverified": true,
+  "image_wide_rule_complete": false,
+  "limitations": [
+    "A whole-image scan is not whole-image compliance.",
+    "Compact shapes, semantic exemptions, joined semantic pieces and front/back assignments need review.",
+    "Short/infeasible arcs were retained rather than distorting motifs or closing gaps.",
+    "Geometric pairing is a heuristic; unresolved anchor comparisons are not silently passed."
+  ],
+  "pieces": [
+    {
+      "piece": 1,
+      "boundary_loops": 4,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 2,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 3,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 4,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 5,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 6,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 7,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 8,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 9,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 10,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 11,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 12,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 13,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 14,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 15,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 16,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 17,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 18,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 19,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 20,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 21,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 22,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 23,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 24,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 25,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 26,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 27,
+      "boundary_loops": 5,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 28,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 29,
+      "boundary_loops": 3,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 30,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 31,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 32,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 33,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 34,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 35,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 36,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 37,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 38,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 39,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 40,
+      "boundary_loops": 3,
+      "treatment": "staircase_scan",
+      "pairing_before": {
+        "axis": "y",
+        "front_anchor": 9,
+        "back_anchor": 16,
+        "passed": true,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      },
+      "pairing_after": {
+        "axis": "y",
+        "front_anchor": 9,
+        "back_anchor": 15,
+        "passed": true,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      }
+    },
+    {
+      "piece": 41,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 42,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 43,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 44,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 45,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 46,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 47,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 48,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 49,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 50,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 51,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 52,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 53,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 54,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 55,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 56,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 57,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 58,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 59,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 60,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 61,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 62,
+      "boundary_loops": 3,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 63,
+      "boundary_loops": 4,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 64,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 65,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 66,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 67,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 68,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": {
+        "axis": "y",
+        "front_anchor": 15,
+        "back_anchor": 8,
+        "passed": false,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      },
+      "pairing_after": {
+        "axis": "y",
+        "front_anchor": 15,
+        "back_anchor": 8,
+        "passed": false,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      }
+    },
+    {
+      "piece": 69,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 70,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 71,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 72,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 73,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 74,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 75,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 76,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 77,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 78,
+      "boundary_loops": 3,
+      "treatment": "staircase_scan",
+      "pairing_before": {
+        "axis": "y",
+        "front_anchor": 38,
+        "back_anchor": 12,
+        "passed": false,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      },
+      "pairing_after": {
+        "axis": "y",
+        "front_anchor": 38,
+        "back_anchor": 14,
+        "passed": false,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      }
+    },
+    {
+      "piece": 79,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 80,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 81,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 82,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 83,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 84,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 85,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 86,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 87,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 88,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 89,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 90,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 91,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 92,
+      "boundary_loops": 5,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 93,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 94,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 95,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 96,
+      "boundary_loops": 3,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 97,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 98,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 99,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 100,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 101,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 102,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 103,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 104,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 105,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 106,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 107,
+      "boundary_loops": 2,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 108,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 109,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 110,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 111,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 112,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 113,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 114,
+      "boundary_loops": 3,
+      "treatment": "staircase_scan",
+      "pairing_before": {
+        "axis": "x",
+        "front_anchor": 3,
+        "back_anchor": 6,
+        "passed": true,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      },
+      "pairing_after": {
+        "axis": "x",
+        "front_anchor": 3,
+        "back_anchor": 6,
+        "passed": true,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      }
+    },
+    {
+      "piece": 115,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 116,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 117,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 118,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 119,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 120,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 121,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 122,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 123,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 124,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 125,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 126,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 127,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 128,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 129,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 130,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 131,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 132,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 133,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 134,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 135,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 136,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 137,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": {
+        "axis": "y",
+        "front_anchor": 18,
+        "back_anchor": 16,
+        "passed": false,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      }
+    },
+    {
+      "piece": 138,
+      "boundary_loops": 3,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 139,
+      "boundary_loops": 3,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 140,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 141,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 142,
+      "boundary_loops": 4,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 143,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": {
+        "axis": "y",
+        "front_anchor": 20,
+        "back_anchor": 8,
+        "passed": false,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      },
+      "pairing_after": {
+        "axis": "y",
+        "front_anchor": 19,
+        "back_anchor": 9,
+        "passed": false,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      }
+    },
+    {
+      "piece": 144,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": {
+        "axis": "y",
+        "front_anchor": 23,
+        "back_anchor": 9,
+        "passed": false,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      },
+      "pairing_after": {
+        "axis": "y",
+        "front_anchor": 25,
+        "back_anchor": 9,
+        "passed": false,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      }
+    },
+    {
+      "piece": 145,
+      "boundary_loops": 1,
+      "treatment": "compact_shape_review_no_auto_edit",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 146,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 147,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": {
+        "axis": "y",
+        "front_anchor": 7,
+        "back_anchor": 3,
+        "passed": false,
+        "assignment": "Geometric concavity heuristic; requires semantic confirmation."
+      }
+    },
+    {
+      "piece": 148,
+      "boundary_loops": 3,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 149,
+      "boundary_loops": 2,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    },
+    {
+      "piece": 150,
+      "boundary_loops": 1,
+      "treatment": "staircase_scan",
+      "pairing_before": null,
+      "pairing_after": null
+    }
+  ],
+  "raster_checks": {
+    "width": 401,
+    "height": 340,
+    "size_ok": true,
+    "palette_ok": true,
+    "has_red_and_white": true,
+    "invalid_colour_pixels": 0,
+    "red_fraction": 0.4843259498313041,
+    "automated_checks_passed": true,
+    "semantic_validation": "Requires designer review; not inferred from component counts."
+  },
+  "source": "examples/pixel_hierarchy_pass/piece_labels.npy",
+  "previous_semantic_separation_issues_resolved": false
+}
