@@ -22,7 +22,7 @@ def save_artifacts(source_labels,result,report,output):
     (output/'audit.json').write_text(json.dumps(summary,indent=2))
     (output/'contour_audit.json.gz').write_bytes(gzip.compress(json.dumps(report,indent=2).encode(),mtime=0))
     with (output/'contour_outcomes.csv').open('w',newline='') as handle:
-        writer=csv.writer(handle);writer.writerow(['index','piece','axis','status','mode','preferred_321_outcome','start_x','start_y','before_runs','after_runs'])
+        writer=csv.writer(handle,lineterminator="\n");writer.writerow(['index','piece','axis','status','mode','preferred_321_outcome','start_x','start_y','before_runs','after_runs'])
         for i,arc in enumerate(report['arcs']):
             writer.writerow([i,arc['piece'],arc['axis'],arc['status'],arc.get('mode'),arc.get('preferred_321_outcome'),*arc['points'][0],
                              json.dumps(arc['before_runs']),json.dumps(arc.get('after_runs'))])
