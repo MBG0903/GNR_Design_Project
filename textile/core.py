@@ -10,7 +10,7 @@ from PIL import Image, ImageOps
 
 RULES = [
     'R1: Motifs interpreted correctly; pencil noise distinguished from shapes.',
-    'R2: Distinct semantic pieces separated by white gaps; continuous forms preserved.',
+    'R2: Distinct semantic pieces separated by 2 native white pixels at closest approach; continuous forms and wider background preserved.',
     'R3: Intended solid pieces have no accidental white holes.',
     'R4: Intentional channels, cut-outs, eyes, veins and hollow ornaments preserved.',
     'R5: Exact red/white palette confirmed by automated validation.',

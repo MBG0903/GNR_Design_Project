@@ -2,3 +2,4 @@ numpy>=1.26,<3
 Pillow>=10.4,<13
 gradio>=5.49.1,<6
 openai>=2.0,<3
+scipy>=1.12,<2

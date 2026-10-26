@@ -1,0 +1,62 @@
+{
+  "required_white_gap": 2,
+  "metric": "chessboard / 8-neighbour",
+  "interpretation": "Minimum 2 white pixels between labelled neighbours; wider background retained.",
+  "labelled_pieces": 150,
+  "removed_red_pixels": 2924,
+  "unresolved_pixel_pairs": 0,
+  "clearance_passed": true,
+  "semantic_approval": false,
+  "limitation": "Only labelled-piece clearance is verified. Touching semantic pieces sharing a label still need annotation review.",
+  "raster_checks": {
+    "width": 401,
+    "height": 340,
+    "size_ok": true,
+    "palette_ok": true,
+    "has_red_and_white": true,
+    "invalid_colour_pixels": 0,
+    "red_fraction": 0.4849127182044888,
+    "automated_checks_passed": true,
+    "semantic_validation": "Requires designer review; not inferred from component counts."
+  },
+  "semantic_annotation": "Provisional connected-region labels, NOT approved semantic instance labels.",
+  "rule_complete": false,
+  "unresolved_semantic_regions": [
+    {
+      "box": [
+        28,
+        66,
+        81,
+        159
+      ],
+      "issue": "Upper-left leaf/stem branches contain touching semantic pieces."
+    },
+    {
+      "box": [
+        44,
+        197,
+        104,
+        268
+      ],
+      "issue": "Lower-left leaves meet their stem; instance split needs review."
+    },
+    {
+      "box": [
+        305,
+        81,
+        352,
+        153
+      ],
+      "issue": "Upper-right leaf/stem branches contain touching semantic pieces."
+    },
+    {
+      "box": [
+        319,
+        178,
+        375,
+        295
+      ],
+      "issue": "Right flower/stem and lower ornament junctions need semantic separation review."
+    }
+  ]
+}

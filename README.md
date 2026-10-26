@@ -77,3 +77,9 @@ The generated 401 × 340 draft files are versioned at `examples/generated_draft/
 Dense fill is now the default generation/review instruction: robust solid red inside existing motif envelopes, narrow clean separations, and preserved deliberate white channels/background. Coverage is diagnostic, not a universal target. No blanket dilation is applied.
 
 The reference-guided dense sample is in `examples/generated_dense_draft/` (PNG/BMP, exactly 401 × 340). Its audit compares red coverage with the earlier draft and designer reference. The same-design approved target was used as guidance for this illustration; it does not demonstrate independent conversion accuracy. Some neighbouring pieces remain joined and semantic/taper checks still need designer review. The earlier sparse draft is retained.
+
+## R2: two-pixel separation (partial pass)
+
+The requested clearance is two native white pixels at closest approach, measured on the 8-neighbour/chessboard grid; existing wider background remains. `textile.separation.separate` accepts a semantic instance label raster (0 white, one positive ID per continuous piece). It removes only conflicting red edge pixels, preserves every labelled piece and its connectivity, and reports unsatisfiable constraints. It does not apply taper or other rule corrections.
+
+The sample `examples/separation_2px_pass/` contains PNG/BMP, an audit, provisional labels and a blue-box review map. All 150 currently disconnected red regions have at least two pixels of clearance after the pass, with no unresolved geometric conflicts. **This does not complete semantic R2:** several joined leaf/stem and flower/stem groups share one region. Their boundaries must be labelled/reviewed before applying the same clearance routine. The audit explicitly retains `rule_complete: false`; do not proceed on the assumption that component counts prove semantic separation. The original dense draft is retained.
