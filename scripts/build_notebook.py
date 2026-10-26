@@ -232,3 +232,27 @@ print('Built Sunburst/Colab notebook')
 rule_cells=[md("## R2 only: two-pixel separation\nNeighbouring semantic pieces need two native white pixels at closest approach; preserve wider background spaces.\nEach semantic instance needs its own positive integer label; a continuous stem/curl/body retains one label.\nConnected-region labels below are only a PROPOSAL: they cannot identify touching leaves versus stems.\nInspect and correct the label map for joined pieces. Never claim semantic R2 compliance from component counts.\nThe algorithm removes only conflicting edge pixels, preserves each labelled piece's connectivity and at least one anchor,\nand flags impossible constraints. It does not resize, add red, alter other rules or certify production readiness.\n"),code("import numpy as np\nfrom scipy import ndimage\nfrom textile.core import rgb, render, validate\nfrom textile.separation import separate\nwith Image.open(CURRENT) as opened:\n    current_rgb=rgb(opened)\nwith Image.open(QUERY) as original:\n    assert current_rgb.size == original.size, 'Source dimensions must match before R2.'\nred=np.all(np.asarray(current_rgb)==[255,0,0],axis=2)\npiece_labels,_=ndimage.label(red,np.ones((3,3)))\n# Replace piece_labels with reviewed semantic instance labels: label 0=white,\n# one positive integer per piece, preserving legitimate continuous forms.\nSEMANTIC_LABELS_REVIEWED=False\n# Safe to inspect a provisional pass, but not certify it.\nseparated,spacing=separate(piece_labels)\nspacing['semantic_approval']=SEMANTIC_LABELS_REVIEWED\nspacing['rule_complete']=bool(SEMANTIC_LABELS_REVIEWED and spacing['clearance_passed'])\ndisplay(render(separated>0))\nprint(json.dumps(spacing,indent=2))\nR2_OUT=RUN/'r2_separation'\nR2_OUT.mkdir(exist_ok=True)\nrender(separated>0).save(R2_OUT/'r2_draft.png')\n(R2_OUT/'audit.json').write_text(json.dumps(spacing,indent=2))\n# CURRENT=str(R2_OUT/'r2_draft.png') only after inspecting the result.\n")]
 colab_notebook['cells']=colab_cells[:14]+rule_cells+colab_cells[14:]
 (root/'notebooks/GenAI_Textile_Colab.ipynb').write_text(json.dumps(colab_notebook,indent=1))
+# Explicit contour annotations are necessary; an unrun check is never a pass.
+contour_cells=[md('''## Pixel hierarchy: contour runs (not stroke thickness)
+Front = inner/concave; back = outer/convex. Front long anchor must be shorter.
+After each anchor, follow 3-pixel runs, then 2-pixel runs, then 1-pixel runs, with n3 < n2 < n1.
+Select pixel-grid boundary traces from anchor toward tip/turn; split at direction reversals.
+A trace is a list of integer [x,y] grid-edge vertices. These must match the actual red/white raster boundary.
+Do not infer semantic front/back from connected components or apply the rule to dots/broad non-tapering petals.
+The module can replace selected contours while preserving endpoints, connectivity and two-pixel clearance,
+but infeasible cases need design review. No image-wide compliance follows from one passing contour.
+'''),code('''from textile.pixel_hierarchy import check_pair
+# Populate from inspected native-pixel boundary annotations; do not guess coordinates.
+FRONT_TRACE=[]
+BACK_TRACE=[]
+LONG_AXIS='y'  # 'x' for a horizontal long anchor
+if not FRONT_TRACE or not BACK_TRACE:
+    print('Hierarchy check UNRUN: annotate the front and back contours first.')
+else:
+    with Image.open(CURRENT) as opened:
+        red_mask=np.all(np.asarray(rgb(opened))==[255,0,0],axis=2)
+    hierarchy=check_pair(FRONT_TRACE,BACK_TRACE,LONG_AXIS,mask=red_mask)
+    print(json.dumps(hierarchy,indent=2))
+''')]
+colab_notebook['cells']=colab_notebook['cells'][:-2]+contour_cells+colab_notebook['cells'][-2:]
+(root/'notebooks/GenAI_Textile_Colab.ipynb').write_text(json.dumps(colab_notebook,indent=1))

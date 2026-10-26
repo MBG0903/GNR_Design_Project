@@ -1,0 +1,183 @@
+{
+  "before_runs": [
+    9,
+    2,
+    3,
+    1,
+    2,
+    1,
+    1
+  ],
+  "after_runs": [
+    9,
+    3,
+    2,
+    2,
+    1,
+    1,
+    1
+  ],
+  "hierarchy": {
+    "anchor_length": 9,
+    "tail": [
+      3,
+      2,
+      2,
+      1,
+      1,
+      1
+    ],
+    "counts": {
+      "3": 1,
+      "2": 2,
+      "1": 3
+    },
+    "order_3_then_2_then_1": true,
+    "all_levels_present": true,
+    "increasing_step_counts": true,
+    "passed": true
+  },
+  "changed_pixels": 2,
+  "endpoints_preserved": true,
+  "two_pixel_clearance_preserved": true,
+  "image_wide_approval": false,
+  "piece_id": 40,
+  "front_anchor_length": 9,
+  "back_anchor_length": 16,
+  "front_shorter_than_back": true,
+  "front_trace_before": [
+    [
+      204,
+      139
+    ],
+    [
+      204,
+      148
+    ],
+    [
+      203,
+      148
+    ],
+    [
+      203,
+      150
+    ],
+    [
+      202,
+      150
+    ],
+    [
+      202,
+      153
+    ],
+    [
+      201,
+      153
+    ],
+    [
+      201,
+      154
+    ],
+    [
+      200,
+      154
+    ],
+    [
+      200,
+      156
+    ],
+    [
+      199,
+      156
+    ],
+    [
+      199,
+      157
+    ],
+    [
+      198,
+      157
+    ],
+    [
+      198,
+      158
+    ]
+  ],
+  "front_trace_after": [
+    [
+      204,
+      139
+    ],
+    [
+      204,
+      148
+    ],
+    [
+      203,
+      148
+    ],
+    [
+      203,
+      151
+    ],
+    [
+      202,
+      151
+    ],
+    [
+      202,
+      153
+    ],
+    [
+      201,
+      153
+    ],
+    [
+      201,
+      155
+    ],
+    [
+      200,
+      155
+    ],
+    [
+      200,
+      156
+    ],
+    [
+      199,
+      156
+    ],
+    [
+      199,
+      157
+    ],
+    [
+      198,
+      157
+    ],
+    [
+      198,
+      158
+    ]
+  ],
+  "corrected_edge_scope": "Lower inner/concave contour only, until next octant transition.",
+  "other_edges_verified": false,
+  "unresolved": [
+    "Other contours, including this piece's opposite edge, are not yet corrected.",
+    "Feather region 78: longest inner run 38 pixels exceeds outer run 12; needs reshaping.",
+    "Short octants may not fit all 3/2/1 levels and strict counts without moving endpoints.",
+    "Semantic joins flagged by the previous separation pass remain unresolved."
+  ],
+  "raster_checks": {
+    "width": 401,
+    "height": 340,
+    "size_ok": true,
+    "palette_ok": true,
+    "has_red_and_white": true,
+    "invalid_colour_pixels": 0,
+    "red_fraction": 0.48489804899515915,
+    "automated_checks_passed": true,
+    "semantic_validation": "Requires designer review; not inferred from component counts."
+  }
+}

@@ -21,7 +21,13 @@ Protect meaningful background and deliberate internal white. Do not add filler m
 merge distinct pieces, or use blanket dilation to increase red coverage.
 Red coverage is diagnostic only: never sacrifice semantic rules to hit a percentage.
 Retain deliberate internal white channels, cut-outs, veins, eyes and hollow ornaments.
-Maintain crisp pixel edges, controlled adjacent-level tapers with long thin runs,
+Maintain crisp pixel edges. On tapering contour staircases, the inner/concave
+front long straight run must be shorter than the outer/convex back long run.
+After each long anchor toward a tip/turn, use 3-pixel contour runs, then 2-pixel
+runs, then 1-pixel runs, with counts n3 < n2 < n1. These are edge staircase
+lengths and numbers of steps, not stroke widths. Apply in all orientations;
+flag short or ambiguous curves that cannot satisfy the rule without distortion.
+Keep
 consistent equivalent motifs and continuous legitimate branches. Add or relocate nothing.
 The full business rules are:\n''' + '\n'.join(RULES)
 
