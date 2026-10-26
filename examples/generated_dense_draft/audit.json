@@ -1,0 +1,26 @@
+{
+  "width": 401,
+  "height": 340,
+  "size_ok": true,
+  "palette_ok": true,
+  "has_red_and_white": true,
+  "invalid_colour_pixels": 0,
+  "red_fraction": 0.5063591022443891,
+  "automated_checks_passed": true,
+  "semantic_validation": "Requires designer review; not inferred from component counts.",
+  "previous_red_fraction": 0.38516209476309227,
+  "reference_red_fraction": 0.5223632096230013,
+  "status": "unreviewed_reference_guided_dense_draft",
+  "raw_generated_size": [
+    1361,
+    1156
+  ],
+  "generation_model_identity": "Not exposed by the chat image-generation tool; Sunburst is configured separately in the notebook.",
+  "provenance": "Generated from the original sketch and its same-design approved target as density guidance; not an independent conversion evaluation.",
+  "unresolved": [
+    "Some leaves/stems and ornament neighbours appear joined; designer must check R2.",
+    "Internal white channels and taper hierarchy require native-pixel review.",
+    "Motif fidelity and composition must be checked against the original sketch.",
+    "Density alone is not a production acceptance criterion."
+  ]
+}

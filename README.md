@@ -71,3 +71,9 @@ The worker accepts data-only jobs, validates the image hash and bounded edit pla
 ## Downloadable example draft
 
 The generated 401 × 340 draft files are versioned at `examples/generated_draft/step_3_draft.png` and `examples/generated_draft/step_3_draft.bmp`. They are unapproved drafts; `audit.json` records the checks and remaining semantic issues. The primary Colab notebook is `notebooks/GenAI_Textile_Colab.ipynb`.
+
+## Dense-fill revision
+
+Dense fill is now the default generation/review instruction: robust solid red inside existing motif envelopes, narrow clean separations, and preserved deliberate white channels/background. Coverage is diagnostic, not a universal target. No blanket dilation is applied.
+
+The reference-guided dense sample is in `examples/generated_dense_draft/` (PNG/BMP, exactly 401 × 340). Its audit compares red coverage with the earlier draft and designer reference. The same-design approved target was used as guidance for this illustration; it does not demonstrate independent conversion accuracy. Some neighbouring pieces remain joined and semantic/taper checks still need designer review. The earlier sparse draft is retained.

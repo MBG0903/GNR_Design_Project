@@ -13,6 +13,13 @@ Interpret semantic pieces: petals, leaves, stems, feathers, flower centres, pais
 Do not trace pencil noise or background grid lines. Use only solid RGB(255,0,0) and RGB(255,255,255).
 Default: separate distinct pieces with narrow clean white gaps, even when pencil strokes touch.
 Preserve genuinely continuous stems, curls and body contours. Fill intentional solids red.
+DENSE FILL is the default treatment: draw broad, robust solid-filled pieces inside
+existing motif envelopes rather than fine wire-like contours or hollow-looking solids.
+Reduce excessive white gaps/channels to narrow clean separations; keep them legible
+at the source's native pixel resolution. Learn density from the approved references.
+Protect meaningful background and deliberate internal white. Do not add filler motifs,
+merge distinct pieces, or use blanket dilation to increase red coverage.
+Red coverage is diagnostic only: never sacrifice semantic rules to hit a percentage.
 Retain deliberate internal white channels, cut-outs, veins, eyes and hollow ornaments.
 Maintain crisp pixel edges, controlled adjacent-level tapers with long thin runs,
 consistent equivalent motifs and continuous legitimate branches. Add or relocate nothing.
