@@ -105,3 +105,13 @@ The run starts from `examples/pixel_hierarchy_pass/piece_labels.npy` and writes 
 `audit.json` keeps `image_wide_rule_complete: false`. `contour_outcomes.csv` and compressed detailed audit distinguish corrected, already ordered, infeasible, overlapping and review cases. The result is an experiment for designer inspection, not production approval. No regenerated motif or global erosion/dilation is used.
 
 Reproduce with `.venv/bin/python -m scripts.run_global_hierarchy`. Add `--strict-321` for a separate strict-only experiment. Before/after and blue changed-pixel previews are diagnostics; use the native PNG/BMP for pixel inspection. In Colab the new whole-image cell follows the two-pixel separation stage; update the piece labels if you edit the input afterward.
+
+## Comparison with the designer Step 3
+
+`examples/designer_comparison/` compares the latest whole-image fallback PNG with the uploaded designer BMP at their exact native 401 × 340 coordinates (no alignment, crop or resize). Exact pixel agreement is **87.39%**; red IoU is **77.73%**; red Dice is **87.47%**. There are **17,194 mismatched pixels**: 11,190 missing designer-red pixels and 6,004 excess generated-red pixels. The candidate is 48.43% red versus 52.24% in the designer image.
+
+The mean symmetric nearest-boundary distance is 0.75 pixels and 98.31% of sampled boundary pixels are within 2 pixels of some opposite-image boundary. This does not establish correspondence of semantic pieces or correct topology.
+
+The dense draft before rule edits had 88.13% exact agreement; the spacing/hierarchy passes reduced this to 87.39%. Rule compliance and reference similarity are separate objectives. The reference was already used to guide density for this same design: this is **not an independent unseen-image accuracy estimate** or production approval.
+
+Difference legend: red = both red, white = both white, blue = missing designer red, orange = excess generated red. Reproduce with `.venv/bin/python -m scripts.compare_designer examples/step_3_reference.bmp examples/whole_image_hierarchy_fallback_pass/step_3_whole_image_hierarchy.png examples/designer_comparison`.

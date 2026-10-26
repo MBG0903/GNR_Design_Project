@@ -1,0 +1,31 @@
+{
+  "width": 401,
+  "height": 340,
+  "total_pixels": 136340,
+  "matched_red_pixels": 60029,
+  "matched_white_pixels": 59117,
+  "excess_red_pixels": 6004,
+  "missing_red_pixels": 11190,
+  "mismatched_pixels": 17194,
+  "pixel_agreement": 0.8738888073932815,
+  "red_iou": 0.777346127449076,
+  "red_dice": 0.8747267799376329,
+  "white_iou": 0.7746851698968694,
+  "red_precision": 0.9090757651477291,
+  "red_recall": 0.8428790070065573,
+  "designer_red_fraction": 0.5223632096230013,
+  "candidate_red_fraction": 0.4843259498313041,
+  "boundary": {
+    "symmetric_mean_distance_pixels": 0.7453810831028347,
+    "symmetric_95th_percentile_pixels": 2.0,
+    "maximum_distance_pixels": 3.605551275463989,
+    "symmetric_fraction_within_1_pixel": 0.8230952702398632,
+    "symmetric_fraction_within_2_pixels": 0.9831015705863823,
+    "definition": "Red-side 8-neighbour boundaries; symmetric Euclidean nearest-edge distances, no alignment."
+  },
+  "registration": "Exact native coordinates. No alignment, crop, warp, or resize.",
+  "interpretation": "Pixel similarity does not establish semantic hierarchy, separation or production readiness.",
+  "designer_file_sha256": "706729ca159d1c21eee843ca6caba86e331d5a6243256a6753e70b6e815ad7da",
+  "candidate_file_sha256": "b969a885dec127b85b529e0d0280698331902842c1de31f644ea3b0765630258",
+  "evaluation_caveat": "The same-design approved Step 3 was previously used as density guidance for the generated draft. This is reference-guided reconstruction similarity, not independent validation or proof of generalization."
+}
