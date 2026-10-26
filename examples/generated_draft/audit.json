@@ -1,0 +1,22 @@
+{
+  "width": 401,
+  "height": 340,
+  "size_ok": true,
+  "palette_ok": true,
+  "has_red_and_white": true,
+  "invalid_colour_pixels": 0,
+  "red_fraction": 0.38516209476309227,
+  "automated_checks_passed": true,
+  "semantic_validation": "Requires designer review; not inferred from component counts.",
+  "status": "unreviewed_generative_draft",
+  "original_generation_size": [
+    1362,
+    1155
+  ],
+  "notes": [
+    "Piece-level touching still needs inspection, particularly leaf/stem and feet/body connections.",
+    "Motif fidelity and flower/feather details differ from the sketch and require designer review.",
+    "Exact taper-level hierarchy and thin-run dominance have not been verified.",
+    "Palette and native dimensions were enforced by code; semantic rules were not certified."
+  ]
+}
