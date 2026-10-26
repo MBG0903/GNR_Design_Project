@@ -1,0 +1,660 @@
+{
+  "status": "diagnostic_queue_only_no_pixels_edited",
+  "total_mismatches": 17194,
+  "generation_stage_mismatches": 16186,
+  "persistent_mismatches_from_generation": 14660,
+  "mismatches_introduced_during_rule_passes": 2534,
+  "mismatches_resolved_during_rule_passes": 1526,
+  "core_tile_size": 64,
+  "tile_count": 40,
+  "next_actions": [
+    "Audit whether the designer reference satisfies the same requested pixel rules.",
+    "Review each crop with sketch context; identify underfill, intentional white and displaced edges.",
+    "Propose local edits with piece identity, affected contour and confidence; retain uncertain cases.",
+    "Check exact palette/size, labelled two-pixel separation, protected contours, internal white and motif fidelity before accepting.",
+    "Measure reference similarity separately from rule compliance; do not accept target-copy pixels as model improvement."
+  ],
+  "limitation": "The reference is available for diagnosis of this example only. This queue is not an automatic semantic edit plan or unseen-image evaluation.",
+  "queue": [
+    {
+      "box": [
+        256,
+        256,
+        320,
+        320
+      ],
+      "missing_red": 527,
+      "excess_red": 372,
+      "mismatches": 899,
+      "persistent_from_generation": 793,
+      "introduced_during_rule_passes": 106,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 1
+    },
+    {
+      "box": [
+        320,
+        256,
+        384,
+        320
+      ],
+      "missing_red": 533,
+      "excess_red": 315,
+      "mismatches": 848,
+      "persistent_from_generation": 785,
+      "introduced_during_rule_passes": 63,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 2
+    },
+    {
+      "box": [
+        320,
+        192,
+        384,
+        256
+      ],
+      "missing_red": 571,
+      "excess_red": 242,
+      "mismatches": 813,
+      "persistent_from_generation": 672,
+      "introduced_during_rule_passes": 141,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 3
+    },
+    {
+      "box": [
+        128,
+        256,
+        192,
+        320
+      ],
+      "missing_red": 434,
+      "excess_red": 320,
+      "mismatches": 754,
+      "persistent_from_generation": 696,
+      "introduced_during_rule_passes": 58,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 4
+    },
+    {
+      "box": [
+        320,
+        128,
+        384,
+        192
+      ],
+      "missing_red": 418,
+      "excess_red": 303,
+      "mismatches": 721,
+      "persistent_from_generation": 677,
+      "introduced_during_rule_passes": 44,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 5
+    },
+    {
+      "box": [
+        192,
+        192,
+        256,
+        256
+      ],
+      "missing_red": 460,
+      "excess_red": 227,
+      "mismatches": 687,
+      "persistent_from_generation": 603,
+      "introduced_during_rule_passes": 84,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 6
+    },
+    {
+      "box": [
+        192,
+        128,
+        256,
+        192
+      ],
+      "missing_red": 465,
+      "excess_red": 221,
+      "mismatches": 686,
+      "persistent_from_generation": 592,
+      "introduced_during_rule_passes": 94,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 7
+    },
+    {
+      "box": [
+        0,
+        192,
+        64,
+        256
+      ],
+      "missing_red": 455,
+      "excess_red": 221,
+      "mismatches": 676,
+      "persistent_from_generation": 558,
+      "introduced_during_rule_passes": 118,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 8
+    },
+    {
+      "box": [
+        256,
+        128,
+        320,
+        192
+      ],
+      "missing_red": 451,
+      "excess_red": 216,
+      "mismatches": 667,
+      "persistent_from_generation": 541,
+      "introduced_during_rule_passes": 126,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 9
+    },
+    {
+      "box": [
+        192,
+        256,
+        256,
+        320
+      ],
+      "missing_red": 369,
+      "excess_red": 289,
+      "mismatches": 658,
+      "persistent_from_generation": 592,
+      "introduced_during_rule_passes": 66,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 10
+    },
+    {
+      "box": [
+        0,
+        128,
+        64,
+        192
+      ],
+      "missing_red": 452,
+      "excess_red": 184,
+      "mismatches": 636,
+      "persistent_from_generation": 463,
+      "introduced_during_rule_passes": 173,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 11
+    },
+    {
+      "box": [
+        320,
+        64,
+        384,
+        128
+      ],
+      "missing_red": 346,
+      "excess_red": 259,
+      "mismatches": 605,
+      "persistent_from_generation": 535,
+      "introduced_during_rule_passes": 70,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 12
+    },
+    {
+      "box": [
+        256,
+        192,
+        320,
+        256
+      ],
+      "missing_red": 448,
+      "excess_red": 151,
+      "mismatches": 599,
+      "persistent_from_generation": 487,
+      "introduced_during_rule_passes": 112,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 13
+    },
+    {
+      "box": [
+        128,
+        192,
+        192,
+        256
+      ],
+      "missing_red": 306,
+      "excess_red": 283,
+      "mismatches": 589,
+      "persistent_from_generation": 557,
+      "introduced_during_rule_passes": 32,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 14
+    },
+    {
+      "box": [
+        64,
+        128,
+        128,
+        192
+      ],
+      "missing_red": 373,
+      "excess_red": 189,
+      "mismatches": 562,
+      "persistent_from_generation": 495,
+      "introduced_during_rule_passes": 67,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 15
+    },
+    {
+      "box": [
+        64,
+        192,
+        128,
+        256
+      ],
+      "missing_red": 368,
+      "excess_red": 174,
+      "mismatches": 542,
+      "persistent_from_generation": 441,
+      "introduced_during_rule_passes": 101,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 16
+    },
+    {
+      "box": [
+        64,
+        256,
+        128,
+        320
+      ],
+      "missing_red": 306,
+      "excess_red": 221,
+      "mismatches": 527,
+      "persistent_from_generation": 444,
+      "introduced_during_rule_passes": 83,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 17
+    },
+    {
+      "box": [
+        128,
+        128,
+        192,
+        192
+      ],
+      "missing_red": 277,
+      "excess_red": 200,
+      "mismatches": 477,
+      "persistent_from_generation": 391,
+      "introduced_during_rule_passes": 86,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 18
+    },
+    {
+      "box": [
+        0,
+        256,
+        64,
+        320
+      ],
+      "missing_red": 327,
+      "excess_red": 150,
+      "mismatches": 477,
+      "persistent_from_generation": 365,
+      "introduced_during_rule_passes": 112,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 19
+    },
+    {
+      "box": [
+        128,
+        64,
+        192,
+        128
+      ],
+      "missing_red": 249,
+      "excess_red": 209,
+      "mismatches": 458,
+      "persistent_from_generation": 410,
+      "introduced_during_rule_passes": 48,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 20
+    },
+    {
+      "box": [
+        192,
+        320,
+        256,
+        340
+      ],
+      "missing_red": 295,
+      "excess_red": 108,
+      "mismatches": 403,
+      "persistent_from_generation": 341,
+      "introduced_during_rule_passes": 62,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 21
+    },
+    {
+      "box": [
+        384,
+        0,
+        401,
+        64
+      ],
+      "missing_red": 249,
+      "excess_red": 134,
+      "mismatches": 383,
+      "persistent_from_generation": 317,
+      "introduced_during_rule_passes": 66,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 22
+    },
+    {
+      "box": [
+        128,
+        0,
+        192,
+        64
+      ],
+      "missing_red": 185,
+      "excess_red": 171,
+      "mismatches": 356,
+      "persistent_from_generation": 305,
+      "introduced_during_rule_passes": 51,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 23
+    },
+    {
+      "box": [
+        0,
+        64,
+        64,
+        128
+      ],
+      "missing_red": 236,
+      "excess_red": 116,
+      "mismatches": 352,
+      "persistent_from_generation": 257,
+      "introduced_during_rule_passes": 95,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 24
+    },
+    {
+      "box": [
+        384,
+        64,
+        401,
+        128
+      ],
+      "missing_red": 250,
+      "excess_red": 90,
+      "mismatches": 340,
+      "persistent_from_generation": 260,
+      "introduced_during_rule_passes": 80,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 25
+    },
+    {
+      "box": [
+        0,
+        320,
+        64,
+        340
+      ],
+      "missing_red": 247,
+      "excess_red": 39,
+      "mismatches": 286,
+      "persistent_from_generation": 251,
+      "introduced_during_rule_passes": 35,
+      "geometric_error_type": "mostly_missing_red",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 26
+    },
+    {
+      "box": [
+        384,
+        256,
+        401,
+        320
+      ],
+      "missing_red": 172,
+      "excess_red": 74,
+      "mismatches": 246,
+      "persistent_from_generation": 220,
+      "introduced_during_rule_passes": 26,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 27
+    },
+    {
+      "box": [
+        128,
+        320,
+        192,
+        340
+      ],
+      "missing_red": 175,
+      "excess_red": 59,
+      "mismatches": 234,
+      "persistent_from_generation": 169,
+      "introduced_during_rule_passes": 65,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 28
+    },
+    {
+      "box": [
+        320,
+        320,
+        384,
+        340
+      ],
+      "missing_red": 175,
+      "excess_red": 54,
+      "mismatches": 229,
+      "persistent_from_generation": 189,
+      "introduced_during_rule_passes": 40,
+      "geometric_error_type": "mostly_missing_red",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 29
+    },
+    {
+      "box": [
+        64,
+        320,
+        128,
+        340
+      ],
+      "missing_red": 151,
+      "excess_red": 59,
+      "mismatches": 210,
+      "persistent_from_generation": 207,
+      "introduced_during_rule_passes": 3,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 30
+    },
+    {
+      "box": [
+        384,
+        128,
+        401,
+        192
+      ],
+      "missing_red": 144,
+      "excess_red": 65,
+      "mismatches": 209,
+      "persistent_from_generation": 192,
+      "introduced_during_rule_passes": 17,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 31
+    },
+    {
+      "box": [
+        256,
+        320,
+        320,
+        340
+      ],
+      "missing_red": 126,
+      "excess_red": 60,
+      "mismatches": 186,
+      "persistent_from_generation": 180,
+      "introduced_during_rule_passes": 6,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 32
+    },
+    {
+      "box": [
+        192,
+        64,
+        256,
+        128
+      ],
+      "missing_red": 141,
+      "excess_red": 43,
+      "mismatches": 184,
+      "persistent_from_generation": 172,
+      "introduced_during_rule_passes": 12,
+      "geometric_error_type": "mostly_missing_red",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 33
+    },
+    {
+      "box": [
+        384,
+        192,
+        401,
+        256
+      ],
+      "missing_red": 163,
+      "excess_red": 7,
+      "mismatches": 170,
+      "persistent_from_generation": 100,
+      "introduced_during_rule_passes": 70,
+      "geometric_error_type": "mostly_missing_red",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 34
+    },
+    {
+      "box": [
+        320,
+        0,
+        384,
+        64
+      ],
+      "missing_red": 44,
+      "excess_red": 62,
+      "mismatches": 106,
+      "persistent_from_generation": 96,
+      "introduced_during_rule_passes": 10,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 35
+    },
+    {
+      "box": [
+        64,
+        64,
+        128,
+        128
+      ],
+      "missing_red": 80,
+      "excess_red": 19,
+      "mismatches": 99,
+      "persistent_from_generation": 49,
+      "introduced_during_rule_passes": 50,
+      "geometric_error_type": "mostly_missing_red",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 36
+    },
+    {
+      "box": [
+        384,
+        320,
+        401,
+        340
+      ],
+      "missing_red": 98,
+      "excess_red": 0,
+      "mismatches": 98,
+      "persistent_from_generation": 72,
+      "introduced_during_rule_passes": 26,
+      "geometric_error_type": "mostly_missing_red",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 37
+    },
+    {
+      "box": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "missing_red": 47,
+      "excess_red": 48,
+      "mismatches": 95,
+      "persistent_from_generation": 67,
+      "introduced_during_rule_passes": 28,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 38
+    },
+    {
+      "box": [
+        192,
+        0,
+        256,
+        64
+      ],
+      "missing_red": 60,
+      "excess_red": 6,
+      "mismatches": 66,
+      "persistent_from_generation": 60,
+      "introduced_during_rule_passes": 6,
+      "geometric_error_type": "mostly_missing_red",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 39
+    },
+    {
+      "box": [
+        256,
+        64,
+        320,
+        128
+      ],
+      "missing_red": 17,
+      "excess_red": 44,
+      "mismatches": 61,
+      "persistent_from_generation": 59,
+      "introduced_during_rule_passes": 2,
+      "geometric_error_type": "mixed_boundary_or_structure",
+      "semantic_decision": "pending_designer_or_vision_review",
+      "priority": 40
+    }
+  ]
+}

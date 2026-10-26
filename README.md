@@ -115,3 +115,11 @@ The mean symmetric nearest-boundary distance is 0.75 pixels and 98.31% of sample
 The dense draft before rule edits had 88.13% exact agreement; the spacing/hierarchy passes reduced this to 87.39%. Rule compliance and reference similarity are separate objectives. The reference was already used to guide density for this same design: this is **not an independent unseen-image accuracy estimate** or production approval.
 
 Difference legend: red = both red, white = both white, blue = missing designer red, orange = excess generated red. Reproduce with `.venv/bin/python -m scripts.compare_designer examples/step_3_reference.bmp examples/whole_image_hierarchy_fallback_pass/step_3_whole_image_hierarchy.png examples/designer_comparison`.
+
+## Repair queue: closing the reference-similarity gap
+
+Run `.venv/bin/python -m scripts.build_repair_queue` to build `examples/repair_queue/`: ranked disjoint 64px error tiles and six context sheets showing sketch, designer, current output and colour difference. This is a diagnostic, not an edit or improved raster. Every tile retains a pending semantic decision. Counts use core tiles; preview context overlaps.
+
+Of 17,194 current mismatches, 14,660 (85.3%) persist from the GenAI draft and 2,534 were introduced during rule edits. Those edits also resolved 1,526 old mismatches. Thus most discrepancy requires better motif/contour reconstruction; global fill changes or more staircase sorting cannot alone solve it. The first priority is the lower tail/teardrop region, core box `[256,256,320,320]`, with 527 missing-red and 372 excess-red pixels.
+
+The next repair loop should classify a crop semantically, propose local shape/edge corrections, validate native dimensions/palette, labelled two-pixel gaps, intentional white and protected hierarchy, then accept/reject and measure the result. Audit the designer reference against the same requested rules: reference similarity and rule compliance can disagree. Do not copy target error masks into the prediction and report that as improved inference. Future sketches will not have their target Step 3; semantic error detection must use the sketch/rules, and accuracy must be measured on held-out designs.
