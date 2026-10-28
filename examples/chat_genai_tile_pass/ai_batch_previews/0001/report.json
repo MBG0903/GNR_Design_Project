@@ -1,0 +1,472 @@
+{
+  "status": "unreviewed_ai_batch_preview",
+  "tile_count": 12,
+  "tiles": [
+    {
+      "tile_id": "r1_c1",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "f898c5c6c5991a480c6969c5e695b1ce523fd39711aa4b7d99565bd5c1e7a843",
+      "core": [
+        0,
+        0,
+        100,
+        113
+      ],
+      "context": [
+        0,
+        0,
+        132,
+        145
+      ]
+    },
+    {
+      "tile_id": "r1_c2",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "d73b0fe8065fc2c3077ba224a18c6244489136d2eeafe84e83c7b87a6ee05de8",
+      "core": [
+        100,
+        0,
+        200,
+        113
+      ],
+      "context": [
+        68,
+        0,
+        232,
+        145
+      ]
+    },
+    {
+      "tile_id": "r1_c3",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "36707388014c767b8bb7f7874af3106fed5e70f93c0fdafacd3b912fc78c4164",
+      "core": [
+        200,
+        0,
+        300,
+        113
+      ],
+      "context": [
+        168,
+        0,
+        332,
+        145
+      ]
+    },
+    {
+      "tile_id": "r1_c4",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "bf98561423648c0ce1f14093fba8dcc25bfaa4aaf8ab45d779257a7ac44f8452",
+      "core": [
+        300,
+        0,
+        401,
+        113
+      ],
+      "context": [
+        268,
+        0,
+        401,
+        145
+      ]
+    },
+    {
+      "tile_id": "r2_c1",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "091f3948f16be05cc86666d132b4b069ec2374aac0582d778d2e1a521a0d387e",
+      "core": [
+        0,
+        113,
+        100,
+        226
+      ],
+      "context": [
+        0,
+        81,
+        132,
+        258
+      ]
+    },
+    {
+      "tile_id": "r2_c2",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "17bdbd5039348366e52b62560e46bdacbb5df797bc2bd2ccb2c379af17c11678",
+      "core": [
+        100,
+        113,
+        200,
+        226
+      ],
+      "context": [
+        68,
+        81,
+        232,
+        258
+      ]
+    },
+    {
+      "tile_id": "r2_c3",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "0fde1390cffa79b1239651c4f2088aaf82557b3ce852182f0a85d13f9a86c7e3",
+      "core": [
+        200,
+        113,
+        300,
+        226
+      ],
+      "context": [
+        168,
+        81,
+        332,
+        258
+      ]
+    },
+    {
+      "tile_id": "r2_c4",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "0831798b84017ba61ad04796efbe5dcd57776bddb78ec4b101466b51f91d1f42",
+      "core": [
+        300,
+        113,
+        401,
+        226
+      ],
+      "context": [
+        268,
+        81,
+        401,
+        258
+      ]
+    },
+    {
+      "tile_id": "r3_c1",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "003a1f30f7c2e661bd120b42ec225caf6ceab836d7a2563636dbe0bc97b9ccc4",
+      "core": [
+        0,
+        226,
+        100,
+        340
+      ],
+      "context": [
+        0,
+        194,
+        132,
+        340
+      ]
+    },
+    {
+      "tile_id": "r3_c2",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "a5d1708b07c78cb335ed74070c20e3e64815c834c942b66dd98a9a5a3598c8db",
+      "core": [
+        100,
+        226,
+        200,
+        340
+      ],
+      "context": [
+        68,
+        194,
+        232,
+        340
+      ]
+    },
+    {
+      "tile_id": "r3_c3",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "40849773e1d9ecf0f430fffa13fd9fce868172b19ca0835dac0db4e566ea7d9d",
+      "core": [
+        200,
+        226,
+        300,
+        340
+      ],
+      "context": [
+        168,
+        194,
+        332,
+        340
+      ]
+    },
+    {
+      "tile_id": "r3_c4",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "f5a9967fd212c239b0597f7254413109cf0d9667bc879438b135043f53a58c4d",
+      "core": [
+        300,
+        226,
+        401,
+        340
+      ],
+      "context": [
+        268,
+        194,
+        401,
+        340
+      ]
+    }
+  ],
+  "native_size": [
+    401,
+    340
+  ],
+  "source_sha256": "b0937e3f8e080ba00c1fcf7ca43c361f8310366a142b2cafd04d285e96895638",
+  "changed_pixels": 4852,
+  "raster_checks": {
+    "width": 401,
+    "height": 340,
+    "size_ok": true,
+    "palette_ok": true,
+    "has_red_and_white": true,
+    "invalid_colour_pixels": 0,
+    "red_fraction": 0.5065938095936628,
+    "automated_checks_passed": true,
+    "semantic_validation": "Requires designer review; not inferred from component counts."
+  },
+  "designer_approved": false,
+  "production_ready": false,
+  "semantic_hierarchy_verified": false,
+  "whole_image_seam_review_required": true,
+  "note": "Exact native core assembly. Blue grid is diagnostic only. Left comparison is the original dense draft. No rule compliance is implied.",
+  "generator": "chat_image_generation_tool",
+  "model_identity_verified": false,
+  "requested_sunburst": false,
+  "tile_details": [
+    {
+      "tile_id": "r1_c1",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        132,
+        145
+      ],
+      "native_core": [
+        0,
+        0,
+        100,
+        113
+      ],
+      "changed_core_pixels": 349
+    },
+    {
+      "tile_id": "r1_c2",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        164,
+        145
+      ],
+      "native_core": [
+        100,
+        0,
+        200,
+        113
+      ],
+      "changed_core_pixels": 413
+    },
+    {
+      "tile_id": "r1_c3",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        164,
+        145
+      ],
+      "native_core": [
+        200,
+        0,
+        300,
+        113
+      ],
+      "changed_core_pixels": 9
+    },
+    {
+      "tile_id": "r1_c4",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        133,
+        145
+      ],
+      "native_core": [
+        300,
+        0,
+        401,
+        113
+      ],
+      "changed_core_pixels": 410
+    },
+    {
+      "tile_id": "r2_c1",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        132,
+        177
+      ],
+      "native_core": [
+        0,
+        113,
+        100,
+        226
+      ],
+      "changed_core_pixels": 867
+    },
+    {
+      "tile_id": "r2_c2",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        164,
+        177
+      ],
+      "native_core": [
+        100,
+        113,
+        200,
+        226
+      ],
+      "changed_core_pixels": 245
+    },
+    {
+      "tile_id": "r2_c3",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        164,
+        177
+      ],
+      "native_core": [
+        200,
+        113,
+        300,
+        226
+      ],
+      "changed_core_pixels": 417
+    },
+    {
+      "tile_id": "r2_c4",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        133,
+        177
+      ],
+      "native_core": [
+        300,
+        113,
+        401,
+        226
+      ],
+      "changed_core_pixels": 253
+    },
+    {
+      "tile_id": "r3_c1",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        132,
+        146
+      ],
+      "native_core": [
+        0,
+        226,
+        100,
+        340
+      ],
+      "changed_core_pixels": 146
+    },
+    {
+      "tile_id": "r3_c2",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        164,
+        146
+      ],
+      "native_core": [
+        100,
+        226,
+        200,
+        340
+      ],
+      "changed_core_pixels": 490
+    },
+    {
+      "tile_id": "r3_c3",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        164,
+        146
+      ],
+      "native_core": [
+        200,
+        226,
+        300,
+        340
+      ],
+      "changed_core_pixels": 578
+    },
+    {
+      "tile_id": "r3_c4",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        133,
+        146
+      ],
+      "native_core": [
+        300,
+        226,
+        401,
+        340
+      ],
+      "changed_core_pixels": 675
+    }
+  ],
+  "changed_pixels_near_seams": 217,
+  "seam_metric_note": "Changed pixels within two pixels of a tile boundary; diagnostic only, not a seam violation count.",
+  "raw_generations_retained": true,
+  "processing_applied": "Native square restoration, exact palette projection, original halo restoration, disjoint core assembly.",
+  "hierarchy_code_repairs_applied": false,
+  "reference_fitting_applied": false,
+  "prior_reference_guidance": "The initial dense draft used the same-design designer reference; no new reference was supplied to tile generation."
+}

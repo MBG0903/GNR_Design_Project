@@ -4,7 +4,9 @@
 
 ## New experiment: dense GenAI → 9/12 tiles → review → merge
 
-Open `notebooks/Tile_Staircase_Review.ipynb` in Colab. It is standalone and embeds the existing dense draft and matching sketch. For a new design, run the generation stage of the primary notebook, then upload the sketch and dense result into this experiment. No new generation or automatic staircase corrections have been applied to the example tiles. The restored working baseline remains unchanged.
+**Actual chat-tool tile generation:** [combined PNG](examples/chat_genai_tile_pass/step_3_combined_review.png), [before/after](examples/chat_genai_tile_pass/before_after_review.png), [12-tile contact sheet](examples/chat_genai_tile_pass/all_12_tiles_review.png), and [review ZIP](examples/chat_genai_tile_pass/all_tiles_and_combined_review.zip). All 12 tiles were regenerated using the image tool available in chat; its model identity is unverified. The combined output is native 401 × 340 and pure red/white, with unresolved hierarchy/semantic/seam review. See [the experiment notes](examples/chat_genai_tile_pass/README.md). The current baseline is retained.
+
+Open `notebooks/Tile_Staircase_Review.ipynb` in Colab. It is standalone and embeds the existing dense draft and matching sketch. For a new design, run the generation stage of the primary notebook, then upload the sketch and dense result into this experiment. The original `examples/tile_review12/` pack contains unedited splits; the newly generated batch is linked above. The restored working baseline remains unchanged.
 
 Default grid: **4 columns × 3 rows = 12 tiles**, with **32 native pixels of read-only context** around each core. A 3×3 grid gives 9 tiles. Cores partition the original image exactly, including uneven 401×340 dimensions; nothing is resized or blended. Only core edits are merged. Matching sketch context and a diagnostic ownership guide are supplied. Increase context or inspect the full component if either front/back edge or tip is cut off. Cross-core edits need coordinated neighbouring proposals and full-curve review after merging.
 

@@ -1,0 +1,408 @@
+{
+  "version": 1,
+  "width": 401,
+  "height": 340,
+  "rows": 3,
+  "columns": 4,
+  "overlap": 32,
+  "draft_rgb_sha256": "b0937e3f8e080ba00c1fcf7ca43c361f8310366a142b2cafd04d285e96895638",
+  "sketch_rgb_sha256": "213387d87e319e4d48026542245214f5feeb824d8ceb89306f7a29138ea90bca",
+  "tiles": [
+    {
+      "id": "r1_c1",
+      "row": 0,
+      "column": 0,
+      "core": [
+        0,
+        0,
+        100,
+        113
+      ],
+      "context": [
+        0,
+        0,
+        132,
+        145
+      ],
+      "core_local": [
+        0,
+        0,
+        100,
+        113
+      ],
+      "generation_transform": {
+        "side": 145,
+        "left": 6,
+        "top": 0,
+        "native_size": [
+          132,
+          145
+        ],
+        "canvas_size": 1024
+      }
+    },
+    {
+      "id": "r1_c2",
+      "row": 0,
+      "column": 1,
+      "core": [
+        100,
+        0,
+        200,
+        113
+      ],
+      "context": [
+        68,
+        0,
+        232,
+        145
+      ],
+      "core_local": [
+        32,
+        0,
+        132,
+        113
+      ],
+      "generation_transform": {
+        "side": 164,
+        "left": 0,
+        "top": 9,
+        "native_size": [
+          164,
+          145
+        ],
+        "canvas_size": 1024
+      }
+    },
+    {
+      "id": "r1_c3",
+      "row": 0,
+      "column": 2,
+      "core": [
+        200,
+        0,
+        300,
+        113
+      ],
+      "context": [
+        168,
+        0,
+        332,
+        145
+      ],
+      "core_local": [
+        32,
+        0,
+        132,
+        113
+      ],
+      "generation_transform": {
+        "side": 164,
+        "left": 0,
+        "top": 9,
+        "native_size": [
+          164,
+          145
+        ],
+        "canvas_size": 1024
+      }
+    },
+    {
+      "id": "r1_c4",
+      "row": 0,
+      "column": 3,
+      "core": [
+        300,
+        0,
+        401,
+        113
+      ],
+      "context": [
+        268,
+        0,
+        401,
+        145
+      ],
+      "core_local": [
+        32,
+        0,
+        133,
+        113
+      ],
+      "generation_transform": {
+        "side": 145,
+        "left": 6,
+        "top": 0,
+        "native_size": [
+          133,
+          145
+        ],
+        "canvas_size": 1024
+      }
+    },
+    {
+      "id": "r2_c1",
+      "row": 1,
+      "column": 0,
+      "core": [
+        0,
+        113,
+        100,
+        226
+      ],
+      "context": [
+        0,
+        81,
+        132,
+        258
+      ],
+      "core_local": [
+        0,
+        32,
+        100,
+        145
+      ],
+      "generation_transform": {
+        "side": 177,
+        "left": 22,
+        "top": 0,
+        "native_size": [
+          132,
+          177
+        ],
+        "canvas_size": 1024
+      }
+    },
+    {
+      "id": "r2_c2",
+      "row": 1,
+      "column": 1,
+      "core": [
+        100,
+        113,
+        200,
+        226
+      ],
+      "context": [
+        68,
+        81,
+        232,
+        258
+      ],
+      "core_local": [
+        32,
+        32,
+        132,
+        145
+      ],
+      "generation_transform": {
+        "side": 177,
+        "left": 6,
+        "top": 0,
+        "native_size": [
+          164,
+          177
+        ],
+        "canvas_size": 1024
+      }
+    },
+    {
+      "id": "r2_c3",
+      "row": 1,
+      "column": 2,
+      "core": [
+        200,
+        113,
+        300,
+        226
+      ],
+      "context": [
+        168,
+        81,
+        332,
+        258
+      ],
+      "core_local": [
+        32,
+        32,
+        132,
+        145
+      ],
+      "generation_transform": {
+        "side": 177,
+        "left": 6,
+        "top": 0,
+        "native_size": [
+          164,
+          177
+        ],
+        "canvas_size": 1024
+      }
+    },
+    {
+      "id": "r2_c4",
+      "row": 1,
+      "column": 3,
+      "core": [
+        300,
+        113,
+        401,
+        226
+      ],
+      "context": [
+        268,
+        81,
+        401,
+        258
+      ],
+      "core_local": [
+        32,
+        32,
+        133,
+        145
+      ],
+      "generation_transform": {
+        "side": 177,
+        "left": 22,
+        "top": 0,
+        "native_size": [
+          133,
+          177
+        ],
+        "canvas_size": 1024
+      }
+    },
+    {
+      "id": "r3_c1",
+      "row": 2,
+      "column": 0,
+      "core": [
+        0,
+        226,
+        100,
+        340
+      ],
+      "context": [
+        0,
+        194,
+        132,
+        340
+      ],
+      "core_local": [
+        0,
+        32,
+        100,
+        146
+      ],
+      "generation_transform": {
+        "side": 146,
+        "left": 7,
+        "top": 0,
+        "native_size": [
+          132,
+          146
+        ],
+        "canvas_size": 1024
+      }
+    },
+    {
+      "id": "r3_c2",
+      "row": 2,
+      "column": 1,
+      "core": [
+        100,
+        226,
+        200,
+        340
+      ],
+      "context": [
+        68,
+        194,
+        232,
+        340
+      ],
+      "core_local": [
+        32,
+        32,
+        132,
+        146
+      ],
+      "generation_transform": {
+        "side": 164,
+        "left": 0,
+        "top": 9,
+        "native_size": [
+          164,
+          146
+        ],
+        "canvas_size": 1024
+      }
+    },
+    {
+      "id": "r3_c3",
+      "row": 2,
+      "column": 2,
+      "core": [
+        200,
+        226,
+        300,
+        340
+      ],
+      "context": [
+        168,
+        194,
+        332,
+        340
+      ],
+      "core_local": [
+        32,
+        32,
+        132,
+        146
+      ],
+      "generation_transform": {
+        "side": 164,
+        "left": 0,
+        "top": 9,
+        "native_size": [
+          164,
+          146
+        ],
+        "canvas_size": 1024
+      }
+    },
+    {
+      "id": "r3_c4",
+      "row": 2,
+      "column": 3,
+      "core": [
+        300,
+        226,
+        401,
+        340
+      ],
+      "context": [
+        268,
+        194,
+        401,
+        340
+      ],
+      "core_local": [
+        32,
+        32,
+        133,
+        146
+      ],
+      "generation_transform": {
+        "side": 146,
+        "left": 6,
+        "top": 0,
+        "native_size": [
+          133,
+          146
+        ],
+        "canvas_size": 1024
+      }
+    }
+  ]
+}

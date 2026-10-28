@@ -1,0 +1,2061 @@
+{
+  "status": "unreviewed_ai_batch_preview",
+  "tile_count": 12,
+  "tiles": [
+    {
+      "tile_id": "r1_c1",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "f898c5c6c5991a480c6969c5e695b1ce523fd39711aa4b7d99565bd5c1e7a843",
+      "core": [
+        0,
+        0,
+        100,
+        113
+      ],
+      "context": [
+        0,
+        0,
+        132,
+        145
+      ]
+    },
+    {
+      "tile_id": "r1_c2",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "d73b0fe8065fc2c3077ba224a18c6244489136d2eeafe84e83c7b87a6ee05de8",
+      "core": [
+        100,
+        0,
+        200,
+        113
+      ],
+      "context": [
+        68,
+        0,
+        232,
+        145
+      ]
+    },
+    {
+      "tile_id": "r1_c3",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "36707388014c767b8bb7f7874af3106fed5e70f93c0fdafacd3b912fc78c4164",
+      "core": [
+        200,
+        0,
+        300,
+        113
+      ],
+      "context": [
+        168,
+        0,
+        332,
+        145
+      ]
+    },
+    {
+      "tile_id": "r1_c4",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "bf98561423648c0ce1f14093fba8dcc25bfaa4aaf8ab45d779257a7ac44f8452",
+      "core": [
+        300,
+        0,
+        401,
+        113
+      ],
+      "context": [
+        268,
+        0,
+        401,
+        145
+      ]
+    },
+    {
+      "tile_id": "r2_c1",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "091f3948f16be05cc86666d132b4b069ec2374aac0582d778d2e1a521a0d387e",
+      "core": [
+        0,
+        113,
+        100,
+        226
+      ],
+      "context": [
+        0,
+        81,
+        132,
+        258
+      ]
+    },
+    {
+      "tile_id": "r2_c2",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "17bdbd5039348366e52b62560e46bdacbb5df797bc2bd2ccb2c379af17c11678",
+      "core": [
+        100,
+        113,
+        200,
+        226
+      ],
+      "context": [
+        68,
+        81,
+        232,
+        258
+      ]
+    },
+    {
+      "tile_id": "r2_c3",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "0fde1390cffa79b1239651c4f2088aaf82557b3ce852182f0a85d13f9a86c7e3",
+      "core": [
+        200,
+        113,
+        300,
+        226
+      ],
+      "context": [
+        168,
+        81,
+        332,
+        258
+      ]
+    },
+    {
+      "tile_id": "r2_c4",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "0831798b84017ba61ad04796efbe5dcd57776bddb78ec4b101466b51f91d1f42",
+      "core": [
+        300,
+        113,
+        401,
+        226
+      ],
+      "context": [
+        268,
+        81,
+        401,
+        258
+      ]
+    },
+    {
+      "tile_id": "r3_c1",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "003a1f30f7c2e661bd120b42ec225caf6ceab836d7a2563636dbe0bc97b9ccc4",
+      "core": [
+        0,
+        226,
+        100,
+        340
+      ],
+      "context": [
+        0,
+        194,
+        132,
+        340
+      ]
+    },
+    {
+      "tile_id": "r3_c2",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "a5d1708b07c78cb335ed74070c20e3e64815c834c942b66dd98a9a5a3598c8db",
+      "core": [
+        100,
+        226,
+        200,
+        340
+      ],
+      "context": [
+        68,
+        194,
+        232,
+        340
+      ]
+    },
+    {
+      "tile_id": "r3_c3",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "40849773e1d9ecf0f430fffa13fd9fce868172b19ca0835dac0db4e566ea7d9d",
+      "core": [
+        200,
+        226,
+        300,
+        340
+      ],
+      "context": [
+        168,
+        194,
+        332,
+        340
+      ]
+    },
+    {
+      "tile_id": "r3_c4",
+      "revision": 1,
+      "requested_model": "unverified_chat_image_tool",
+      "candidate_rgb_sha256": "f5a9967fd212c239b0597f7254413109cf0d9667bc879438b135043f53a58c4d",
+      "core": [
+        300,
+        226,
+        401,
+        340
+      ],
+      "context": [
+        268,
+        194,
+        401,
+        340
+      ]
+    }
+  ],
+  "native_size": [
+    401,
+    340
+  ],
+  "source_sha256": "b0937e3f8e080ba00c1fcf7ca43c361f8310366a142b2cafd04d285e96895638",
+  "changed_pixels": 4852,
+  "raster_checks": {
+    "width": 401,
+    "height": 340,
+    "size_ok": true,
+    "palette_ok": true,
+    "has_red_and_white": true,
+    "invalid_colour_pixels": 0,
+    "red_fraction": 0.5065938095936628,
+    "automated_checks_passed": true,
+    "semantic_validation": "Requires designer review; not inferred from component counts."
+  },
+  "designer_approved": false,
+  "production_ready": false,
+  "semantic_hierarchy_verified": false,
+  "whole_image_seam_review_required": true,
+  "note": "Exact native core assembly. Blue grid is diagnostic only. Left comparison is the original dense draft. No rule compliance is implied.",
+  "generator": "chat_image_generation_tool",
+  "model_identity_verified": false,
+  "requested_sunburst": false,
+  "tile_details": [
+    {
+      "tile_id": "r1_c1",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        132,
+        145
+      ],
+      "native_core": [
+        0,
+        0,
+        100,
+        113
+      ],
+      "changed_core_pixels": 349
+    },
+    {
+      "tile_id": "r1_c2",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        164,
+        145
+      ],
+      "native_core": [
+        100,
+        0,
+        200,
+        113
+      ],
+      "changed_core_pixels": 413
+    },
+    {
+      "tile_id": "r1_c3",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        164,
+        145
+      ],
+      "native_core": [
+        200,
+        0,
+        300,
+        113
+      ],
+      "changed_core_pixels": 9
+    },
+    {
+      "tile_id": "r1_c4",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        133,
+        145
+      ],
+      "native_core": [
+        300,
+        0,
+        401,
+        113
+      ],
+      "changed_core_pixels": 410
+    },
+    {
+      "tile_id": "r2_c1",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        132,
+        177
+      ],
+      "native_core": [
+        0,
+        113,
+        100,
+        226
+      ],
+      "changed_core_pixels": 867
+    },
+    {
+      "tile_id": "r2_c2",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        164,
+        177
+      ],
+      "native_core": [
+        100,
+        113,
+        200,
+        226
+      ],
+      "changed_core_pixels": 245
+    },
+    {
+      "tile_id": "r2_c3",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        164,
+        177
+      ],
+      "native_core": [
+        200,
+        113,
+        300,
+        226
+      ],
+      "changed_core_pixels": 417
+    },
+    {
+      "tile_id": "r2_c4",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        133,
+        177
+      ],
+      "native_core": [
+        300,
+        113,
+        401,
+        226
+      ],
+      "changed_core_pixels": 253
+    },
+    {
+      "tile_id": "r3_c1",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        132,
+        146
+      ],
+      "native_core": [
+        0,
+        226,
+        100,
+        340
+      ],
+      "changed_core_pixels": 146
+    },
+    {
+      "tile_id": "r3_c2",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        164,
+        146
+      ],
+      "native_core": [
+        100,
+        226,
+        200,
+        340
+      ],
+      "changed_core_pixels": 490
+    },
+    {
+      "tile_id": "r3_c3",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        164,
+        146
+      ],
+      "native_core": [
+        200,
+        226,
+        300,
+        340
+      ],
+      "changed_core_pixels": 578
+    },
+    {
+      "tile_id": "r3_c4",
+      "raw_size": [
+        1254,
+        1254
+      ],
+      "native_size": [
+        133,
+        146
+      ],
+      "native_core": [
+        300,
+        226,
+        401,
+        340
+      ],
+      "changed_core_pixels": 675
+    }
+  ],
+  "changed_pixels_near_seams": 217,
+  "seam_metric_note": "Changed pixels within two pixels of a tile boundary; diagnostic only, not a seam violation count.",
+  "raw_generations_retained": true,
+  "processing_applied": "Native square restoration, exact palette projection, original halo restoration, disjoint core assembly.",
+  "hierarchy_code_repairs_applied": false,
+  "reference_fitting_applied": false,
+  "prior_reference_guidance": "The initial dense draft used the same-design designer reference; no new reference was supplied to tile generation.",
+  "contour_screening_before": {
+    "candidate_trace_counts": {
+      "unresolved": 1680,
+      "2-1": 231,
+      "3-2-1": 24
+    },
+    "unresolved_trace_samples": [
+      {
+        "points": [
+          [
+            8,
+            27
+          ],
+          [
+            8,
+            31
+          ],
+          [
+            7,
+            31
+          ],
+          [
+            7,
+            32
+          ],
+          [
+            6,
+            32
+          ],
+          [
+            6,
+            34
+          ],
+          [
+            5,
+            34
+          ],
+          [
+            5,
+            36
+          ],
+          [
+            4,
+            36
+          ],
+          [
+            4,
+            39
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          4,
+          1,
+          2,
+          2,
+          3
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            4,
+            39
+          ],
+          [
+            4,
+            36
+          ],
+          [
+            5,
+            36
+          ],
+          [
+            5,
+            34
+          ],
+          [
+            6,
+            34
+          ],
+          [
+            6,
+            32
+          ],
+          [
+            7,
+            32
+          ],
+          [
+            7,
+            31
+          ],
+          [
+            8,
+            31
+          ],
+          [
+            8,
+            27
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          2,
+          2,
+          1,
+          4
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            8,
+            31
+          ],
+          [
+            8,
+            27
+          ],
+          [
+            7,
+            27
+          ],
+          [
+            7,
+            23
+          ],
+          [
+            6,
+            23
+          ],
+          [
+            6,
+            19
+          ],
+          [
+            5,
+            19
+          ],
+          [
+            5,
+            17
+          ],
+          [
+            4,
+            17
+          ],
+          [
+            4,
+            15
+          ],
+          [
+            3,
+            15
+          ],
+          [
+            3,
+            13
+          ],
+          [
+            2,
+            13
+          ],
+          [
+            2,
+            12
+          ],
+          [
+            1,
+            12
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          4,
+          4,
+          4,
+          2,
+          2,
+          2,
+          1,
+          2
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            7,
+            27
+          ],
+          [
+            7,
+            23
+          ],
+          [
+            6,
+            23
+          ],
+          [
+            6,
+            19
+          ],
+          [
+            5,
+            19
+          ],
+          [
+            5,
+            17
+          ],
+          [
+            4,
+            17
+          ],
+          [
+            4,
+            15
+          ],
+          [
+            3,
+            15
+          ],
+          [
+            3,
+            13
+          ],
+          [
+            2,
+            13
+          ],
+          [
+            2,
+            12
+          ],
+          [
+            1,
+            12
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          4,
+          4,
+          2,
+          2,
+          2,
+          1,
+          2
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            6,
+            23
+          ],
+          [
+            6,
+            19
+          ],
+          [
+            5,
+            19
+          ],
+          [
+            5,
+            17
+          ],
+          [
+            4,
+            17
+          ],
+          [
+            4,
+            15
+          ],
+          [
+            3,
+            15
+          ],
+          [
+            3,
+            13
+          ],
+          [
+            2,
+            13
+          ],
+          [
+            2,
+            12
+          ],
+          [
+            1,
+            12
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          4,
+          2,
+          2,
+          2,
+          1,
+          2
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            16,
+            50
+          ],
+          [
+            16,
+            54
+          ],
+          [
+            15,
+            54
+          ],
+          [
+            15,
+            55
+          ],
+          [
+            14,
+            55
+          ],
+          [
+            14,
+            56
+          ],
+          [
+            13,
+            56
+          ],
+          [
+            13,
+            57
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          4,
+          1,
+          1,
+          1
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            4,
+            76
+          ],
+          [
+            4,
+            79
+          ],
+          [
+            3,
+            79
+          ],
+          [
+            3,
+            81
+          ],
+          [
+            2,
+            81
+          ],
+          [
+            2,
+            84
+          ],
+          [
+            1,
+            84
+          ],
+          [
+            1,
+            88
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          2,
+          3,
+          4
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            0,
+            88
+          ],
+          [
+            0,
+            66
+          ],
+          [
+            1,
+            66
+          ],
+          [
+            1,
+            61
+          ],
+          [
+            2,
+            61
+          ],
+          [
+            2,
+            58
+          ],
+          [
+            3,
+            58
+          ],
+          [
+            3,
+            56
+          ],
+          [
+            4,
+            56
+          ],
+          [
+            4,
+            54
+          ],
+          [
+            5,
+            54
+          ],
+          [
+            5,
+            52
+          ],
+          [
+            6,
+            52
+          ],
+          [
+            6,
+            51
+          ],
+          [
+            7,
+            51
+          ],
+          [
+            7,
+            50
+          ],
+          [
+            8,
+            50
+          ],
+          [
+            8,
+            49
+          ],
+          [
+            9,
+            49
+          ],
+          [
+            9,
+            48
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          22,
+          5,
+          3,
+          2,
+          2,
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            1,
+            88
+          ],
+          [
+            1,
+            84
+          ],
+          [
+            2,
+            84
+          ],
+          [
+            2,
+            81
+          ],
+          [
+            3,
+            81
+          ],
+          [
+            3,
+            79
+          ],
+          [
+            4,
+            79
+          ],
+          [
+            4,
+            76
+          ],
+          [
+            5,
+            76
+          ],
+          [
+            5,
+            74
+          ],
+          [
+            6,
+            74
+          ],
+          [
+            6,
+            72
+          ],
+          [
+            7,
+            72
+          ],
+          [
+            7,
+            71
+          ],
+          [
+            8,
+            71
+          ],
+          [
+            8,
+            69
+          ],
+          [
+            9,
+            69
+          ],
+          [
+            9,
+            68
+          ],
+          [
+            10,
+            68
+          ],
+          [
+            10,
+            67
+          ],
+          [
+            11,
+            67
+          ],
+          [
+            11,
+            66
+          ],
+          [
+            12,
+            66
+          ],
+          [
+            12,
+            65
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          4,
+          3,
+          2,
+          3,
+          2,
+          2,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            2,
+            84
+          ],
+          [
+            2,
+            81
+          ],
+          [
+            3,
+            81
+          ],
+          [
+            3,
+            79
+          ],
+          [
+            4,
+            79
+          ],
+          [
+            4,
+            76
+          ],
+          [
+            5,
+            76
+          ],
+          [
+            5,
+            74
+          ],
+          [
+            6,
+            74
+          ],
+          [
+            6,
+            72
+          ],
+          [
+            7,
+            72
+          ],
+          [
+            7,
+            71
+          ],
+          [
+            8,
+            71
+          ],
+          [
+            8,
+            69
+          ],
+          [
+            9,
+            69
+          ],
+          [
+            9,
+            68
+          ],
+          [
+            10,
+            68
+          ],
+          [
+            10,
+            67
+          ],
+          [
+            11,
+            67
+          ],
+          [
+            11,
+            66
+          ],
+          [
+            12,
+            66
+          ],
+          [
+            12,
+            65
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          2,
+          3,
+          2,
+          2,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            4,
+            79
+          ],
+          [
+            4,
+            76
+          ],
+          [
+            5,
+            76
+          ],
+          [
+            5,
+            74
+          ],
+          [
+            6,
+            74
+          ],
+          [
+            6,
+            72
+          ],
+          [
+            7,
+            72
+          ],
+          [
+            7,
+            71
+          ],
+          [
+            8,
+            71
+          ],
+          [
+            8,
+            69
+          ],
+          [
+            9,
+            69
+          ],
+          [
+            9,
+            68
+          ],
+          [
+            10,
+            68
+          ],
+          [
+            10,
+            67
+          ],
+          [
+            11,
+            67
+          ],
+          [
+            11,
+            66
+          ],
+          [
+            12,
+            66
+          ],
+          [
+            12,
+            65
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          2,
+          2,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            1,
+            94
+          ],
+          [
+            1,
+            89
+          ],
+          [
+            2,
+            89
+          ],
+          [
+            2,
+            86
+          ],
+          [
+            3,
+            86
+          ],
+          [
+            3,
+            84
+          ],
+          [
+            4,
+            84
+          ],
+          [
+            4,
+            81
+          ],
+          [
+            5,
+            81
+          ],
+          [
+            5,
+            79
+          ],
+          [
+            6,
+            79
+          ],
+          [
+            6,
+            76
+          ],
+          [
+            7,
+            76
+          ],
+          [
+            7,
+            74
+          ],
+          [
+            8,
+            74
+          ],
+          [
+            8,
+            73
+          ],
+          [
+            9,
+            73
+          ],
+          [
+            9,
+            71
+          ],
+          [
+            10,
+            71
+          ],
+          [
+            10,
+            70
+          ],
+          [
+            11,
+            70
+          ],
+          [
+            11,
+            69
+          ],
+          [
+            12,
+            69
+          ],
+          [
+            12,
+            68
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          5,
+          3,
+          2,
+          3,
+          2,
+          3,
+          2,
+          1,
+          2,
+          1,
+          1,
+          1
+        ],
+        "semantic_review_required": true
+      }
+    ],
+    "scope": "Geometry-only screening, including overlapping/reversed/sub-arcs and possibly exempt shapes. These are not unique motifs or semantic pass rates; front/back identity and two-pixel semantic gaps are not certified."
+  },
+  "contour_screening_after": {
+    "candidate_trace_counts": {
+      "unresolved": 1584,
+      "2-1": 275,
+      "3-2-1": 19
+    },
+    "unresolved_trace_samples": [
+      {
+        "points": [
+          [
+            4,
+            15
+          ],
+          [
+            4,
+            18
+          ],
+          [
+            5,
+            18
+          ],
+          [
+            5,
+            21
+          ],
+          [
+            6,
+            21
+          ],
+          [
+            6,
+            22
+          ],
+          [
+            7,
+            22
+          ],
+          [
+            7,
+            25
+          ],
+          [
+            8,
+            25
+          ],
+          [
+            8,
+            31
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          3,
+          1,
+          3,
+          6
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            5,
+            18
+          ],
+          [
+            5,
+            21
+          ],
+          [
+            6,
+            21
+          ],
+          [
+            6,
+            22
+          ],
+          [
+            7,
+            22
+          ],
+          [
+            7,
+            25
+          ],
+          [
+            8,
+            25
+          ],
+          [
+            8,
+            31
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          1,
+          3,
+          6
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            1,
+            60
+          ],
+          [
+            1,
+            57
+          ],
+          [
+            2,
+            57
+          ],
+          [
+            2,
+            54
+          ],
+          [
+            3,
+            54
+          ],
+          [
+            3,
+            52
+          ],
+          [
+            4,
+            52
+          ],
+          [
+            4,
+            50
+          ],
+          [
+            5,
+            50
+          ],
+          [
+            5,
+            48
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          3,
+          2,
+          2,
+          2
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            2,
+            57
+          ],
+          [
+            2,
+            54
+          ],
+          [
+            3,
+            54
+          ],
+          [
+            3,
+            52
+          ],
+          [
+            4,
+            52
+          ],
+          [
+            4,
+            50
+          ],
+          [
+            5,
+            50
+          ],
+          [
+            5,
+            48
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          2,
+          2,
+          2
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            13,
+            33
+          ],
+          [
+            9,
+            33
+          ],
+          [
+            9,
+            34
+          ],
+          [
+            8,
+            34
+          ],
+          [
+            8,
+            35
+          ],
+          [
+            7,
+            35
+          ],
+          [
+            7,
+            36
+          ],
+          [
+            5,
+            36
+          ],
+          [
+            5,
+            37
+          ],
+          [
+            4,
+            37
+          ]
+        ],
+        "axis": "x",
+        "runs": [
+          4,
+          1,
+          1,
+          2,
+          1
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            2,
+            42
+          ],
+          [
+            2,
+            39
+          ],
+          [
+            3,
+            39
+          ],
+          [
+            3,
+            36
+          ],
+          [
+            4,
+            36
+          ],
+          [
+            4,
+            34
+          ],
+          [
+            5,
+            34
+          ],
+          [
+            5,
+            33
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          3,
+          2,
+          1
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            8,
+            31
+          ],
+          [
+            8,
+            25
+          ],
+          [
+            7,
+            25
+          ],
+          [
+            7,
+            22
+          ],
+          [
+            6,
+            22
+          ],
+          [
+            6,
+            21
+          ],
+          [
+            5,
+            21
+          ],
+          [
+            5,
+            18
+          ],
+          [
+            4,
+            18
+          ],
+          [
+            4,
+            15
+          ],
+          [
+            3,
+            15
+          ],
+          [
+            3,
+            13
+          ],
+          [
+            2,
+            13
+          ],
+          [
+            2,
+            12
+          ],
+          [
+            1,
+            12
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          6,
+          3,
+          1,
+          3,
+          3,
+          2,
+          1,
+          2
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            7,
+            25
+          ],
+          [
+            7,
+            22
+          ],
+          [
+            6,
+            22
+          ],
+          [
+            6,
+            21
+          ],
+          [
+            5,
+            21
+          ],
+          [
+            5,
+            18
+          ],
+          [
+            4,
+            18
+          ],
+          [
+            4,
+            15
+          ],
+          [
+            3,
+            15
+          ],
+          [
+            3,
+            13
+          ],
+          [
+            2,
+            13
+          ],
+          [
+            2,
+            12
+          ],
+          [
+            1,
+            12
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          1,
+          3,
+          3,
+          2,
+          1,
+          2
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            5,
+            21
+          ],
+          [
+            5,
+            18
+          ],
+          [
+            4,
+            18
+          ],
+          [
+            4,
+            15
+          ],
+          [
+            3,
+            15
+          ],
+          [
+            3,
+            13
+          ],
+          [
+            2,
+            13
+          ],
+          [
+            2,
+            12
+          ],
+          [
+            1,
+            12
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          3,
+          2,
+          1,
+          2
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            4,
+            18
+          ],
+          [
+            4,
+            15
+          ],
+          [
+            3,
+            15
+          ],
+          [
+            3,
+            13
+          ],
+          [
+            2,
+            13
+          ],
+          [
+            2,
+            12
+          ],
+          [
+            1,
+            12
+          ],
+          [
+            1,
+            10
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          2,
+          1,
+          2
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            1,
+            66
+          ],
+          [
+            1,
+            62
+          ],
+          [
+            2,
+            62
+          ],
+          [
+            2,
+            59
+          ],
+          [
+            3,
+            59
+          ],
+          [
+            3,
+            57
+          ],
+          [
+            4,
+            57
+          ],
+          [
+            4,
+            54
+          ],
+          [
+            5,
+            54
+          ],
+          [
+            5,
+            52
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          4,
+          3,
+          2,
+          3,
+          2
+        ],
+        "semantic_review_required": true
+      },
+      {
+        "points": [
+          [
+            2,
+            62
+          ],
+          [
+            2,
+            59
+          ],
+          [
+            3,
+            59
+          ],
+          [
+            3,
+            57
+          ],
+          [
+            4,
+            57
+          ],
+          [
+            4,
+            54
+          ],
+          [
+            5,
+            54
+          ],
+          [
+            5,
+            52
+          ]
+        ],
+        "axis": "y",
+        "runs": [
+          3,
+          2,
+          3,
+          2
+        ],
+        "semantic_review_required": true
+      }
+    ],
+    "scope": "Geometry-only screening, including overlapping/reversed/sub-arcs and possibly exempt shapes. These are not unique motifs or semantic pass rates; front/back identity and two-pixel semantic gaps are not certified."
+  }
+}
