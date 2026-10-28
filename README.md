@@ -2,6 +2,8 @@
 
 **Current review baseline:** [PNG](examples/current_step3/step_3_current.png) / [BMP](examples/current_step3/step_3_current.bmp). The later reference-assisted strip-fitting version was rejected by the designer and is disabled.
 
+**New GNR 3005 full-image experiment:** [review PNG](examples/gnr_3005_full_image/step_3_full_review.png), [sketch + two attempts](examples/gnr_3005_full_image/sketch_and_both_attempts.png), and [download ZIP](examples/gnr_3005_full_image/gnr_3005_full_image_review.zip). Two whole-image chat-tool generations test stronger native-pixel density, two-pixel separation and staircase prompts, without tiles. Outputs exactly match the new sketch's 600×200 canvas and pure red/white palette. Small-cluster gaps/hierarchy remain unresolved; [notes and saved prompts](examples/gnr_3005_full_image/README.md) describe the checks and limits.
+
 ## New experiment: dense GenAI → 9/12 tiles → review → merge
 
 **Actual chat-tool tile generation:** [combined PNG](examples/chat_genai_tile_pass/step_3_combined_review.png), [before/after](examples/chat_genai_tile_pass/before_after_review.png), [12-tile contact sheet](examples/chat_genai_tile_pass/all_12_tiles_review.png), and [review ZIP](examples/chat_genai_tile_pass/all_tiles_and_combined_review.zip). All 12 tiles were regenerated using the image tool available in chat; its model identity is unverified. The combined output is native 401 × 340 and pure red/white, with unresolved hierarchy/semantic/seam review. See [the experiment notes](examples/chat_genai_tile_pass/README.md). The current baseline is retained.
