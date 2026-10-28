@@ -14,6 +14,21 @@ The notebook includes a red/white pixel editor and versioned tile proposals. Sav
 
 Regenerate the standalone notebook with `.venv/bin/python scripts/build_tile_notebook.py` when changing tile runtime code. The tile review archive retains proposal revisions and manifests. Download it before Colab storage is lost.
 
+
+## Designer learning panel and optional Sunburst proposals
+
+The same `Tile_Staircase_Review.ipynb` now includes a designer panel with side-by-side sketch, AI input and editable target; a brush editor; and an integer-magnified grid where one click changes exactly one native pixel. The blue ownership guide and pixel grid are previews only. Edited brush colours can be explicitly normalized to pure red/white; native dimensions and read-only context borders are checked.
+
+There are two workflows: **designer edits the current AI tile**, or **Sunburst proposes a regenerated tile and the designer corrects/reviews it**. The optional paid Sunburst button is enabled only when an API client is configured in Colab (`ENABLE_SUNBURST_PROPOSALS=True`; key in Colab Secrets as `TEXTILE_API_KEY`). Generation sends the current tile, matching sketch context and full-image context with a core-edit mask. Code hard-clips the result to the owned native core, because model masks alone are not a hard constraint. Proposed tiles are stored separately and never auto-approved/merged. The model can still violate hierarchy, distort shapes or mismatch neighbouring tiles: inspect complete contours and merged seams. Tests mock the image API; actual Sunburst generation is not validated in this session.
+
+Each **Save designer correction + training example** records the sketch, original AI draft, optional regenerated AI proposal, designer target, changed-pixel mask, editable-core loss mask, rule tags/notes, group ID and reviewer attestations. Source sketches/drafts and saved revisions are preserved. Group IDs must be shared across every crop/variant of the same original design. For a regenerated tile, `before.png` is the AI candidate the designer corrected; `initial_ai_draft.png` also preserves the initial draft. This captures finalized revisions and explanations, not every mouse gesture or automatic access to a designer's reasoning.
+
+**Export correction dataset ZIP** writes provider-neutral `dataset.jsonl` plus images/masks/metadata. Only the latest eligible revision per tile is exported by default, and no-change examples are excluded unless requested. Historical revisions remain in the run. One design's tiles cannot be treated as independent train/validation samples. Keep entire design families together when splitting the eventual dataset.
+
+The notebook defaults to saving under `MyDrive/GNR Textile Reviews` after an explicit Drive mount. Record the printed RUN path and set `RESUME_RUN` to reopen saved work. If persistence is disabled, download the archive before ending Colab. No files are uploaded to Drive merely by building or testing this repository.
+
+**Collection is not training.** Editing does not update Astra/Sunburst weights. Use approved examples for retrieval/reference prompts first; choose a verified supported model/interface before fine-tuning, adapt the neutral format as required, and evaluate on held-out whole designs. Subscription access does not establish API fine-tuning support or billing. No model has been trained by this panel.
+
 ## Current primary workflow: Sunburst + Astra + Colab pixel corrections
 
 Use `notebooks/GenAI_Textile_Colab.ipynb`. Photoshop is optional. The image model defaults to the documented API ID `gpt-image-2.5-sunburst`; enter the exact Astra API model ID available in your account for reasoning/review. Account-facing subscription names do not establish API model access or billing.

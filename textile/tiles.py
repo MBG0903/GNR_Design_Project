@@ -37,7 +37,7 @@ def split(sketch,draft,directory,rows=3,columns=4,overlap=32):
             tiles.append(dict(id=f'r{r+1}_c{c+1}',row=r,column=c,core=[x0,y0,x1,y1],context=context,
                               core_local=[x0-context[0],y0-context[1],x1-context[0],y1-context[1]]))
     manifest=dict(version=1,width=w,height=h,rows=rows,columns=columns,overlap=overlap,
-                  draft_rgb_sha256=_digest(base),tiles=tiles)
+                  draft_rgb_sha256=_digest(base),sketch_rgb_sha256=_digest(source),tiles=tiles)
     directory.mkdir(parents=True);base.save(directory/'original.png');source.save(directory/'sketch.png')
     (directory/'tiles').mkdir()
     for tile in tiles:
@@ -57,6 +57,8 @@ def read(directory):
     directory=Path(directory);m=json.loads((directory/'manifest.json').read_text());base=_load(directory/'original.png')
     if m.get('version')!=1 or base.size!=(m['width'],m['height']) or _digest(base)!=m['draft_rgb_sha256']:
         raise ValueError('Manifest does not match the unedited source raster.')
+    if m.get('sketch_rgb_sha256') and _digest(_load(directory/'sketch.png'))!=m['sketch_rgb_sha256']:
+        raise ValueError('Original sketch changed; use a new review run.')
     h,w=m['height'],m['width'];coverage=np.zeros((h,w),np.uint16);ids=set()
     if len(m['tiles'])!=m['rows']*m['columns']:raise ValueError('Grid membership is incomplete.')
     for tile in m['tiles']:
@@ -120,3 +122,17 @@ def merge_saved(directory):
         if records:
             latest=records[-1];proposals[tile['id']]=latest.with_suffix('.png');reviews[tile['id']]=json.loads(latest.read_text())
     return merge(directory,proposals,reviews)
+
+
+def paint_pixel(image,tile,preview_xy,zoom,colour):
+    """One click on an integer-zoom preview changes exactly one owned pixel."""
+    if type(zoom) is not int or zoom<1 or colour not in ['red','white']:
+        raise ValueError('Choose an integer zoom and red or white.')
+    if len(preview_xy)!=2 or any(type(v) is not int or v<0 for v in preview_xy):
+        raise ValueError('Expected nonnegative integer preview coordinates.')
+    im=_load(image);x,y=preview_xy[0]//zoom,preview_xy[1]//zoom
+    x0,y0,x1,y1=tile['core_local']
+    if not(x0<=x<x1 and y0<=y<y1 and x<im.width and y<im.height):
+        raise ValueError('Click inside the editable core; context pixels are read-only.')
+    im.putpixel((x,y),(255,0,0) if colour=='red' else (255,255,255))
+    return im

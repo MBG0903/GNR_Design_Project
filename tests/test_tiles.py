@@ -52,3 +52,12 @@ class TileTests(unittest.TestCase):
             with Image.open(root/'original.png') as opened:changed=opened.convert('RGB')
             changed.putpixel((0,0),(255,0,0));changed.save(root/'original.png')
             with self.assertRaisesRegex(ValueError,'does not match'):merge(root)
+    def test_integer_zoom_click_changes_one_native_pixel_and_blocks_halo(self):
+        from textile.tiles import paint_pixel
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp)/'tiles';im=self.image();m=split(im,im,root);tile=m['tiles'][5]
+            with Image.open(root/'tiles'/f"{tile['id']}_draft.png") as opened:before=opened.convert('RGB')
+            x,y=tile['core_local'][:2];colour='white' if before.getpixel((x,y))==(255,0,0) else 'red'
+            after=paint_pixel(before,tile,[x*8+4,y*8+3],8,colour)
+            self.assertEqual(int(np.any(np.asarray(after)!=np.asarray(before),axis=2).sum()),1)
+            with self.assertRaisesRegex(ValueError,'inside the editable core'):paint_pixel(before,tile,[0,0],8,'red')
