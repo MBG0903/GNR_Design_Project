@@ -1,5 +1,7 @@
 # GNR Design Project
 
+**Four-design Sunburst batch:** [Open the Colab notebook](https://colab.research.google.com/github/MBG0903/GNR_Design_Project/blob/main/notebooks/Sunburst_Four_Design_Comparison.ipynb). It embeds the uploaded GNR 3001–3004 pairs, uses the existing `OPENAI_API_KEY` Colab Secret, creates one output folder per design, and exports native-size AI PNG/BMP plus designer-comparison percentages. [Input folders and execution notes](examples/sunburst_four_designs/README.md). Real Sunburst execution is pending in the user's Colab session; no images or accuracy scores are fabricated here.
+
 **Current review baseline:** [PNG](examples/current_step3/step_3_current.png) / [BMP](examples/current_step3/step_3_current.bmp). The later reference-assisted strip-fitting version was rejected by the designer and is disabled.
 
 **New GNR 3005 full-image experiment:** [review PNG](examples/gnr_3005_full_image/step_3_full_review.png), [sketch + two attempts](examples/gnr_3005_full_image/sketch_and_both_attempts.png), and [download ZIP](examples/gnr_3005_full_image/gnr_3005_full_image_review.zip). Two whole-image chat-tool generations test stronger native-pixel density, two-pixel separation and staircase prompts, without tiles. Outputs exactly match the new sketch's 600×200 canvas and pure red/white palette. Small-cluster gaps/hierarchy remain unresolved; [notes and saved prompts](examples/gnr_3005_full_image/README.md) describe the checks and limits.

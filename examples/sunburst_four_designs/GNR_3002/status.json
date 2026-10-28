@@ -1,0 +1,22 @@
+{
+  "design_id": "GNR_3002",
+  "source_size": [
+    360,
+    600
+  ],
+  "source_sha256": "b09883029c2ccc0b062ff68ee24b76e8d56b46139eeff10d7dcace3227a3fec9",
+  "designer_sha256": "9fb222fc00098193521b79d7f47905226be66f677ec6b460550d59d614c5602e",
+  "designer_validation": {
+    "width": 360,
+    "height": 600,
+    "size_ok": true,
+    "palette_ok": true,
+    "has_red_and_white": true,
+    "invalid_colour_pixels": 0,
+    "red_fraction": 0.5688148148148148,
+    "automated_checks_passed": true,
+    "semantic_validation": "Requires designer review; not inferred from component counts."
+  },
+  "status": "inputs_ready_colab_api_execution_pending",
+  "generated": false
+}

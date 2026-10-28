@@ -1,0 +1,90 @@
+[
+  {
+    "design_id": "GNR_3001",
+    "source_size": [
+      400,
+      720
+    ],
+    "source_sha256": "45d6d4e593e28bc91db9676d8f47d710a9d68a36bad22b0301ea87f1aaacdc2a",
+    "designer_sha256": "f34e2035479a42c0535ddfd518c2ea1127bc833114981ec1327e71bc8ecd748f",
+    "designer_validation": {
+      "width": 400,
+      "height": 720,
+      "size_ok": true,
+      "palette_ok": true,
+      "has_red_and_white": true,
+      "invalid_colour_pixels": 0,
+      "red_fraction": 0.5599444444444445,
+      "automated_checks_passed": true,
+      "semantic_validation": "Requires designer review; not inferred from component counts."
+    },
+    "status": "inputs_ready_colab_api_execution_pending",
+    "generated": false
+  },
+  {
+    "design_id": "GNR_3002",
+    "source_size": [
+      360,
+      600
+    ],
+    "source_sha256": "b09883029c2ccc0b062ff68ee24b76e8d56b46139eeff10d7dcace3227a3fec9",
+    "designer_sha256": "9fb222fc00098193521b79d7f47905226be66f677ec6b460550d59d614c5602e",
+    "designer_validation": {
+      "width": 360,
+      "height": 600,
+      "size_ok": true,
+      "palette_ok": true,
+      "has_red_and_white": true,
+      "invalid_colour_pixels": 0,
+      "red_fraction": 0.5688148148148148,
+      "automated_checks_passed": true,
+      "semantic_validation": "Requires designer review; not inferred from component counts."
+    },
+    "status": "inputs_ready_colab_api_execution_pending",
+    "generated": false
+  },
+  {
+    "design_id": "GNR_3003",
+    "source_size": [
+      360,
+      600
+    ],
+    "source_sha256": "65fb294697e87a1f46b0f06c0be86d3d177bc8aedc4ad85208197cf9b3fccaa9",
+    "designer_sha256": "ab5d6af3a2603c6a461d37396f612d8704f7726f99a38b35284362e2b6afbede",
+    "designer_validation": {
+      "width": 360,
+      "height": 600,
+      "size_ok": true,
+      "palette_ok": true,
+      "has_red_and_white": true,
+      "invalid_colour_pixels": 0,
+      "red_fraction": 0.5222962962962963,
+      "automated_checks_passed": true,
+      "semantic_validation": "Requires designer review; not inferred from component counts."
+    },
+    "status": "inputs_ready_colab_api_execution_pending",
+    "generated": false
+  },
+  {
+    "design_id": "GNR_3004",
+    "source_size": [
+      480,
+      190
+    ],
+    "source_sha256": "8adc21f5a1d0d06e007d35966dada5c0cfad7cb09552874e4a93079a358dad17",
+    "designer_sha256": "ee1c058ef6a0ebd67a7046e539baec4f82912950b1470b43d24c300c0af09f03",
+    "designer_validation": {
+      "width": 480,
+      "height": 190,
+      "size_ok": true,
+      "palette_ok": true,
+      "has_red_and_white": true,
+      "invalid_colour_pixels": 0,
+      "red_fraction": 0.6267543859649123,
+      "automated_checks_passed": true,
+      "semantic_validation": "Requires designer review; not inferred from component counts."
+    },
+    "status": "inputs_ready_colab_api_execution_pending",
+    "generated": false
+  }
+]

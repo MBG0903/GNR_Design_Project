@@ -70,6 +70,7 @@ def generate(source, output, client=None, references=(), model='gpt-image-2.5-su
             files.append((f'reference_{i}_{role}.png',stream.getvalue(),'image/png'))
         labels.append(f'Images {2+2*i} and {3+2*i}: reference sketch and its approved output. Learn the treatment; do not copy its motifs.')
     prompt=POLICY+'\nImage 1 is the only design to convert. '+ '\n'.join(labels)
+    prompt+=f'\nAuthoritative NATIVE textile grid: {original.width} columns by {original.height} rows. The padded native square is {side}x{side}; one native pixel spans {1024/side:.6f} pixels on the 1024 canvas. Gap and contour-run counts refer to this native grid, not display pixels. Two-pixel gaps must survive native restoration. Example contour tail: [3,3,2,2,2,1,1,1,1,1]; small-shape fallback [2,2,1,1,1,1]. These are step lengths, not stroke widths. Keep complete paired contours and avoid smooth subpixel decoration that becomes random notches after reduction.'
     prompt+=f'\nKeep the square canvas registration. The original drawing occupies x={left/side:.6f} to {(left+original.width)/side:.6f}, y={top/side:.6f} to {(top+original.height)/side:.6f}. Keep the surrounding white padding unchanged.'
     result=client.images.edit(model=model,image=files,prompt=prompt,size='1024x1024',quality='high')
     if not result.data or not result.data[0].b64_json:
