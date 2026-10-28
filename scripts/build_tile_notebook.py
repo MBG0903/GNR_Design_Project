@@ -98,20 +98,47 @@ Only the raw red/white pixels are saved; the blue guide is diagnostic.
 - The review checkboxes are attestations, not automatic compliance checks.
 
 The Gradio relay is a temporary public URL protected by your chosen password. For private processing run locally.
+'''),md('''## Connect Sunburst and optionally generate ALL tiles
+For a new batch, enable API access and RUN_SUNBURST_BATCH below. This makes one paid image request per missing tile (12 with the default grid).
+Completed proposals remain on Drive: resume the SAME RUN after an interruption to avoid generating completed tiles again.
+The output includes all native tiles, a combined PNG/BMP matching Step 2 exactly, a before/after comparison and a ZIP.
+This is an **unreviewed AI preview**; it does not bypass the designer review gates or establish staircase correctness.
+API credentials are read from Colab Secrets/hidden input and are never saved. Chat subscriptions do not supply API billing.
 '''),code('''import getpass
-from textile.tile_app import build_tile_app
-password=getpass.getpass('Choose a session password (12+ characters): ')
-if len(password)<12:raise ValueError('Choose a longer password.')
-ENABLE_SUNBURST_PROPOSALS=False  # Optional paid per-tile image edits; never automatic merging.
+ENABLE_SUNBURST_PROPOSALS=False
+RUN_SUNBURST_BATCH=False
+IMAGE_MODEL='gpt-image-2.5-sunburst'
 api_client=None
-if ENABLE_SUNBURST_PROPOSALS:
+if ENABLE_SUNBURST_PROPOSALS or RUN_SUNBURST_BATCH:
     from google.colab import userdata
     from openai import OpenAI
     try:key=userdata.get('TEXTILE_API_KEY')
     except Exception:key=getpass.getpass('OpenAI API key (hidden): ')
+    if not key:raise ValueError('Add TEXTILE_API_KEY to Colab Secrets and enable notebook access.')
     api_client=OpenAI(api_key=key)
     del key
-app=build_tile_app(RUN,design_group_id=DESIGN_GROUP_ID,ai_client=api_client,image_model='gpt-image-2.5-sunburst')
+if RUN_SUNBURST_BATCH:
+    from textile.tile_batch import generate_all
+    BATCH_OUTPUT,BATCH_REPORT=generate_all(RUN,api_client,model=IMAGE_MODEL,progress=print)
+    print('Batch saved:',BATCH_OUTPUT)
+    print(json.dumps(BATCH_REPORT,indent=2))
+    display(Image.open(BATCH_OUTPUT/'combined_unreviewed.png'))
+    display(Image.open(BATCH_OUTPUT/'before_left_after_right.png'))
+    display(Image.open(BATCH_OUTPUT/'tile_seam_guide_diagnostic.png'))
+    for tile in manifest['tiles']:
+        print(tile['id'],'— generated context tile (only its core is merged)')
+        display(Image.open(BATCH_OUTPUT/'tiles'/f"{tile['id']}_context.png"))
+    from google.colab import files
+    files.download(str(BATCH_OUTPUT/'all_tiles_and_combined_review.zip'))
+    files.download(str(BATCH_OUTPUT/'combined_unreviewed.png'))
+    files.download(str(BATCH_OUTPUT/'combined_unreviewed.bmp'))
+'''),md('''## Open the designer panel
+The batch preview contains pending AI candidates. Select each tile and use **Generate Sunburst proposal** only if you want a new paid alternative.
+Review/edit the candidate and save a designer correction before using the reviewed merge. Batch previews carry no sign-off.
+'''),code('''from textile.tile_app import build_tile_app
+password=getpass.getpass('Choose a session password (12+ characters): ')
+if len(password)<12:raise ValueError('Choose a longer password.')
+app=build_tile_app(RUN,design_group_id=DESIGN_GROUP_ID,ai_client=api_client,image_model=IMAGE_MODEL)
 app.launch(share=True,inline=True,auth=('designer',password),show_error=False)
 '''),md('''## How the AI can learn from the corrections
 Saving examples does NOT update Astra or Sunburst weights. The dataset is provider-neutral: original sketch,

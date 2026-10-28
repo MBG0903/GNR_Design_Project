@@ -24,6 +24,13 @@ def build_tile_app(directory,design_group_id='',draft_generator_model='unknown',
             if ai_revision is not None:
                 from .tile_genai import proposal_input
                 before_view,_=proposal_input(directory,key,ai_revision,manifest)
+        else:
+            from .tile_batch import _latest
+            from .tile_genai import proposal_input
+            ai_revision=_latest(directory,key)
+            if ai_revision is not None:
+                draft,_=proposal_input(directory,key,ai_revision,manifest)
+                before_view=draft.copy()
         sketch=_load(directory/'sketch.png').crop(tile['context'])
         guide=original.resize((original.width*3,original.height*3),Image.Resampling.NEAREST)
         d=ImageDraw.Draw(guide);x0,y0,x1,y1=tile['core_local']
