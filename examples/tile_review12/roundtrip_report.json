@@ -1,0 +1,20 @@
+{
+  "status": "unedited_roundtrip",
+  "changed_tiles": [],
+  "changed_pixels": 0,
+  "raster_checks": {
+    "width": 401,
+    "height": 340,
+    "size_ok": true,
+    "palette_ok": true,
+    "has_red_and_white": true,
+    "invalid_colour_pixels": 0,
+    "red_fraction": 0.5063591022443891,
+    "automated_checks_passed": true,
+    "semantic_validation": "Requires designer review; not inferred from component counts."
+  },
+  "source_sha256": "b0937e3f8e080ba00c1fcf7ca43c361f8310366a142b2cafd04d285e96895638",
+  "whole_image_validation_required": true,
+  "automatic_staircase_compliance": false,
+  "note": "Tile attestations are review records, not machine proof. Inspect full contours and seams globally before approval."
+}

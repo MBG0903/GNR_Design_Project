@@ -2,6 +2,18 @@
 
 **Current review baseline:** [PNG](examples/current_step3/step_3_current.png) / [BMP](examples/current_step3/step_3_current.bmp). The later reference-assisted strip-fitting version was rejected by the designer and is disabled.
 
+## New experiment: dense GenAI → 9/12 tiles → review → merge
+
+Open `notebooks/Tile_Staircase_Review.ipynb` in Colab. It is standalone and embeds the existing dense draft and matching sketch. For a new design, run the generation stage of the primary notebook, then upload the sketch and dense result into this experiment. No new generation or automatic staircase corrections have been applied to the example tiles. The restored working baseline remains unchanged.
+
+Default grid: **4 columns × 3 rows = 12 tiles**, with **32 native pixels of read-only context** around each core. A 3×3 grid gives 9 tiles. Cores partition the original image exactly, including uneven 401×340 dimensions; nothing is resized or blended. Only core edits are merged. Matching sketch context and a diagnostic ownership guide are supplied. Increase context or inspect the full component if either front/back edge or tip is cut off. Cross-core edits need coordinated neighbouring proposals and full-curve review after merging.
+
+The notebook includes a red/white pixel editor and versioned tile proposals. Save requires reviewer identity, full affected contour/tip review, hierarchy/gap review and no unresolved notes. Halo edits, palette changes and dimension changes are rejected. **These attestations are not machine proof of semantic rules.** Merge output is always a review draft requiring global curve and seam inspection. The prior rejected strip fitter stays disabled; tiling does not make that method valid. Automated Astra contour correction and complete-curve validation are not implemented in this experiment.
+
+`examples/tile_review12/` includes the manifest, raw context tiles, grid preview, no-edit roundtrip, and `tile_pack.zip`. Both 9- and 12-tile no-edit roundtrips were tested pixel-for-pixel, and the live editor load/merge API was exercised. The dense sample remains exactly 401×340. The blue grid is a diagnostic only and is absent from the raw rasters.
+
+Regenerate the standalone notebook with `.venv/bin/python scripts/build_tile_notebook.py` when changing tile runtime code. The tile review archive retains proposal revisions and manifests. Download it before Colab storage is lost.
+
 ## Current primary workflow: Sunburst + Astra + Colab pixel corrections
 
 Use `notebooks/GenAI_Textile_Colab.ipynb`. Photoshop is optional. The image model defaults to the documented API ID `gpt-image-2.5-sunburst`; enter the exact Astra API model ID available in your account for reasoning/review. Account-facing subscription names do not establish API model access or billing.
