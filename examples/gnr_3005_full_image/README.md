@@ -14,8 +14,10 @@ Two actual **full-image** calls used the image-generation tool available in chat
 Its model identity is not exposed; these are not verified Sunburst outputs.
 There was no tiling, tile merge or seam repair. The independent design-362 sketch
 and manually approved Step_3 supplied examples of semantic fill treatment, not an
-approved target for this new design. No designer Step_3 for GNR 3005 is available,
-so no reference similarity or conversion-accuracy score is claimed.
+approved target for this new design. The GNR 3005 designer Step_3 was supplied
+after generation. Its [subsequent comparison](../gnr_3005_designer_comparison/README.md)
+finds 55.24% exact pixel agreement for the latest draft and 61.52% for the first.
+It was not supplied to either generation call.
 
 The [first prompt](prompt_full_image_dense_v2.txt) explicitly defines:
 
