@@ -10,6 +10,50 @@ from .core import rgb, validate
 
 EXTENSIONS = {'.bmp', '.png', '.tif', '.tiff', '.jpg', '.jpeg'}
 
+def audit_issue_category(message):
+    """Classify existing audit messages without changing pairing/validation."""
+    if message.startswith('Ambiguous filename key:'):
+        return 'Ambiguous filenames'
+    if message.startswith('Unmatched:'):
+        return 'Missing matching image'
+    if message.startswith('Duplicate design-group mapping:'):
+        return 'Duplicate family mappings'
+    if 'pairs need design_id values.' in message:
+        return 'Missing family mappings'
+    if ': invalid target or dimensions:' in message:
+        return 'Designer colours, size or empty design'
+    if ': cannot read pair:' in message:
+        return 'Unreadable images'
+    if message.startswith('Need at least three independent design groups'):
+        return 'Too few independent families'
+    return 'Other audit issues'
+
+
+def audit_diagnostics(report, max_examples=3):
+    """Readable summary, including for audit.json written by older notebooks."""
+    buckets = {}
+    for error in report.get('errors', []):
+        buckets.setdefault(audit_issue_category(error), []).append(error)
+    lines = [f"Read pairs: {report.get('pairs', '?')}; audit issues: {len(report.get('errors', []))}.",
+             'Issue counts are not counts of unusable images; a pair can have multiple issues.']
+    hints = {
+        'Ambiguous filenames': 'Multiple files resolve to one pair key. Inspect the filenames before choosing a match.',
+        'Missing matching image': 'Check matching Stage_2/Stage_3 filenames; no fuzzy matching is applied.',
+        'Duplicate family mappings': 'Keep one groups.csv row per key; retain the correct original design_id.',
+        'Missing family mappings': 'Use groups_template.csv to complete missing design_id values; preserve existing family assignments.',
+        'Designer colours, size or empty design': 'size_ok=False means dimensions differ; palette_ok=False means non-red/white pixels; has_red_and_white=False means an empty or single-colour target. Do not silently resize or recolour the reference.',
+        'Unreadable images': 'Check the listed image files can be opened.',
+        'Too few independent families': 'At least three separate original design families are needed for the split.',
+    }
+    for category, messages in buckets.items():
+        lines.append(f'\n{category}: {len(messages)}')
+        lines.extend(f'  {message}' for message in messages[:max_examples])
+        if len(messages) > max_examples:
+            lines.append(f'  ... {len(messages)-max_examples} more; see audit_issues.csv.')
+        if category in hints:
+            lines.append(hints[category])
+    return '\n'.join(lines)
+
 def pair_key(path, stage):
     stem = Path(path).stem.casefold().strip()
     # Also support 'GNR 3001 ( FILE 2 )' and variant suffixes after FILE.
@@ -32,7 +76,7 @@ def audit_dataset(stage2, stage3, output, seed=42, groups_csv=None, require_grou
             if p.is_file() and p.suffix.lower() in EXTENSIONS:
                 key = pair_key(p, stage)
                 if not key or key in index:
-                    errors.append(f'Ambiguous filename key: {key!r} in {root}')
+                    errors.append(f'Ambiguous filename key: {key!r} in {root}; files: {index.get(key)} and {p}')
                 else:
                     index[key] = p
         indexes.append(index)
@@ -67,7 +111,7 @@ def audit_dataset(stage2, stage3, output, seed=42, groups_csv=None, require_grou
                 target = rgb(im)
             checks = validate(target, source.size)
             if not checks['automated_checks_passed']:
-                errors.append(f'{key}: invalid target or dimensions: {checks}')
+                errors.append(f'{key}: invalid target or dimensions: {checks}; Step_2 size={source.size}; Step_3 file={b[key]}')
             rows.append(dict(key=key, source=str(a[key].resolve()), target=str(b[key].resolve()),
                              width=source.width, height=source.height,
                              source_hash=hashlib.sha256(source.tobytes()+str(source.size).encode()).hexdigest(),
@@ -110,6 +154,11 @@ def audit_dataset(stage2, stage3, output, seed=42, groups_csv=None, require_grou
     output = Path(output)
     output.mkdir(parents=True, exist_ok=True)
     (output/'audit.json').write_text(json.dumps(report,indent=2))
+    (output/'audit_summary.txt').write_text(audit_diagnostics(report))
+    with (output/'audit_issues.csv').open('w', newline='') as handle:
+        writer = csv.writer(handle)
+        writer.writerow(['category', 'issue'])
+        writer.writerows((audit_issue_category(error), error) for error in errors)
     if errors:
         # Never leave a stale successful manifest available after a failed re-audit.
         (output/'manifest.json').unlink(missing_ok=True)

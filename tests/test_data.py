@@ -4,9 +4,37 @@ import tempfile
 import unittest
 from pathlib import Path
 from PIL import Image
-from textile.data import pair_key, audit_dataset
+from textile.data import pair_key, audit_dataset, audit_diagnostics
 
 class PairingTests(unittest.TestCase):
+    def test_failed_audit_exports_diagnostics_without_changing_inputs(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp); a,b=self.fixture(root); out=root/'audit'
+            Image.new('RGB',(9,9),'pink').save(b/'0 GNR 3.bmp')
+            Image.new('RGB',(16,16),'white').save(a/'unpaired 2.bmp')
+            originals={p:p.read_bytes() for folder in (a,b) for p in folder.iterdir()}
+            with self.assertRaises(ValueError):
+                audit_dataset(a,b,out)
+            report=json.loads((out/'audit.json').read_text())
+            summary=audit_diagnostics(report)
+            self.assertIn('Missing matching image: 1',summary)
+            self.assertIn('Designer colours, size or empty design: 1',summary)
+            self.assertIn('Step_2 size=(16, 16)',summary)
+            self.assertEqual((out/'audit_summary.txt').read_text(),summary)
+            with (out/'audit_issues.csv').open(newline='') as handle:
+                issues=list(csv.DictReader(handle))
+            self.assertEqual(len(issues),2)
+            self.assertFalse((out/'manifest.json').exists())
+            for path,content in originals.items():
+                self.assertEqual(path.read_bytes(),content)
+
+    def test_old_audit_json_readable_with_bounded_examples(self):
+        report={'pairs':10,'errors':[f'Unmatched: {i} (missing Stage_3)' for i in range(6)]}
+        summary=audit_diagnostics(report,max_examples=2)
+        self.assertIn('Missing matching image: 6',summary)
+        self.assertIn('4 more',summary)
+        self.assertNotIn('Unmatched: 5',summary)
+
     def test_sample_names_match(self):
         self.assertEqual(pair_key('362 GNR 2.bmp',2),pair_key('362 GNR 3.bmp',3))
 

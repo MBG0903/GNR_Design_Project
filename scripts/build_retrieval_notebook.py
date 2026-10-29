@@ -68,19 +68,31 @@ subprocess.check_call([sys.executable, '-m', 'pip', 'install',
     'numpy>=1.26,<3', 'Pillow>=10.4,<13', 'scipy>=1.12,<2',
     'openai>=2,<3', 'sentence-transformers>=3,<6'])
 sys.path.insert(0, str(RUNTIME))
+# Re-running setup must import the newly extracted runtime, not a cached older one.
+for module_name in list(sys.modules):
+    if module_name == 'textile' or module_name.startswith('textile.'):
+        del sys.modules[module_name]
 from PIL import Image
 from IPython.display import display
-from textile.data import audit_dataset, contact_sheet
+from textile.data import audit_dataset, audit_diagnostics, contact_sheet
 from textile.retrieval_experiment import suggest_groups, embed_sources, plan_pilot, preview_plan, run_pilot
 '''), md('''## 3. Pair, audit and split the dataset
 Both naming styles are supported: `362 GNR 2.bmp` and `GNR 3001 ( FILE 2 ).bmp`, with matching Stage_3 names.
-Ambiguous names, unpaired files, invalid designer colours or mismatched dimensions stop the audit. Inspect `audit/audit.json` to resolve them; the notebook does not silently resize or recolour the designer truth.
+Ambiguous names, unpaired files, invalid designer colours or mismatched dimensions stop the audit. A category breakdown and examples print directly below the cell. The complete issues are saved as `audit/audit_issues.csv`, with a readable `audit/audit_summary.txt` and original `audit/audit.json`. Share the printed breakdown to diagnose the cause. No images or family mappings are automatically changed.
 
 `groups.csv` is created only if absent and preserved on reruns. Filename numbers suggest original families; that cannot discover every crop or renamed variant. You can run the initial exploratory pilot with GROUPS_REVIEWED=False. Its scores are **provisional**, not evidence of generalization. Review the CSV and sample pairs before claiming held-out accuracy. After changing groups, use a new EXPERIMENT folder and rerun this audit.
 '''), code('''suggest_groups(STAGE_2, GROUPS)
 print('Family mapping:', GROUPS)
-report = audit_dataset(STAGE_2, STAGE_3, EXPERIMENT/'audit',
-    groups_csv=GROUPS, require_groups=True, seed=42, hold_fraction=0.10)
+try:
+    report = audit_dataset(STAGE_2, STAGE_3, EXPERIMENT/'audit',
+        groups_csv=GROUPS, require_groups=True, seed=42, hold_fraction=0.10)
+except ValueError as exc:
+    if str(exc).startswith('Audit failed'):
+        failed_report = json.loads((EXPERIMENT/'audit/audit.json').read_text())
+        print(audit_diagnostics(failed_report))
+        print('Full issue list:', EXPERIMENT/'audit/audit_issues.csv')
+        raise ValueError('Dataset audit stopped. See the category breakdown above; share it to identify the repair. This audit did not make image API calls.') from None
+    raise
 print(json.dumps(report, indent=2))
 rows = json.loads((EXPERIMENT/'audit/manifest.json').read_text())
 # Final test designs are not indexed or used for retrieval/generation in this pilot.
