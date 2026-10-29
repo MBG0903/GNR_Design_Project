@@ -12,11 +12,15 @@ EXTENSIONS = {'.bmp', '.png', '.tif', '.tiff', '.jpg', '.jpeg'}
 
 def pair_key(path, stage):
     stem = Path(path).stem.casefold().strip()
+    # Also support 'GNR 3001 ( FILE 2 )' and variant suffixes after FILE.
+    stem = re.sub(rf'\(\s*file\s*{stage}\s*\)', ' ', stem)
     # Example: '362 GNR 2' and '362 GNR 3' -> '362 gnr'.
     stem = re.sub(rf'[ _-]+(?:(?:stage|step)[ _-]*)?{stage}$', '', stem)
     return re.sub(r'[ _-]+', ' ', stem).strip()
 
-def audit_dataset(stage2, stage3, output, seed=42, groups_csv=None, require_groups=False):
+def audit_dataset(stage2, stage3, output, seed=42, groups_csv=None, require_groups=False, hold_fraction=0.15):
+    if not 0 < hold_fraction < 0.5:
+        raise ValueError('hold_fraction must be between 0 and 0.5.')
     roots = [Path(stage2), Path(stage3)]
     for root in roots:
         if not root.is_dir():
@@ -94,13 +98,13 @@ def audit_dataset(stage2, stage3, output, seed=42, groups_csv=None, require_grou
     random.Random(seed).shuffle(group_list)
     if len(group_list) < 3:
         errors.append('Need at least three independent design groups for reference/validation/test.')
-    hold = max(1, round(len(group_list)*0.15))
+    hold = min(max(1, round(len(group_list)*hold_fraction)), max(1,(len(group_list)-1)//2))
     for j,group in enumerate(group_list):
         split = 'test' if j < hold else 'validation' if j < 2*hold else 'reference'
         for i in group:
             rows[i]['split'] = split
             rows[i]['group'] = str(find(i))
-    report = dict(seed=seed, pairs=len(rows), independent_groups=len(group_list), errors=errors,
+    report = dict(seed=seed, hold_fraction=hold_fraction, pairs=len(rows), independent_groups=len(group_list), errors=errors,
                   counts={s:sum(r.get('split')==s for r in rows) for s in ['reference','validation','test']},
                   note='Whole-design mapping and exact duplicate inputs/outputs grouped transitively. Inspect contact sheets to verify correspondence.')
     output = Path(output)

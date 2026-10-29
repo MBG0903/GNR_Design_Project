@@ -1,5 +1,7 @@
 # GNR Design Project
 
+**New reference-guided pilot:** [Open in Colab](https://colab.research.google.com/github/MBG0903/GNR_Design_Project/blob/main/notebooks/Reference_Guided_Pilot.ipynb). It reads the paired Drive dataset, suggests design-family groups, reserves a final test split, and compares rules-only generation against generation with two similar approved pairs on up to five validation designs (up to 10 paid requests). Sketch-only CLIP embeddings select examples; GenAI creates the images. Outputs include original-size PNG/BMP, coloured differences, pixel agreement, red IoU/Dice and paired method comparisons. Filename groups remain provisional until crops/variants and pair alignment are checked. [Run instructions and evaluation limits](docs/reference_pilot.md). This is retrieval, not weight training; live API generation and accuracy measurement are pending in Colab.
+
 **Four-design Sunburst batch:** [Open the Colab notebook](https://colab.research.google.com/github/MBG0903/GNR_Design_Project/blob/main/notebooks/Sunburst_Four_Design_Comparison.ipynb). It mounts Drive first, saves GNR 3001–3004 under `MyDrive/GNR Data-Set/Sunburst_Four_Designs/`, and reads those Drive files for generation/comparison. Matching Colab uploads are copied first; missing originals are downloaded from the pinned project version and hash-verified. No image data is embedded in notebook cells. It uses the existing `OPENAI_API_KEY` Colab Secret and creates one output folder per design with native-size AI PNG/BMP and comparison percentages. [Input folders and execution notes](examples/sunburst_four_designs/README.md). Real Sunburst execution is pending in the user's Colab session.
 
 **Current review baseline:** [PNG](examples/current_step3/step_3_current.png) / [BMP](examples/current_step3/step_3_current.bmp). The later reference-assisted strip-fitting version was rejected by the designer and is disabled.
@@ -65,7 +67,7 @@ The notebook mounts:
 - `MyDrive/GNR Design Data-Set/Stage_2`
 - `MyDrive/GNR Design Data-Set/Stage_3`
 
-It pairs names such as `362 GNR 2.bmp` / `362 GNR 3.bmp`, audits the images, and requires `groups.csv` to group variants/crops by original design. The first audit generates a template. Whole-design reference/validation/test splits keep evaluated designs out of reference examples. Select 1–3 relevant approved pairs for generation; all 1,600 examples are not sent in one prompt. Automatic semantic retrieval and fine-tuning are not implemented.
+It pairs names such as `362 GNR 2.bmp` / `362 GNR 3.bmp`, audits the images, and requires `groups.csv` to group variants/crops by original design. The first audit generates a template. Whole-design reference/validation/test splits keep evaluated designs out of reference examples. Select 1–3 relevant approved pairs for generation; all 1,600 examples are not sent in one prompt. The separate reference-guided pilot above adds automatic sketch-similarity retrieval and paired evaluation. Fine-tuning is not implemented.
 
 ## Pipeline
 
