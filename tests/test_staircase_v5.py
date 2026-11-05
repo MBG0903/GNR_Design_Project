@@ -8,6 +8,8 @@ import warnings
 import zlib
 from pathlib import Path
 import importlib.util
+import io
+from unittest.mock import patch
 
 for dependency in ('cv2','skimage','IPython','nbformat'):
     if importlib.util.find_spec(dependency) is None:
@@ -17,7 +19,7 @@ import cv2
 import numpy as np
 from PIL import Image
 from textile.staircase_v5 import (build_corner,corner_check,curve_ok,curve_audit,construct_corner,
-    repair_curves,transition_guard,export_review,install_bindings,self_test)
+    repair_curves,transition_guard,export_review,install_bindings,self_test,stage_ai_draft)
 
 
 def unchecked(h,v,fh=11,fv=7):
@@ -45,6 +47,78 @@ def specimen(bad=False):
 
 
 class StaircaseV5Tests(unittest.TestCase):
+    def test_failed_import_or_changed_design_cannot_reuse_stale_pixels(self):
+        from textile.staircase_v5 import capture_input_context,require_input_context
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);step2=root/'step2.png';draft=root/'draft.png'
+            im=Image.new('RGB',(16,12),'white');im.save(step2)
+            Image.new('RGB',(16,12),'red').save(draft)
+            ns=dict(DESIGN='1862',S2={'1862':step2},sketch=im.copy(),W=16,H=12,
+                RED_PS=np.ones((12,16),bool),SOFT_PS=np.ones((12,16),np.float32))
+            with self.assertRaisesRegex(ValueError,'not completed'):
+                require_input_context(ns)
+            ns['V5_ACTIVE_INPUT']=capture_input_context(ns,draft)
+            self.assertEqual(require_input_context(ns)['design'],'1862')
+            ns['DESIGN']='1071';ns['S2']['1071']=step2
+            with self.assertRaisesRegex(ValueError,'changed'):
+                require_input_context(ns)
+            ns['DESIGN']='1862';ns['V5_ACTIVE_INPUT']=None
+            with self.assertRaisesRegex(ValueError,'not completed'):
+                require_input_context(ns)
+            ns['V5_ACTIVE_INPUT']=capture_input_context(ns,draft)
+            Image.new('RGB',(16,12),'pink').save(draft)
+            with self.assertRaisesRegex(ValueError,'changed'):
+                require_input_context(ns)
+
+    def test_selected_draft_preserves_bytes_validates_size_and_keeps_existing_files(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder=Path(tmp)/'inbox'
+            data=io.BytesIO();Image.new('RGB',(16,12),'red').save(data,'PNG');payload=data.getvalue()
+            path=stage_ai_draft(payload,folder,'1862',(16,12))
+            self.assertEqual(path.name,'1862 GNR 3.png')
+            self.assertEqual(path.read_bytes(),payload)
+            self.assertEqual(stage_ai_draft(payload,folder,'1862',(16,12)),path)
+            other=io.BytesIO();Image.new('RGB',(16,12),'white').save(other,'PNG')
+            version=stage_ai_draft(other.getvalue(),folder,'1862',(16,12))
+            self.assertNotEqual(path,version)
+            self.assertEqual(path.read_bytes(),payload)
+            count=len(list(folder.iterdir()))
+            with self.assertRaisesRegex(ValueError,'no resizing'):
+                stage_ai_draft(payload,folder,'1862',(32,24))
+            with self.assertRaisesRegex(ValueError,'readable'):
+                stage_ai_draft(b'not an image',folder,'1862',(16,12))
+            with self.assertRaisesRegex(ValueError,'characters'):
+                stage_ai_draft(payload,folder,'../1862',(16,12))
+            self.assertEqual(len(list(folder.iterdir())),count)
+
+    def test_notebook_missing_draft_upload_and_explicit_path(self):
+        root=Path(__file__).resolve().parents[1]
+        nb=json.loads((root/'notebooks/GNR_Step3_v5_AMB_Staircase.ipynb').read_text())
+        cell=next(''.join(c['source']) for c in nb['cells'] if c['cell_type']=='code' and '# CELL 3: IMPORT' in ''.join(c['source']))
+        start=cell.index('AI_DRAFT_PATH = ""');end=cell.index('DESIGN_DIR =',start)
+        handoff=cell[start:end]
+        draft=io.BytesIO();Image.new('RGB',(16,12),'red').save(draft,'PNG');payload=draft.getvalue()
+        import textile.staircase_v5 as core
+        google=types.ModuleType('google');google.__path__=[]
+        colab=types.ModuleType('google.colab')
+        uploads=[]
+        colab.files=types.SimpleNamespace(upload=lambda: uploads.append(True) or {'arbitrary.png':payload})
+        with tempfile.TemporaryDirectory() as tmp,patch.dict('sys.modules',{'google':google,'google.colab':colab}):
+            folder=Path(tmp)
+            ns=dict(Path=Path,V5_CORE=core,inbox_files=lambda:{},DESIGN='1862',INBOX=folder/'inbox',W=16,H=12,
+                S3={'1862':folder/'designer_reference_must_not_be_read.bmp'})
+            exec(compile(handoff,'input_handoff','exec'),ns)
+            self.assertEqual(len(uploads),1)
+            self.assertEqual(ns['inbox']['1862'].read_bytes(),payload)
+            uploaded=folder/'some_drive_file.png';uploaded.write_bytes(payload)
+            direct=handoff.replace('AI_DRAFT_PATH = ""',f'AI_DRAFT_PATH = {str(uploaded)!r}')
+            exec(compile(direct,'explicit_path_handoff','exec'),ns)
+            self.assertEqual(len(uploads),1)
+            # Inbox reuse does not offer another upload or read the designer reference.
+            ns['inbox_files']=lambda:{'1862':ns['inbox']['1862']}
+            exec(compile(handoff,'existing_inbox','exec'),ns)
+            self.assertEqual(len(uploads),1)
+
     def test_diagram_and_orientations_and_free_flat_lengths(self):
         self.assertIn('passed',self_test()['checks'])
         for fh,fv in ((2,2),(11,7),(20,5)):

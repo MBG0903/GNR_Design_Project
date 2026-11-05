@@ -61,11 +61,40 @@ V5_CORE.install_bindings(globals())
     return soft >= 0.5, soft, {{"export_size": tuple(size), "note": "native size, no resize"}}
 '''.replace('{{','{').replace('}}','}')
     sources[3]=replace_nodes(sources[3],{'import_export'},{'import_export':strict})
+    # A missing inbox draft is an input handoff, not a geometry failure.
+    old_missing='''inbox = inbox_files()
+if DESIGN not in inbox:
+    raise FileNotFoundError(f"No Photoshop export for design {DESIGN} in {INBOX}. Upload it as '{DESIGN} GNR 3.png'.")'''
+    assert old_missing in sources[3]
+    sources[3]=sources[3].replace(old_missing,'''# Optional: paste the FULL Drive path to an existing AI-generated Step_3 draft.
+# Leave blank to reuse the inbox draft, or upload one when it is missing.
+AI_DRAFT_PATH = ""
+inbox = inbox_files()
+if AI_DRAFT_PATH.strip():
+    selected_path = Path(AI_DRAFT_PATH.strip()).expanduser()
+    if not selected_path.is_file():
+        raise FileNotFoundError(f"AI_DRAFT_PATH does not exist: {selected_path}")
+    inbox[DESIGN] = V5_CORE.stage_ai_draft(selected_path.read_bytes(), INBOX, DESIGN, (W, H))
+elif DESIGN not in inbox:
+    print(f"Step_2 for design {DESIGN} is loaded ({W} x {H}).")
+    print("This finisher needs an AI-generated Step_3 draft before it can edit the pixels.")
+    print("Choose your Photoshop/Sunburst draft below, not the Step_2 sketch or designer reference.")
+    print("If no draft exists yet, generate it using Cell 2's prompt, then rerun this cell.")
+    from google.colab import files
+    uploaded_drafts = files.upload()
+    if len(uploaded_drafts) != 1:
+        raise ValueError("Select exactly one AI Step_3 draft. You can also set AI_DRAFT_PATH above, then rerun this cell.")
+    draft_bytes = next(iter(uploaded_drafts.values()))
+    inbox[DESIGN] = V5_CORE.stage_ai_draft(draft_bytes, INBOX, DESIGN, (W, H))
+print("Using AI draft:", inbox[DESIGN])''')
     old='REF = redness_of(ref_img.resize((W, H), Image.NEAREST) if ref_img.size != (W, H) else ref_img) >= 0.5'
     assert old in sources[3]
     sources[3]=sources[3].replace(old,'''if ref_img.size != (W, H):
         raise ValueError("Designer reference differs from Step_2 dimensions; register it explicitly before comparison.")
     REF = redness_of(ref_img) >= 0.5''')
+    sources[2]='V5_ACTIVE_INPUT = None  # A changed sketch invalidates older raster state.\n'+sources[2]
+    sources[3]='V5_ACTIVE_INPUT = None  # Remains invalid if import or reporting fails.\nV5_CORE.check_selected_sketch(globals())\n'+sources[3]
+    sources[3]+='\nV5_ACTIVE_INPUT = V5_CORE.capture_input_context(globals(), inbox[DESIGN])\nprint("Input ready for design", DESIGN, "— continue to Cell 4.")\n'
     # Replace the old constructor/repair engine rather than leaving competing definitions.
     run_at=sources[5].index('# ---------------- run ----------------')
     sources[5]='''# CELL 5: A/M/B CURVE CONSTRUCTION — updated to the supplied staircase diagram.
@@ -164,6 +193,8 @@ MODEL_FILE=globals().get('MODEL_FILE',Path(globals().get('PIPE','.'))/'05_Finish
     cleanup_ok, cleanup_check = _core.transition_guard(red, cleanup, V5_PROTECTED_WHITE)
     if cleanup_ok:
         red = cleanup''')
+    for i in (4,5,6,9,10,11):
+        sources[i]='V5_CORE.require_input_context(globals())\n'+sources[i]
     # Apply self-contained output wording consistently to all visible measure consumers.
     for i in sources:
         sources[i]=sources[i].replace('curve rule % (designer ~80)','A/M/B corner screening %')
@@ -219,7 +250,7 @@ Updated from the supplied v4 notebook using the latest staircase diagram.
 
 **Reference:** flat A → horizontal 3,2,2 → shared M (1 pixel) → vertical 2,2,3 → flat B. From either flat toward M, run lengths start at 2/3/4, hold or decrease one level to 1. Flat lengths are free; there is no step-count dominance. This version requires a single shared transition for the illustrated corner family. Ambiguous junctions and other corner families remain unresolved.
 
-**Start here:** run V5 SETUP and V5 SELF-TEST first (CPU is sufficient). Then run original Cells 1–6 and Cell 10 for one native-size Photoshop export. Set DESIGN in Cell 2. The geometry-only path does not require retraining or an API key. The original dataset paths and inbox workflow are retained.
+**Start here:** run V5 SETUP and V5 SELF-TEST first (CPU is sufficient). Then run original Cells 1–6 and Cell 10 for one native-size AI-generated Step_3 draft. Set DESIGN in Cell 2. In Cell 3, reuse the inbox file, paste an existing draft's full Drive path into AI_DRAFT_PATH, or upload one when prompted. The finisher requires that draft; it does not generate Step_3 from Step_2 in its default mode. Use Cell 2's Photoshop prompt first if you do not yet have a draft. The geometry-only path does not require retraining or an API key.
 
 **Optional:** enable V5_USE_LEARNED_FINISHER only to load an existing saved finisher and run Cells 9–10. Enable V5_RUN_LLM_REVIEW for paid Cell 11 review. Training, model experiments and external scripts are disabled by default. Unknown external Drive scripts were not provided and are not upgraded by changing this notebook.
 

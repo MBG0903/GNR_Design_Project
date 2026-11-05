@@ -8,8 +8,10 @@ requires designer review. No model, notebook cell or API is executed here.
 from collections import Counter, defaultdict
 from functools import lru_cache
 import hashlib
+import io
 import json
 from pathlib import Path
+import re
 
 import cv2
 import numpy as np
@@ -19,6 +21,84 @@ from PIL import Image
 VERSION = '5.0.0-amb'
 N8 = np.ones((3,3),bool)
 N4 = np.array([[0,1,0],[1,1,1],[0,1,0]],bool)
+
+
+def _file_hash(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def check_selected_sketch(namespace):
+    design=namespace.get('DESIGN');sources=namespace.get('S2',{})
+    if design not in sources:
+        raise ValueError('Run Cells 1 and 2 for the selected design first.')
+    with Image.open(sources[design]) as opened:
+        sketch=opened.convert('RGB')
+    current=namespace.get('sketch')
+    if current is None or current.size!=sketch.size or current.convert('RGB').tobytes()!=sketch.tobytes():
+        raise ValueError('The loaded Step_2 belongs to a different design. Rerun Cell 2, then Cell 3.')
+    if sketch.size!=(namespace.get('W'),namespace.get('H')):
+        raise ValueError('Native dimensions are stale. Rerun Cell 2, then Cell 3.')
+    return sources[design],sketch.size
+
+
+def capture_input_context(namespace,draft):
+    source,size=check_selected_sketch(namespace)
+    red=np.asarray(namespace['RED_PS'])
+    soft=np.asarray(namespace['SOFT_PS'])
+    if red.shape!=(size[1],size[0]) or soft.shape!=red.shape:
+        raise ValueError('Loaded draft dimensions do not match the selected Step_2.')
+    return {'design':str(namespace['DESIGN']),'native_size':list(size),
+        'source_step2':str(source),'source_hash':_file_hash(source),
+        'draft':str(draft),'draft_hash':_file_hash(draft),
+        'red_hash':hashlib.sha256(red.tobytes()).hexdigest()}
+
+
+def require_input_context(namespace):
+    context=namespace.get('V5_ACTIVE_INPUT')
+    if not context:
+        raise ValueError('Cell 3 has not completed successfully. Load the AI Step_3 draft there before running this cell; older image variables are not valid inputs.')
+    source,size=check_selected_sketch(namespace)
+    if (context['design']!=str(namespace['DESIGN']) or context['native_size']!=list(size)
+        or context['source_hash']!=_file_hash(source)
+        or not Path(context['draft']).is_file() or context['draft_hash']!=_file_hash(context['draft'])
+        or 'RED_PS' not in namespace or context['red_hash']!=hashlib.sha256(np.asarray(namespace['RED_PS']).tobytes()).hexdigest()):
+        raise ValueError('Selected design or loaded draft changed. Rerun Cells 2 and 3 before processing.')
+    return context
+
+
+def stage_ai_draft(data,inbox,design,expected_size):
+    """Store an explicitly supplied draft unchanged; never fetch designer truth.
+
+    Only explicit user-selected bytes enter this path. Validate the original
+    native dimensions before writing, and preserve all existing inbox files.
+    """
+    if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9 ._-]*',str(design)):
+        raise ValueError('Design ID contains unsupported filename characters.')
+    try:
+        with Image.open(io.BytesIO(data)) as opened:
+            size=opened.size;kind=opened.format
+            opened.verify()
+        with Image.open(io.BytesIO(data)) as opened:
+            opened.load()
+    except (OSError,ValueError) as exc:
+        raise ValueError('Select a readable PNG, BMP or JPEG AI Step_3 draft.') from None
+    extensions={'PNG':'.png','BMP':'.bmp','JPEG':'.jpg'}
+    if kind not in extensions:
+        raise ValueError('Select a PNG, BMP or JPEG AI Step_3 draft.')
+    if size!=tuple(expected_size):
+        raise ValueError(f'Draft is {size}, but Step_2 is {tuple(expected_size)}. Export a registered native-size draft; no resizing was applied.')
+    folder=Path(inbox);folder.mkdir(parents=True,exist_ok=True)
+    ext=extensions[kind]
+    for old in folder.glob(f'{design} GNR 3*{ext}'):
+        if old.is_file() and old.read_bytes()==data:return old
+    index=1
+    while True:
+        suffix='' if index==1 else f'_v5_input_{index}'
+        path=folder/f'{design} GNR 3{suffix}{ext}'
+        try:
+            with path.open('xb') as handle:handle.write(data)
+            return path
+        except FileExistsError:index+=1
 
 
 def groups(vals):

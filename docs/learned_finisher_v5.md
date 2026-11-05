@@ -8,9 +8,12 @@ This updates the user-supplied `GNR_Step3_v4_Learned_Finisher.ipynb` against the
 
 1. Run **V5 SETUP** and **V5 SELF-TEST**. CPU is sufficient; no API key or training is required. The self-test checks the diagram, eight orientations, 2/3/4-pixel starts and invalid geometry.
 2. Run the original **Cell 1: SETUP** to mount Drive. A following cell writes a new versioned `gnr_v5_lib_<hash>.py` into the notebook folder on Drive. The old `gnr_v4_lib.py` is never overwritten.
-3. In **Cell 2**, set `DESIGN` to the design you want to test. Use the existing native-size Photoshop export in the inbox, or generate/export one using the revised prompt.
-4. Run **Cells 3–6**, then **Cell 10**. Default execution is geometry-only; it does not generate synthetic training crops, retrain, load a finisher or make paid calls.
-5. Inspect the full image, native pixel details and accompanying JSON report. Outputs are saved under `GNR_Step3_Photoshop_Pipeline/02_Review_Output_v5` as PNG/BMP plus JSON.
+3. In **Cell 2**, set `DESIGN` to the design you want to test. The finisher requires an **existing AI-generated Step_3 draft**; its default mode does not generate one from the sketch. Use Cell 2's Photoshop prompt first if you do not have a draft yet.
+4. In **Cell 3**, reuse a matching inbox file, set `AI_DRAFT_PATH` to a draft's full mounted Drive path, or upload one when the inbox draft is missing. Upload any filename; the notebook validates its native dimensions and copies its original bytes into the inbox under the design ID. Existing files are preserved. The designer reference is never chosen automatically as a fallback input.
+5. Continue through **Cells 4–6**, then **Cell 10**. Default execution is geometry-only; it does not generate synthetic training crops, retrain, load a finisher or make paid calls.
+6. Inspect the full image, native pixel details and accompanying JSON report. Outputs are saved under `GNR_Step3_Photoshop_Pipeline/02_Review_Output_v5` as PNG/BMP plus JSON.
+
+Cell 3 must finish successfully for the current design before Cells 4–6 or 10 can run. The updated notebook records the sketch/draft identity and invalidates it when a sketch is reloaded or an import fails. This prevents Colab from accidentally reusing older image variables after a missing-file error. Changing the design, draft or source file requires rerunning Cells 2 and 3.
 
 Optional controls are in V5 SETUP. Enable `V5_USE_LEARNED_FINISHER` to use an existing saved finisher through Cell 9. Enable `V5_RUN_LLM_REVIEW` for the paid Cell 11. Training and the older paired-model experiments have separate switches. `V5_RUN_LEGACY_BATCH` uses the new generated v5 library in the supplied Cell 12. It requires the saved finisher and its existing PyTorch environment.
 
