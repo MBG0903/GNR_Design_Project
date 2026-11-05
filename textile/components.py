@@ -72,3 +72,23 @@ def place_component(canvas, component, protect, x, y, existing_protection=None):
         minimum_white_gap_to_existing=minimum_gap, spacing_metric='8-neighbour/Chebyshev: red-centre distance minus one',
         changed_pixels=int(added.sum()), transform='integer_translation_only',
         note='Minimum clearance checked. Wider spaces preserved. Motif placement and full composition need designer review.')
+
+
+def replace_native_piece(canvas,source_mask,component,protect,existing_protection=None):
+    """Replace exactly one complete selected raster region at its native bbox.
+
+    Neighbours are never erased. Unmatched/rejected proposals leave the caller's
+    original canvas intact. This does not establish semantic match correctness.
+    """
+    before,red=binary(canvas);selected=np.asarray(source_mask,bool)
+    if selected.shape!=red.shape or not selected.any() or (selected&~red).any():
+        raise ValueError('The selected original region is missing or changed.')
+    yy,xx=np.where(selected);x,y=int(xx.min()),int(yy.min());w,h=int(xx.max())-x+1,int(yy.max())-y+1
+    replacement,_=binary(component)
+    if replacement.size!=(w,h):raise ValueError('Component must match the original region width AND height exactly; no scaling.')
+    protection=(ndimage.binary_fill_holes(red)&~red) if existing_protection is None else np.asarray(existing_protection,bool)
+    remaining=red&~selected
+    result,updated,report=place_component(raster(remaining),replacement,protect,x,y,protection)
+    report.update(source_region_pixels=int(selected.sum()),changed_pixels=int((np.asarray(result)!=np.asarray(before)).any(axis=2).sum()),
+        replacement='whole original raster region; native placement; all neighbours retained')
+    return result,updated,report

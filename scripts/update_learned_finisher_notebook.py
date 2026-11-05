@@ -94,7 +94,24 @@ print("Using AI draft:", inbox[DESIGN])''')
     REF = redness_of(ref_img) >= 0.5''')
     sources[2]='V5_ACTIVE_INPUT = None  # A changed sketch invalidates older raster state.\n'+sources[2]
     sources[3]='V5_ACTIVE_INPUT = None  # Remains invalid if import or reporting fails.\nV5_CORE.check_selected_sketch(globals())\n'+sources[3]
-    sources[3]+='\nV5_ACTIVE_INPUT = V5_CORE.capture_input_context(globals(), inbox[DESIGN])\nprint("Input ready for design", DESIGN, "— continue to Cell 4.")\n'
+    sources[3]+='\nV5_ACTIVE_INPUT = V5_CORE.capture_input_context(globals(), inbox[DESIGN])\nprint("Input ready for design", DESIGN, "— run Cell 10 for the conservative final.")\n'
+    sources[3]+='V5_STAGE_REPORTS = {}\nV5_CORE.record_stage(globals(), "Photoshop original", RED_PS)\nprint("For the conservative final, you can now run Cell 10 directly. Cells 4–6 are optional previews.")\n'
+    # Legacy broad fills are optional diagnostic proposals, never the final baseline.
+    sources[4]=sources[4].replace('RED_SEP, sep_info = two_px_separations(RED_PS, SOFT_PS)', '''if V5_ENABLE_GAP_REDRAW:
+    proposed_sep, sep_info = two_px_separations(RED_PS, SOFT_PS)
+    RED_SEP, sep_decision = V5_CORE.consider_proposal(RED_PS, RED_PS, proposed_sep,
+        max_changed_fraction=V5_MAX_CHANGED_FRACTION, protected_white=globals().get('V5_PROTECTED_WHITE'))
+    print("Experimental gap proposal:", sep_decision)
+else:
+    RED_SEP = RED_PS.copy()
+    sep_info = {"gaps": 0, "redrawn": 0, "left_as_is": 0, "specks_filled": 0}
+V5_CORE.record_stage(globals(), "Cell 4: gap redraw preview", RED_SEP)''')
+    gap_print=next(ast.get_source_segment(sources[4],n) for n in ast.parse(sources[4]).body
+        if isinstance(n,ast.Expr) and isinstance(n.value,ast.Call) and isinstance(n.value.func,ast.Name)
+        and n.value.func.id=='print' and n.value.args and isinstance(n.value.args[0],ast.Constant)
+        and str(n.value.args[0].value).startswith('Separation lines'))
+    sources[4]=sources[4].replace(gap_print,'if V5_ENABLE_GAP_REDRAW:\n'+''.join('    '+line+'\n' for line in gap_print.splitlines())+
+        'else:\n    print("Gap redraw OFF: original Photoshop raster retained; no gaps redrawn.")')
     # Replace the old constructor/repair engine rather than leaving competing definitions.
     run_at=sources[5].index('# ---------------- run ----------------')
     sources[5]='''# CELL 5: A/M/B CURVE CONSTRUCTION — updated to the supplied staircase diagram.
@@ -108,6 +125,26 @@ V5_CORE.install_bindings(globals())
 # Unsupported junctions/ambiguous anchors remain unresolved for the designer.
 
 '''+sources[5][run_at:]
+    sources[5]=sources[5].replace('RED_CURVE, n_curves = fix_curves(RED_SEP)',
+        'V5_CORE.require_stage(globals(), "Cell 4: gap redraw preview", RED_SEP)\nRED_CURVE, n_curves = fix_curves(RED_SEP)\nV5_CORE.record_stage(globals(), "Cell 5: local staircase preview", RED_CURVE)')
+    old_pockets='''RED_PETAL, petal_info = fill_pockets(RED_SEP, POCKET)
+RED_FINAL, n1 = fix_curves(RED_PETAL)
+RED_FINAL, n2 = fix_curves(RED_FINAL)'''
+    assert old_pockets in sources[6]
+    sources[6]=sources[6].replace(old_pockets,'''V5_CORE.require_stage(globals(), "Cell 5: local staircase preview", RED_CURVE)
+if V5_ENABLE_POCKET_FILL:
+    proposed_petal, petal_info = fill_pockets(RED_CURVE, POCKET)
+    RED_FINAL, pocket_decision = V5_CORE.consider_proposal(RED_PS, RED_CURVE, proposed_petal,
+        max_changed_fraction=V5_MAX_CHANGED_FRACTION, protected_white=globals().get('V5_PROTECTED_WHITE'))
+    print("Experimental pocket proposal:", pocket_decision)
+else:
+    RED_FINAL = RED_CURVE.copy()
+    petal_info = {"filled_px": 0, "pieces": (ndi.label(RED_CURVE, N8)[1], ndi.label(RED_CURVE, N8)[1])}
+    print("Pocket fill OFF: no white wedges, channels or holes filled.")
+RED_PETAL = RED_FINAL.copy()
+n1 = n2 = 0
+V5_CORE.record_stage(globals(), "Cell 6: pocket fill preview", RED_FINAL)''')
+    sources[9]+='\nV5_LEARNED_CONTEXT = dict(V5_ACTIVE_INPUT)\nV5_CORE.record_stage(globals(), "Cell 9: learned candidate (not automatically accepted)", RED_LEARN)\n'
     # Final cleanup can only replace the candidate when complete affected contours pass.
     sources[10]=replace_nodes(sources[10],{'save_production'},{'save_production':'# save_production is the native-size checked REVIEW exporter bound below.\nV5_CORE.install_bindings(globals())'})
     old='''RED_GUARD, guard_info = separation_guard(RED_LEARN, RED_PS, PROB_LEARN)
@@ -150,6 +187,21 @@ print("Saved as a review draft; semantic applicability and motif fidelity requir
     assert old in sources[11];sources[11]=sources[11].replace(old,new)
     sources[11]=sources[11].replace('v["reason"] += "  [not applied: " + ("would join pieces" if joins else "would add bumps") + "]"',
         'v["reason"] += "  [not applied: " + ("would join pieces" if joins else "would add bumps" if more_bumps else geometry_report["reason"]) + "]"')
+    sources[11]=sources[11].replace('geometry_ok, geometry_report = V5_CORE.transition_guard(RED_REVIEWED, trial, V5_PROTECTED_WHITE)',
+        '''checked_trial, geometry_report = V5_CORE.consider_proposal(RED_PS, RED_REVIEWED, trial,
+        max_changed_fraction=V5_MAX_CHANGED_FRACTION, protected_white=V5_PROTECTED_WHITE)
+    geometry_ok = geometry_report["accepted"]''')
+    sources[11]=sources[11].replace('RED_REVIEWED = trial','RED_REVIEWED = checked_trial')
+    sources[11]=sources[11].replace('bmp2, png2, pure2 = save_production(RED_REVIEWED, DESIGN)',
+        'V5_CORE.record_stage(globals(), "Cell 11: guarded LLM result", RED_REVIEWED)\nbmp2, png2, pure2 = save_production(RED_REVIEWED, DESIGN)')
+    sources[11]=sources[11].replace('''if "RED_FINAL" in globals():
+    options.append(("rules only (Cell 6)", RED_FINAL))''','''if "RED_FINAL" in globals():
+    try:
+        V5_CORE.require_stage(globals(), "Cell 6: pocket fill preview", RED_FINAL)
+    except ValueError:
+        print("Skipping stale/unavailable Cell 6 candidate.")
+    else:
+        options.append(("rules only (Cell 6)", RED_FINAL))''')
     # Package shared compatibility library from pure definitions, no mounts/runs/API calls.
     snippets=[]
     wanted={1:{'pair_files','inbox_files'},3:{'redness_of','import_export','rgb_of','gap_widths','bump_count','shape_match','measure'},
@@ -186,9 +238,30 @@ MODEL_FILE=globals().get('MODEL_FILE',Path(globals().get('PIPE','.'))/'05_Finish
     compat+='\n'+pattern+'\n\n'+'\n\n'.join(snippets)+'\n\n_core.install_bindings(globals())\n'
     compat=compat.replace('    m = nn.ModuleDict()', '    if torch is None: raise ImportError("PyTorch is required for the optional saved finisher.")\n    m = nn.ModuleDict()')
     compat=compat.replace('curve rule % (designer ~80)','A/M/B corner screening %')
+    # The final cell is independent of potentially destructive legacy intermediates.
+    separation_helper=next(ast.get_source_segment(sources[10],n) for n in ast.parse(sources[10]).body
+        if isinstance(n,ast.FunctionDef) and n.name=='separation_guard')
+    sources[10]=('# Retained only for optional candidate proposals, not the default final path.\n'
+        +separation_helper+'\n\n'+(ROOT/'scripts/templates/v5_conservative_final.py').read_text())
     # Known batch entry point uses the supplied v5 library. Unknown external scripts are gated separately.
     sources[12]=sources[12].replace('exec(open(PIPE / "Notebook" / "gnr_v4_lib.py", encoding="utf-8").read())',
         'exec(V5_COMPAT_PATH.read_text(encoding="utf-8"))')
+    sources[12]=sources[12].replace('if "FINISHER" not in globals():','if V5_USE_LEARNED_FINISHER and "FINISHER" not in globals():')
+    batch_start=sources[12].index('    red_learn, prob = finish_learned(FINISHER, soft)')
+    batch_end=sources[12].index('    bmp, png, pure_ok = save_production(red, d)',batch_start)
+    sources[12]=sources[12][:batch_start]+'''    learned_candidate = None
+    if V5_USE_LEARNED_FINISHER:
+        learned_candidate, prob = finish_learned(FINISHER, soft)
+    RED_PS = red_ps.copy()
+    V5_ACTIVE_INPUT = None  # Reload interactive Cell 3 after switching to batch images.
+    V5_STAGE_REPORTS = {}
+    red, V5_LAST_FINISHING_REPORT = _core.finish_from_draft(red_ps, learned_proposal=learned_candidate,
+        max_changed_fraction=V5_MAX_CHANGED_FRACTION, max_shift=MAX_SHIFT, max_repeat=MAX_REPEAT,
+        max_edits=V5_MAX_CORNER_EDITS, protected_white=V5_PROTECTED_WHITE)
+    n1 = V5_LAST_FINISHING_REPORT['accepted_corner_edits']
+    n2 = 0
+    guard_info = V5_LAST_FINISHING_REPORT['learned_proposal']
+'''+sources[12][batch_end:]
     sources[12]=sources[12].replace('red = tidy(red, np.ones_like(red))','''cleanup = tidy(red, np.ones_like(red))
     cleanup_ok, cleanup_check = _core.transition_guard(red, cleanup, V5_PROTECTED_WHITE)
     if cleanup_ok:
@@ -231,7 +304,11 @@ V5_RUN_LLM_REVIEW=False
 V5_RUN_LEGACY_BATCH=False
 V5_RUN_PAIR_MODEL_EXPERIMENTS=False
 V5_RUN_EXTERNAL_CELLS=False
-print("V5 geometry runtime loaded. Default: geometry-only, no training or paid calls.")
+V5_ENABLE_GAP_REDRAW=False
+V5_ENABLE_POCKET_FILL=False
+V5_MAX_CHANGED_FRACTION=0.01  # Cumulative automatic edits vs Photoshop; not manual effort.
+V5_PROTECTED_WHITE=None
+print("V5.1 loaded: Photoshop baseline, broad fills OFF, 1% bounded automatic edit budget.")
 '''
     selftest='''# V5 SELF-TEST — safe to run before mounting Drive. No GPU or API key required.
 import json
@@ -245,14 +322,16 @@ if V5_COMPAT_PATH.exists() and V5_COMPAT_PATH.read_text()!=V5_COMPAT_SOURCE:
 V5_COMPAT_PATH.write_text(V5_COMPAT_SOURCE)
 print("Shared v5 batch library:",V5_COMPAT_PATH)
 '''
-    intro=md('''# GNR Step 3 v5 — A/M/B staircase update
+    intro=md('''# GNR Step 3 v5.1 — Preserve Photoshop; local A/M/B staircase edits
 Updated from the supplied v4 notebook using the latest staircase diagram.
+
+**Regression correction:** the earlier broad gap/pocket-filling stages could merge shapes and erase white details. They are OFF by default. Cell 10 always starts from the original Photoshop draft and ignores intermediate RED_FINAL/RED_SEP variables. Only checked, bounded corner edits are accepted; enclosed white regions and white far from red are protected. Cumulative automatic changes are limited to 1% by default. This is an edit budget, not a measure of remaining designer work.
 
 **Reference:** flat A → horizontal 3,2,2 → shared M (1 pixel) → vertical 2,2,3 → flat B. From either flat toward M, run lengths start at 2/3/4, hold or decrease one level to 1. Flat lengths are free; there is no step-count dominance. This version requires a single shared transition for the illustrated corner family. Ambiguous junctions and other corner families remain unresolved.
 
-**Start here:** run V5 SETUP and V5 SELF-TEST first (CPU is sufficient). Then run original Cells 1–6 and Cell 10 for one native-size AI-generated Step_3 draft. Set DESIGN in Cell 2. In Cell 3, reuse the inbox file, paste an existing draft's full Drive path into AI_DRAFT_PATH, or upload one when prompted. The finisher requires that draft; it does not generate Step_3 from Step_2 in its default mode. Use Cell 2's Photoshop prompt first if you do not yet have a draft. The geometry-only path does not require retraining or an API key.
+**Start here:** run V5 SETUP and V5 SELF-TEST, then original Cells 1–3 and Cell 10. Cells 4–6 are optional diagnostic previews. CPU is sufficient. Set DESIGN in Cell 2. In Cell 3, reuse the inbox file, paste an existing draft's full Drive path into AI_DRAFT_PATH, or upload one when prompted. The finisher requires that draft; it does not generate Step_3 from Step_2 in its default mode. Use Cell 2's Photoshop prompt first if you do not yet have a draft. No retraining or API key is required with the defaults.
 
-**Optional:** enable V5_USE_LEARNED_FINISHER only to load an existing saved finisher and run Cells 9–10. Enable V5_RUN_LLM_REVIEW for paid Cell 11 review. Training, model experiments and external scripts are disabled by default. Unknown external Drive scripts were not provided and are not upgraded by changing this notebook.
+**Optional:** enable V5_USE_LEARNED_FINISHER to propose with an existing saved finisher through Cells 9–10. Its proposal is rejected if it violates protection, edit budget or affected-contour checks. Enable V5_RUN_LLM_REVIEW for paid Cell 11; its changes have the same original-image budget/protection. Broad fill previews require explicit V5_ENABLE_GAP_REDRAW/V5_ENABLE_POCKET_FILL flags and are never selected automatically as the final baseline. Training/model experiments and unknown external scripts remain disabled.
 
 The embedded constructor searches bounded native-pixel paths, checks the rendered contour and preserves already-passing corners. Re-extraction follows each accepted edit. Cleanup and LLM replacements must pass checks on complete affected raster regions. Anchors are inferred from orthogonal flat extrema, not from the centre of a crop. This inference is conservative and does not establish semantic identity.
 
@@ -271,15 +350,15 @@ Old saved outputs were cleared so they cannot be mistaken for measurements from 
     original['nbformat']=4
     original['nbformat_minor']=5
     original['metadata'].pop('widgets',None)
-    original['metadata'].setdefault('colab',{})['name']='GNR_Step3_v5_AMB_Staircase.ipynb'
+    original['metadata'].setdefault('colab',{})['name']=Path(destination).name
     original['metadata']['gnr_v5_update']={'core_sha256':digest,'source_notebook':Path(source_path).name,
         'original_notebook_sha256':hashlib.sha256(Path(source_path).read_bytes()).hexdigest(),
-        'default_mode':'geometry_only_review','training_or_api_executed_by_updater':False}
+        'default_mode':'preserve_Photoshop_with_bounded_edits','training_or_api_executed_by_updater':False}
     destination=Path(destination);destination.parent.mkdir(parents=True,exist_ok=True)
     destination.write_text(json.dumps(original,indent=1))
     return destination
 
 
 if __name__=='__main__':
-    parser=argparse.ArgumentParser();parser.add_argument('source');parser.add_argument('--output',default=str(ROOT/'notebooks/GNR_Step3_v5_AMB_Staircase.ipynb'))
+    parser=argparse.ArgumentParser();parser.add_argument('source');parser.add_argument('--output',default=str(ROOT/'notebooks/GNR_Step3_v5_1_Conservative_Staircase.ipynb'))
     args=parser.parse_args();print(build(args.source,args.output))

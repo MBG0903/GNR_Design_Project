@@ -1,5 +1,7 @@
 # Central component repository and reuse agent
 
+[Existing separated-library workflow](existing_designer_component_reuse.md) now indexes each already-separated file as one asset and offers a Photoshop-preserving replacement mode. The earlier full-Stage_3 extraction path described below is retained as an explicit alternative.
+
 [Open the Colab notebook](https://colab.research.google.com/github/MBG0903/GNR_Design_Project/blob/main/notebooks/Central_Component_Repository.ipynb).
 
 This implements the requested batch-library approach: extract existing raster pieces from the full designer Stage_3 dataset, store them centrally, and search for suitable exact-size pieces when a new Step_2 is loaded. It does not require manually extracting every component. It does not generate, resize, rotate or redraw components.

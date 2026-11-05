@@ -47,6 +47,45 @@ def specimen(bad=False):
 
 
 class StaircaseV5Tests(unittest.TestCase):
+    def test_conservative_pass_rejects_broad_fill_and_preserves_holes(self):
+        from textile.staircase_v5 import finish_from_draft,baseline_protection
+        baseline=specimen(True)
+        baseline[20:25,20:25]=False
+        protected=baseline_protection(baseline)
+        self.assertTrue(protected[20:25,20:25].all())
+        out,report=finish_from_draft(baseline,learned_proposal=np.ones_like(baseline),max_repeat=3)
+        self.assertFalse(report['learned_proposal']['accepted'])
+        self.assertFalse(out[20:25,20:25].any())
+        self.assertLessEqual(report['changed_pixels'],report['pixel_budget'])
+        self.assertFalse((out&protected).any())
+        unchanged,report=finish_from_draft(baseline,max_repeat=3,max_changed_fraction=0)
+        np.testing.assert_array_equal(unchanged,baseline)
+
+    def test_final_cell_ignores_destructive_intermediate_variables(self):
+        import textile.staircase_v5 as core
+        root=Path(__file__).resolve().parents[1]
+        nb=json.loads((root/'notebooks/GNR_Step3_v5_1_Conservative_Staircase.ipynb').read_text())
+        source=next(''.join(c['source']) for c in nb['cells'] if c['cell_type']=='code' and '# CELL 10: FINAL' in ''.join(c['source']))
+        with tempfile.TemporaryDirectory() as tmp:
+            folder=Path(tmp);step2=folder/'step2.bmp';sketch=Image.new('RGB',(58,50),'white');sketch.save(step2)
+            draft=folder/'draft.bmp';mask=specimen()
+            a=np.full((*mask.shape,3),255,np.uint8);a[mask]=[255,0,0];Image.fromarray(a).save(draft)
+            ns=dict(PIPE=folder,S2={'1862':step2},DESIGN='1862',sketch=sketch,W=58,H=50,
+                RED_PS=mask,SOFT_PS=mask.astype(np.float32),REF=None,
+                RED_FINAL=np.ones_like(mask),RED_SEP=np.ones_like(mask),RED_LEARN=np.ones_like(mask),
+                V5_CORE=core,V5_USE_LEARNED_FINISHER=False,V5_MAX_CHANGED_FRACTION=.01,V5_PROTECTED_WHITE=None,
+                V5_STAGE_REPORTS={},DESIGN_DIR=folder,np=np,Image=Image,json=json)
+            ns['V5_ACTIVE_INPUT']=core.capture_input_context(ns,draft)
+            core.record_stage(ns,'Photoshop original',mask)
+            helpers=next(''.join(c['source']) for c in nb['cells'] if c['cell_type']=='code' and '# CELL 3: IMPORT' in ''.join(c['source']))
+            nodes=[node for node in ast.parse(helpers).body if isinstance(node,ast.FunctionDef) and node.name=='rgb_of']
+            exec(compile(ast.Module(body=nodes,type_ignores=[]),'cell_3_rgb_helper','exec'),ns)
+            exec(compile(source[:source.index('\nviews =')],'conservative_final','exec'),ns)
+            np.testing.assert_array_equal(ns['RED_DONE'],mask)
+            self.assertTrue(ns['pure_ok'])
+            self.assertEqual(ns['V5_LAST_FINISHING_REPORT']['changed_pixels'],0)
+            self.assertTrue((folder/'6 stage changes.json').exists())
+
     def test_failed_import_or_changed_design_cannot_reuse_stale_pixels(self):
         from textile.staircase_v5 import capture_input_context,require_input_context
         with tempfile.TemporaryDirectory() as tmp:

@@ -18,7 +18,7 @@ import numpy as np
 from scipy import ndimage as ndi
 from PIL import Image
 
-VERSION = '5.0.0-amb'
+VERSION = '5.1.0-conservative-amb'
 N8 = np.ones((3,3),bool)
 N4 = np.array([[0,1,0],[1,1,1],[0,1,0]],bool)
 
@@ -340,8 +340,11 @@ def transition_guard(before,after,protected_white=None):
     return True,{'reason':'affected contours and raster-region clearance passed','audit':audit}
 
 
-def repair_curves(red,max_shift=2,max_repeat=8,max_edits=250,protected_white=None):
-    out=np.asarray(red,bool).copy();fixed=0;skips=Counter()
+def repair_curves(red,max_shift=2,max_repeat=8,max_edits=250,protected_white=None,max_changed_pixels=None):
+    original=np.asarray(red,bool).copy()
+    out=original.copy();fixed=0;skips=Counter();accepted=[]
+    to_red=ndi.distance_transform_cdt(~original,metric='chessboard') if original.any() else None
+    to_white=ndi.distance_transform_cdt(original,metric='chessboard') if (~original).any() else None
     # Re-extract contours after every accepted edit; never reuse stale contour paths.
     attempted=set()
     while fixed<max_edits:
@@ -370,6 +373,14 @@ def repair_curves(red,max_shift=2,max_repeat=8,max_edits=250,protected_white=Non
                 if np.array_equal(trial,out):continue
                 if protected_white is not None and (trial&np.asarray(protected_white,bool)).any():
                     skips['protected white']+=1;continue
+                total_changed=int((trial!=original).sum())
+                if max_changed_pixels is not None and total_changed>max_changed_pixels:
+                    skips['original-image edit budget']+=1;continue
+                # The displacement bound is relative to the ORIGINAL raster too,
+                # preventing repeated local passes from drifting cumulatively.
+                if (to_red is not None and (to_red[trial&~original]>max_shift).any()
+                    or to_white is not None and (to_white[original&~trial]>max_shift).any()):
+                    skips['original-image boundary envelope']+=1;continue
                 lab,_=ndi.label(out,N8)
                 touched=np.unique(lab[out&~trial]);touched=touched[touched>0]
                 # All additions must remain >=3 native red-centre steps from unrelated regions.
@@ -390,10 +401,120 @@ def repair_curves(red,max_shift=2,max_repeat=8,max_edits=250,protected_white=Non
                 # Preserve raster-region/hole identities as an additional geometric guard.
                 if ndi.label(out,N8)[1]!=ndi.label(trial,N8)[1] or ndi.label(~out,N4)[1]!=ndi.label(~trial,N4)[1]:
                     skips['raster topology changed']+=1;continue
+                accepted.append({'corner_before':segment['check'],
+                    'corner_after':corner_check(candidate,segment['start_h'],segment['end_h']),
+                    'changed_pixels_this_edit':int((trial!=out).sum()),'total_changed_from_original':total_changed})
                 out=trial;fixed+=1;changed=True;break
             if changed:break
         if not changed:break
-    return out,fixed,{'skipped':dict(skips),'limit_reached':fixed>=max_edits,'audit':curve_audit(out)}
+    return out,fixed,{'skipped':dict(skips),'limit_reached':fixed>=max_edits,'audit':curve_audit(out),'accepted_edits':accepted}
+
+
+def baseline_protection(red,max_shift=2,explicit=None):
+    """Conservative protection: closed white regions and white far from red.
+
+    Small white holes are retained too: their intent is unknown, so removal is
+    a designer decision. This is protection, not semantic classification.
+    """
+    red=np.asarray(red,bool)
+    holes=ndi.binary_fill_holes(red)&~red
+    far_white=(~red)&(ndi.distance_transform_cdt(~red,metric='chessboard')>max_shift) if red.any() else ~red
+    protected=holes|far_white
+    if explicit is not None:
+        explicit=np.asarray(explicit,bool)
+        if explicit.shape!=red.shape or (explicit&red).any():
+            raise ValueError('Protected-white mask must match the canvas and contain only original white pixels.')
+        protected|=explicit
+    return protected
+
+
+def consider_proposal(original,current,candidate,max_changed_fraction=.01,max_shift=2,protected_white=None):
+    """Accept/reject a whole proposal without consulting the designer reference."""
+    base=np.asarray(original,bool);old=np.asarray(current,bool);new=np.asarray(candidate,bool)
+    if base.shape!=old.shape or new.shape!=base.shape:return old.copy(),{'accepted':False,'reason':'native size changed'}
+    if not 0<=max_changed_fraction<=1:raise ValueError('Edit budget fraction must be between zero and one.')
+    protected=baseline_protection(base,max_shift,protected_white)
+    budget=int(base.size*max_changed_fraction)
+    if max_changed_fraction>0:budget=max(1,budget)
+    count=int((new!=base).sum())
+    result={'accepted':False,'changed_pixels_proposed_vs_original':count,'pixel_budget':budget}
+    if (new&protected).any():return old.copy(),dict(result,reason='would fill protected original white')
+    if count>budget:return old.copy(),dict(result,reason='would exceed original-image edit budget')
+    if base.any() and (ndi.distance_transform_cdt(~base,metric='chessboard')[new&~base]>max_shift).any():
+        return old.copy(),dict(result,reason='would leave original boundary envelope')
+    if (~base).any() and (ndi.distance_transform_cdt(base,metric='chessboard')[base&~new]>max_shift).any():
+        return old.copy(),dict(result,reason='would erase deep original red')
+    ok,check=transition_guard(old,new,protected)
+    return (new.copy() if ok else old.copy()),dict(result,accepted=ok,reason=check['reason'])
+
+
+def conservative_finish(red,max_shift=2,max_repeat=8,max_edits=250,max_changed_fraction=.01,protected_white=None):
+    """Finish the original draft using only bounded checked corner edits."""
+    base=np.asarray(red,bool)
+    if not 0<=max_changed_fraction<=1:raise ValueError('Edit budget fraction must be between zero and one.')
+    budget=int(base.size*max_changed_fraction)
+    if max_changed_fraction>0:budget=max(1,budget)
+    protected=baseline_protection(base,max_shift,protected_white)
+    out,count,info=repair_curves(base,max_shift,max_repeat,max_edits,protected,budget)
+    changes=out^base
+    report={'version':VERSION,'mode':'preserve Photoshop baseline; bounded staircase edits only',
+        'accepted_corner_edits':count,'changed_pixels':int(changes.sum()),
+        'changed_fraction':float(changes.mean()),'maximum_changed_fraction':max_changed_fraction,
+        'pixel_budget':budget,'original_white_pixels_protected':int(protected.sum()),
+        'red_added':int((out&~base).sum()),'red_removed':int((base&~out).sum()),
+        'skipped':info['skipped'],'accepted_edits':info['accepted_edits'],
+        'audit':{k:info['audit'][k] for k in ('passed','failed','unresolved')},
+        'manual_effort_measured':False,'production_ready':False}
+    return out,report
+
+
+def finish_from_draft(red,learned_proposal=None,**settings):
+    """Always begin from the Photoshop draft, never an old RED_FINAL variable."""
+    base=np.asarray(red,bool)
+    result,report=conservative_finish(base,**settings)
+    if learned_proposal is not None:
+        result,decision=consider_proposal(base,result,learned_proposal,
+            max_changed_fraction=settings.get('max_changed_fraction',.01),
+            max_shift=settings.get('max_shift',2),protected_white=settings.get('protected_white'))
+        report['learned_proposal']=decision
+    else:
+        report['learned_proposal']={'accepted':False,'reason':'disabled'}
+    final_audit=curve_audit(result)
+    report.update(changed_pixels=int((result!=base).sum()),changed_fraction=float((result!=base).mean()),
+        red_added=int((result&~base).sum()),red_removed=int((base&~result).sum()),
+        audit={k:final_audit[k] for k in ('passed','failed','unresolved')})
+    return result,report
+
+
+def native_similarity(reference,candidate):
+    a=np.asarray(reference,bool);b=np.asarray(candidate,bool)
+    if a.shape!=b.shape:raise ValueError('Similarity requires identical native dimensions; no alignment/resizing.')
+    tp=int((a&b).sum());fp=int((b&~a).sum());fn=int((a&~b).sum())
+    return {'pixel_agreement_pct':100*float((a==b).mean()),
+        'red_iou_pct':100*tp/(tp+fp+fn) if tp+fp+fn else 100.,
+        'red_dice_pct':200*tp/(2*tp+fp+fn) if 2*tp+fp+fn else 100.,
+        'different_pixels':fp+fn,'production_ready':False}
+
+
+def record_stage(namespace,name,mask):
+    context=require_input_context(namespace)
+    a=np.asarray(mask,bool);base=np.asarray(namespace['RED_PS'],bool)
+    if a.shape!=base.shape:raise ValueError('Stage output changed native dimensions.')
+    signature=hashlib.sha256(json.dumps(context,sort_keys=True).encode()).hexdigest()
+    row={'stage':name,'input_signature':signature,'output_hash':hashlib.sha256(a.tobytes()).hexdigest(),
+        'changed_pixels_vs_photoshop':int((a!=base).sum()),'red_added':int((a&~base).sum()),
+        'red_removed':int((base&~a).sum()),'red_fraction':float(a.mean())}
+    namespace.setdefault('V5_STAGE_REPORTS',{})[name]=row
+    return row
+
+
+def require_stage(namespace,name,mask):
+    context=require_input_context(namespace)
+    row=namespace.get('V5_STAGE_REPORTS',{}).get(name)
+    signature=hashlib.sha256(json.dumps(context,sort_keys=True).encode()).hexdigest()
+    if not row or row['input_signature']!=signature or row['output_hash']!=hashlib.sha256(np.asarray(mask,bool).tobytes()).hexdigest():
+        raise ValueError(f'Stage {name} is stale or missing. Rerun its cell for this design.')
+    return row
 
 
 def gap_audit(red):
@@ -426,6 +547,8 @@ def export_review(red,pair_id,namespace):
     curves=curve_audit(red);gaps=gap_audit(red)
     report={'version':VERSION,'source_step2':str(s2[pair_id]),'native_size':list(expected),
         'curves':curves,'gaps':gaps,'production_ready':False,
+        'finishing':namespace.get('V5_LAST_FINISHING_REPORT'),
+        'stages':namespace.get('V5_STAGE_REPORTS',{}),
         'status':'unresolved_geometry_review' if curves['failed'] or curves['unresolved'] or gaps['narrow_region_count'] else 'geometry_screened_semantic_review_required'}
     base.with_suffix('.json').write_text(json.dumps(report,indent=2))
     namespace['V5_LAST_EXPORT_REPORT']=report
@@ -439,10 +562,12 @@ def install_bindings(namespace):
     """Override known legacy entry points, including the notebook's batch library."""
     namespace.update(curve_ok=curve_ok,curve_rule_pct=curve_rule_pct,curve_audit=curve_audit,extreme_lines=extreme_lines,groups=groups)
     def fix_curves(red,min_piece=0,min_arc=0):
-        result,count,info=repair_curves(red,max_shift=namespace.get('MAX_SHIFT',2),max_repeat=namespace.get('MAX_REPEAT',8),
-            max_edits=namespace.get('V5_MAX_CORNER_EDITS',250),protected_white=namespace.get('V5_PROTECTED_WHITE'))
+        result,info=conservative_finish(red,max_shift=namespace.get('MAX_SHIFT',2),max_repeat=namespace.get('MAX_REPEAT',8),
+            max_edits=namespace.get('V5_MAX_CORNER_EDITS',250),protected_white=namespace.get('V5_PROTECTED_WHITE'),
+            max_changed_fraction=namespace.get('V5_MAX_CHANGED_FRACTION',.01))
         namespace['SKIPPED']=info['skipped'];namespace['V5_LAST_CURVE_AUDIT']=info['audit']
-        return result,count
+        namespace['V5_LAST_FINISHING_REPORT']=info
+        return result,info['accepted_corner_edits']
     def save_production(red,pair_id):return export_review(red,pair_id,namespace)
     namespace.update(fix_curves=fix_curves,save_production=save_production,V5_GEOMETRY_VERSION=VERSION)
     return VERSION

@@ -13,8 +13,8 @@ from PIL import Image, ImageDraw
 
 from textile.components import place_component, raster
 from textile.component_library import (index_designer_images, connect, load_piece,
-                                       embed_library, search_exact_size)
-from textile.component_agent import run_component_agent, validate_plan
+                                       embed_library, search_exact_size,index_component_files)
+from textile.component_agent import run_component_agent, validate_plan,run_draft_reuse
 
 
 class Encoder:
@@ -48,6 +48,48 @@ def sources(root):
 
 
 class ComponentTests(unittest.TestCase):
+    def test_separated_assets_are_not_split_and_native_white_is_protected(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);assets=root/'assets';assets.mkdir()
+            im=Image.new('RGB',(14,10),'white');d=ImageDraw.Draw(im)
+            d.rectangle((2,3,3,5),fill='red');d.rectangle((8,3,9,5),fill='red')
+            path=assets/'grouped_leaf.png';im.save(path);original=path.read_bytes()
+            # Transparent red asset is accepted without introducing subpixel edges.
+            alpha=Image.new('RGBA',(10,8),(0,0,0,0));ImageDraw.Draw(alpha).rectangle((3,2,5,5),fill=(255,0,0,255));alpha.save(assets/'transparent.png')
+            alpha.putpixel((3,2),(255,0,0,128));alpha.save(assets/'partial_alpha.png')
+            library=root/'library';report=index_component_files(assets,library,progress=None)
+            self.assertEqual((report['components'],report['excluded_files']),(2,1))
+            self.assertFalse(report['segmentation_performed'])
+            db=connect(library);key=db.execute('SELECT id FROM pieces WHERE width=8 AND height=3').fetchone()[0];db.close()
+            piece,white,meta=load_piece(library,key)
+            self.assertEqual(piece.tobytes(),im.crop((2,3,10,6)).tobytes())
+            self.assertTrue(white[:,2:6].all())
+            self.assertEqual(path.read_bytes(),original)
+            self.assertEqual(index_component_files(assets,library,progress=None)['components'],2)
+            with self.assertRaisesRegex(ValueError,'mode/settings'):
+                index_component_files(assets,library,trim_white_margin=False,progress=None)
+            with self.assertRaisesRegex(ValueError,'mode/settings'):
+                index_designer_images(assets,library,progress=None)
+
+    def test_native_library_replacement_keeps_unmatched_photoshop_pixels_and_resume(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root=Path(tmp);assets=root/'assets';assets.mkdir()
+            piece=Image.new('RGB',(3,4),'red');piece.putpixel((2,0),(255,255,255));piece.save(assets/'approved_leaf.png')
+            library=root/'library';index_component_files(assets,library,progress=None);embed_library(library,Encoder(),progress=None)
+            draft=Image.new('RGB',(20,14),'white');draw=ImageDraw.Draw(draft)
+            draw.rectangle((1,1,3,4),fill='red');draw.point((14,9),fill='red')
+            sketch=Image.new('RGB',draft.size,'white');client=Agent({'unused':True})
+            out=root/'run';report=run_draft_reuse(sketch,draft,library,out,client,'mock-vision',Encoder(),progress=None)
+            self.assertEqual(report['replaced'],1);self.assertEqual(report['retained'],1)
+            self.assertEqual(report['changed_pixels_vs_photoshop'],1)
+            result=Image.open(out/'step_3_review.png').convert('RGB')
+            self.assertEqual(result.crop((1,1,4,5)).tobytes(),piece.tobytes())
+            self.assertEqual(result.getpixel((14,9)),(255,0,0))
+            self.assertEqual(len(client.calls),1)
+            run_draft_reuse(sketch,draft,library,out,client,'mock-vision',Encoder(),progress=None)
+            self.assertEqual(len(client.calls),1)
+            self.assertFalse(report['production_ready'])
+
     def test_extract_every_region_preserve_pixels_and_resume(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp);stage=sources(root);library=root/'library'

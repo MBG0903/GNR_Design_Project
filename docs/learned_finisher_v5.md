@@ -1,6 +1,12 @@
 # Updated learned-finisher notebook: v5 A/M/B staircase
 
-[Open in Colab](https://colab.research.google.com/github/MBG0903/GNR_Design_Project/blob/main/notebooks/GNR_Step3_v5_AMB_Staircase.ipynb).
+[Open v5.1 in Colab](https://colab.research.google.com/github/MBG0903/GNR_Design_Project/blob/main/notebooks/GNR_Step3_v5_1_Conservative_Staircase.ipynb).
+
+## v5.1 regression correction
+
+The user showed a Photoshop draft closer to the designer than the pipeline final. The old broad gap-redrawing and pocket-filling stages were still active in v5 and could erase white detail/merge shapes. v5.1 disables both by default and starts the final directly from the original Photoshop draft, ignoring intermediate `RED_FINAL`/`RED_SEP` variables. It applies only bounded verified staircase edits, protects enclosed white regions and white far from red, and limits cumulative automatic changes to 1% of original pixels by default. This budget is a preservation guard, not a claim about remaining manual work.
+
+The final cell records source-relative additions/removals, stage-by-stage changes, an isolated change visualization and exact native comparison scores when a designer reference exists. The reference never selects the result. If no feasible edit passes, the Photoshop pixels remain unchanged and unresolved rules are still reported. A saved learned finisher is only a proposal; broad/unsafe candidates are rejected. Every accepted corner is bounded against the original image too, preventing cumulative contour drift.
 
 This updates the user-supplied `GNR_Step3_v4_Learned_Finisher.ipynb` against the latest illustrated rule. The original uploaded file is preserved. This update was tested without mounting the user's Drive, training models or making paid API calls. Old notebook outputs were cleared so they cannot be mistaken for v5 results.
 
@@ -10,7 +16,7 @@ This updates the user-supplied `GNR_Step3_v4_Learned_Finisher.ipynb` against the
 2. Run the original **Cell 1: SETUP** to mount Drive. A following cell writes a new versioned `gnr_v5_lib_<hash>.py` into the notebook folder on Drive. The old `gnr_v4_lib.py` is never overwritten.
 3. In **Cell 2**, set `DESIGN` to the design you want to test. The finisher requires an **existing AI-generated Step_3 draft**; its default mode does not generate one from the sketch. Use Cell 2's Photoshop prompt first if you do not have a draft yet.
 4. In **Cell 3**, reuse a matching inbox file, set `AI_DRAFT_PATH` to a draft's full mounted Drive path, or upload one when the inbox draft is missing. Upload any filename; the notebook validates its native dimensions and copies its original bytes into the inbox under the design ID. Existing files are preserved. The designer reference is never chosen automatically as a fallback input.
-5. Continue through **Cells 4–6**, then **Cell 10**. Default execution is geometry-only; it does not generate synthetic training crops, retrain, load a finisher or make paid calls.
+5. Run **Cell 10 directly**. Cells 4–6 are optional diagnostic previews. Gap and pocket filling are OFF by default; even enabled previews are not used as the final baseline. Default execution does not retrain, load a finisher or make paid calls.
 6. Inspect the full image, native pixel details and accompanying JSON report. Outputs are saved under `GNR_Step3_Photoshop_Pipeline/02_Review_Output_v5` as PNG/BMP plus JSON.
 
 Cell 3 must finish successfully for the current design before Cells 4–6 or 10 can run. The updated notebook records the sketch/draft identity and invalidates it when a sketch is reloaded or an import fails. This prevents Colab from accidentally reusing older image variables after a missing-file error. Changing the design, draft or source file requires rerunning Cells 2 and 3.
@@ -40,7 +46,7 @@ The embedded runtime is maintained in `textile/staircase_v5.py`:
 - `curve_audit` reports passed, failed and unresolved detections, including tiny/unsupported contours. A percentage is a screening measure, not production certification.
 - `export_review` checks dimensions against the original Step_2 file, round-trips PNG/BMP pixels and saves the curve/gap report. It never silently converts unresolved geometry into a production approval.
 
-Existing `tidy`, separation heuristics, synthetic training and learned-finisher architecture remain available. Cleanup after construction is now conditional on passing the geometry guard. The same guard runs after LLM seam cleanup before replacement. The geometry-only default gives a first inspection without running those expensive experiments.
+Existing `tidy`, separation heuristics, synthetic training and learned-finisher architecture remain available for optional experiments. The default final does not call global tidy or broad fill routines. LLM replacements must satisfy the same original-image budget, white protection and affected-contour checks. The geometry-only default gives a first inspection without those expensive experiments.
 
 Input and reference dimension mismatches now stop instead of being silently stretched/resized. This can expose existing inbox/reference registration issues that the old version hid. The user's original files remain unchanged.
 

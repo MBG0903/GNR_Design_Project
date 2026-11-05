@@ -7,6 +7,7 @@ import csv
 import hashlib
 import json
 import sqlite3
+from collections import Counter
 from pathlib import Path
 
 import numpy as np
@@ -18,6 +19,16 @@ from .data import EXTENSIONS, pair_key
 
 EMBEDDER = 'clip-ViT-B-32'
 SCHEMA_VERSION = 1
+
+
+def _input_mode(db,mode,config):
+    stored=db.execute("SELECT value FROM settings WHERE key='input_mode'").fetchone()
+    value=json.dumps({'mode':mode,**config},sort_keys=True)
+    if stored and stored[0]!=value:raise ValueError('Library input mode/settings changed; use a new index folder.')
+    if not stored:
+        if mode=='component_files' and db.execute('SELECT COUNT(*) FROM pieces').fetchone()[0]:
+            raise ValueError('This index contains extracted regions. Use a new index for your separated component files.')
+        db.execute("INSERT INTO settings VALUES ('input_mode',?)",(value,));db.commit()
 
 
 def connect(library):
@@ -72,6 +83,7 @@ def index_designer_images(stage3,library,progress=print):
     if not files: raise ValueError('No designer images found in Stage_3.')
     db=connect(library)
     try:
+        _input_mode(db,'designer_regions',{})
         # A library is an immutable snapshot: changes/removals require a new folder.
         known=dict(db.execute('SELECT path,hash FROM sources'))
         current={str(p) for p in files}
@@ -117,6 +129,77 @@ def index_designer_images(stage3,library,progress=print):
             writer=csv.writer(handle);writer.writerow(['path','status','regions','detail']);writer.writerows(source_rows)
         return summary
     finally: db.close()
+
+
+def index_component_files(folder,library,trim_white_margin=True,reserve_white_footprint=True,progress=print):
+    """Index each already-separated file as ONE asset, even if disconnected.
+
+    No segmentation, scaling, rotation, thresholding or staircase reconstruction.
+    A binary transparent background is flattened to output white. Partial alpha
+    and non-red/white visible colours are excluded, not repaired silently.
+    """
+    root=Path(folder).resolve();dest=Path(library).resolve()
+    if not root.is_dir():raise ValueError(f'Component repository not found: {root}')
+    if dest==root or root in dest.parents:
+        raise ValueError('Keep the search index outside the source component repository.')
+    supported=EXTENSIONS|{'.webp','.gif'}
+    files=sorted(p.resolve() for p in root.rglob('*') if p.is_file() and p.suffix.lower() in supported)
+    if not files:raise ValueError('No component image files found. An existing SQLite/JSON-only repository needs an adapter; it is not re-extracted automatically.')
+    db=connect(dest)
+    try:
+        _input_mode(db,'component_files',{'trim_white_margin':bool(trim_white_margin),'reserve_white_footprint':bool(reserve_white_footprint)})
+        known=dict(db.execute('SELECT path,hash FROM sources'))
+        hashes={str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
+        if set(known)-set(hashes) or any(hashes[p]!=h for p,h in known.items()):
+            raise ValueError('Indexed component source changed/removed. Preserve this snapshot and choose a new index folder.')
+        for i,path in enumerate(files,1):
+            if str(path) in known:continue
+            if progress:progress(f'Indexing component file {i}/{len(files)}: {path.name}')
+            try:
+                with Image.open(path) as opened:
+                    if getattr(opened,'n_frames',1)!=1:raise ValueError('Animated/multiple-frame files are unsupported.')
+                    rgba=np.asarray(opened.convert('RGBA'))
+                alpha=rgba[:,:,3];a=rgba[:,:,:3]
+                if not np.isin(alpha,[0,255]).all():raise ValueError('Partial alpha would change native edge pixels.')
+                visible=alpha==255
+                red=visible&(a==[255,0,0]).all(axis=2)
+                white=visible&(a==[255,255,255]).all(axis=2)
+                if not (~visible|red|white).all():raise ValueError('Visible colours must be pure red and pure white.')
+                if not red.any():raise ValueError('No red component pixels.')
+                if trim_white_margin:
+                    yy,xx=np.where(red);x,y,x1,y1=int(xx.min()),int(yy.min()),int(xx.max())+1,int(yy.max())+1
+                else:x,y,x1,y1=0,0,red.shape[1],red.shape[0]
+                mask=red[y:y1,x:x1]
+                protection=~mask if reserve_white_footprint else ndimage.binary_fill_holes(mask)&~mask
+                im=raster(mask);pim=Image.fromarray(protection.astype(np.uint8)*255)
+                details=json.dumps({'source_size':[red.shape[1],red.shape[0]],'crop':[x,y,x1,y1],
+                    'source_red_regions':int(ndimage.label(red,np.ones((3,3)))[1]),
+                    'source_relative_path':path.relative_to(root).as_posix(),
+                    'policy':'one file = one component; all disconnected red parts retained'},sort_keys=True)
+            except (OSError,ValueError) as exc:
+                db.execute('INSERT INTO sources VALUES (?,?,?,?,?)',(str(path),hashes[str(path)],'excluded_invalid',0,f'{type(exc).__name__}: {exc}'))
+                db.commit();continue
+            key=hashlib.sha256(f'component-file|{path}|{hashes[str(path)]}|{SCHEMA_VERSION}'.encode()).hexdigest()[:24]
+            png,pwhite=piece_paths(dest,key);png.parent.mkdir(parents=True,exist_ok=True)
+            im.save(png);pim.save(pwhite)
+            db.execute('INSERT INTO pieces VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)',
+                (key,str(path),hashes[str(path)],path.relative_to(root).as_posix(),im.width,im.height,x,y,
+                 int(mask.sum()),digest(im),digest(pim),None,None))
+            db.execute('INSERT INTO sources VALUES (?,?,?,?,?)',(str(path),hashes[str(path)],'indexed',1,details))
+            db.commit()
+        rows=list(db.execute('SELECT path,status,regions,detail FROM sources ORDER BY path'))
+        summary={'input_mode':'already_separated_component_files','image_files':len(files),
+            'indexed_files':sum(r[1]=='indexed' for r in rows),'excluded_files':sum(r[1]!='indexed' for r in rows),
+            'components':db.execute('SELECT COUNT(*) FROM pieces').fetchone()[0],
+            'trim_white_margin':bool(trim_white_margin),'reserve_white_footprint':bool(reserve_white_footprint),
+            'resampling_performed':False,'segmentation_performed':False,'semantic_components_verified':False,
+            'metadata_extensions_present':dict(Counter(p.suffix.lower() for p in root.rglob('*') if p.is_file() and p.suffix.lower() in {'.json','.csv','.sqlite','.sqlite3'})),
+            'metadata_note':'Existing sidecar/index schemas are preserved, not guessed or interpreted.'}
+        (dest/'index_summary.json').write_text(json.dumps(summary,indent=2))
+        with (dest/'source_audit.csv').open('w',newline='') as handle:
+            writer=csv.writer(handle);writer.writerow(['path','status','components','detail']);writer.writerows(rows)
+        return summary
+    finally:db.close()
 
 
 def embed_library(library,encoder=None,model=EMBEDDER,progress=print):
